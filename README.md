@@ -79,9 +79,9 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Thanks
 
-Paul Irish [paulirish](https://github.com/paulirish) for [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)  
-Acauã Sperl de Faria [acaua](https://github.com/acaua) for code review  
-Addy Osmani [addyosmani](https://github.com/addyosmani) for the Adaptive Loading ideas
+Paul Irish ([paulirish](https://github.com/paulirish)) for [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)  
+Acauã Sperl de Faria ([acaua](https://github.com/acaua)) for code review  
+Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loading ideas
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
