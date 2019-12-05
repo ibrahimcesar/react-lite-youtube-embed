@@ -1,8 +1,8 @@
 {
   "name": "lyte",
-  "version": "0.1.0",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "version": "0.1.2",
+  "main": "dist/index",
+  "module": "dist/index",
   "files": [
     "dist"
   ],
