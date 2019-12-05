@@ -1,5 +1,5 @@
 {
-  "name": "lyte",
+  "name": "react-lite-youtube-embed",
   "version": "0.1.2",
   "main": "dist/index",
   "module": "dist/index",
