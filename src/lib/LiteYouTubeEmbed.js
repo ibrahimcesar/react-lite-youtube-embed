@@ -32,7 +32,7 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, activatedCla
       current.removeEventListener("pointerover", warmConnections);
       current.removeEventListener("click", addIframe);
     };
-  }, []);
+  });
 
   return (
     <Fragment>

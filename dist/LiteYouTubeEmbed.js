@@ -48,7 +48,7 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
       current.removeEventListener("pointerover", warmConnections);
       current.removeEventListener("click", addIframe);
     };
-  }, []);
+  });
   return React.createElement(Fragment, null, React.createElement("link", {
     rel: "preload",
     href: posterUrl,
