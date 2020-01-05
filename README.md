@@ -87,5 +87,9 @@ Paul Irish ([paulirish](https://github.com/paulirish)) for [Lite YouTube Embed](
 Acauã Sperl de Faria ([acaua](https://github.com/acaua)) for code review  
 Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loading ideas
 
+## See Also
+
+[React Quicklink](https://www.npmjs.com/package/react-quicklink) Faster subsequent page-loads by prefetching in-viewport links during idle time for __React__
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
