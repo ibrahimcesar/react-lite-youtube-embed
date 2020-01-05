@@ -89,7 +89,7 @@ Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loadi
 
 ## See Also
 
-[React Quicklink](https://www.npmjs.com/package/react-quicklink) Faster subsequent page-loads by prefetching in-viewport links during idle time for __React__
+[React Quicklink](https://www.npmjs.com/package/react-quicklink): Faster subsequent page-loads by prefetching in-viewport links during idle time for __React__
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
