@@ -56,7 +56,7 @@ const App = () => (
 
 ## Bring Your Own Styles
 
-React Lite YouTube Embed is packaged with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a prop.
+React Lite YouTube Embed is packaged with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
 
 ```javascript
 const App = () => (
