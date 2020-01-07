@@ -1,6 +1,6 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "0.2.31",
+  "version": "0.2.32",
   "main": "dist/index",
   "module": "dist/index",
   "repository": {
@@ -17,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
   },
-  "homepage": "https://github.com/ashleygwilliams/my_package",
   "files": [
     "dist"
   ],
