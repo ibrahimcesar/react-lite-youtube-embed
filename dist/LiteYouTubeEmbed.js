@@ -1,6 +1,5 @@
 import _slicedToArray from "@babel/runtime/helpers/esm/slicedToArray";
 import React, { Fragment, useState, useRef, useEffect } from "react";
-import "./LiteYouTubeEmbed.css";
 
 var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
   var adNetwork = _ref.adNetwork,
