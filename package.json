@@ -7,12 +7,18 @@
     "type": "git",
     "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
   },
-  "keywords": ["React", "Reactjs", "YouTube", "YouTube Embed", "Adaptive Loading"],
-  "author": { 
-    "name" : "Ibrahim Cesar",
-    "email" : "email@ibrahimcesar.com",
-    "url" : "https://twitter.com/ibrahimcesar"
-    },
+  "keywords": [
+    "React",
+    "Reactjs",
+    "YouTube",
+    "YouTube Embed",
+    "Adaptive Loading"
+  ],
+  "author": {
+    "name": "Ibrahim Cesar",
+    "email": "email@ibrahimcesar.com",
+    "url": "https://twitter.com/ibrahimcesar"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
