@@ -78,9 +78,14 @@ Please feel free to open an issue!
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+## Contributors
+Botho ([elbotho](https://github.com/elbotho))
+
+
 ### TO DO:
 - Add tests
 - More iframe control
+- Webpack support
 
 ## Thanks
 
