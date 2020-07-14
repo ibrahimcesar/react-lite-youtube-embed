@@ -2,7 +2,7 @@ import React, { Fragment, useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./LiteYouTubeEmbed.css";
 
-const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, activatedClass, iframeClass, playerClass, wrapperClass
+const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, activatedClass, iframeClass, playerClass, wrapperClass
 }) => {
 
   const [preconnected, setPreconnected] = useState(false);
@@ -10,7 +10,12 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, activatedCla
   const videoId = encodeURIComponent(id);
   const videoTitle = title;
   const posterUrl = `https://i.ytimg.com/vi/${videoId}/${poster}.jpg`;
-  const iframeSrc = !playlist ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : `https://www.youtube.com/embed/videoseries?list=${videoId}`;
+  const ytUrl = noCookie
+    ? "https://www.youtube-nocookie.com"
+    : "https://www.youtube.com";
+  const iframeSrc = !playlist
+    ? `${ytUrl}/embed/${videoId}?autoplay=1`
+    : `${ytUrl}/embed/videoseries?list=${videoId}`;
   const refVideo = useRef();
 
   const warmConnections = () => {
@@ -40,7 +45,7 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, activatedCla
       <>
       {preconnected && (
         <>
-          <link rel="preconnect" href="https://www.youtube.com" />
+          <link rel="preconnect" href={ytUrl} />
           <link rel="preconnect" href="https://www.google.com" />
           {adNetwork && (
             <>
@@ -81,6 +86,7 @@ LiteYouTubeEmbed.propTypes = {
   playlist: PropTypes.bool,
   poster: PropTypes.string,
   title: PropTypes.string,
+  noCookie: PropTypes.bool,
   activatedClass: PropTypes.string,
   iframeClass: PropTypes.string,
   playerClass: PropTypes.string,
@@ -88,15 +94,16 @@ LiteYouTubeEmbed.propTypes = {
 };
 
 LiteYouTubeEmbed.defaultProps = {
-  adNetwork: true, 
+  adNetwork: true,
   id: "",
   playlist: false,
   poster: "hqdefault",
   title: "YouTube Embed",
+  noCookie: false,
   activatedClass: "lyt-activated",
   iframeClass: "",
   playerClass: "lty-playbtn",
-  wrapperClass: "yt-lite"
+  wrapperClass: "yt-lite",
 };
 
 export default LiteYouTubeEmbed;

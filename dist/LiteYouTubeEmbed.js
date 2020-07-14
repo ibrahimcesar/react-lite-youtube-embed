@@ -8,6 +8,7 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
       playlist = _ref.playlist,
       poster = _ref.poster,
       title = _ref.title,
+      noCookie = _ref.noCookie,
       activatedClass = _ref.activatedClass,
       iframeClass = _ref.iframeClass,
       playerClass = _ref.playerClass,
@@ -26,7 +27,8 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
   var videoId = encodeURIComponent(id);
   var videoTitle = title;
   var posterUrl = "https://i.ytimg.com/vi/".concat(videoId, "/").concat(poster, ".jpg");
-  var iframeSrc = !playlist ? "https://www.youtube.com/embed/".concat(videoId, "?autoplay=1") : "https://www.youtube.com/embed/videoseries?list=".concat(videoId);
+  var ytUrl = noCookie ? "https://www.youtube-nocookie.com" : "https://www.youtube.com";
+  var iframeSrc = !playlist ? "".concat(ytUrl, "/embed/").concat(videoId, "?autoplay=1") : "".concat(ytUrl, "/embed/videoseries?list=").concat(videoId);
   var refVideo = useRef();
 
   var warmConnections = function warmConnections() {
@@ -55,7 +57,7 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
     as: "image"
   }), React.createElement(React.Fragment, null, preconnected && React.createElement(React.Fragment, null, React.createElement("link", {
     rel: "preconnect",
-    href: "https://www.youtube.com"
+    href: ytUrl
   }), React.createElement("link", {
     rel: "preconnect",
     href: "https://www.google.com"
@@ -89,6 +91,7 @@ LiteYouTubeEmbed.defaultProps = {
   playlist: false,
   poster: "hqdefault",
   title: "YouTube Embed",
+  noCookie: false,
   activatedClass: "lyt-activated",
   iframeClass: "",
   playerClass: "lty-playbtn",
