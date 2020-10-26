@@ -1,6 +1,6 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "main": "dist/index",
   "module": "dist/index",
   "repository": {
@@ -47,4 +47,62 @@
       "last 1 safari version"
     ]
   }
+=======
+	"name": "react-lite-youtube-embed",
+	"version": "0.4.1",
+	"main": "dist/index",
+	"module": "dist/index",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com/"
+	},
+	"keywords": [
+		"React",
+		"Reactjs",
+		"YouTube",
+		"YouTube Embed",
+		"Adaptive Loading"
+	],
+	"author": {
+		"name": "Ibrahim Cesar",
+		"email": "email@ibrahimcesar.com",
+		"url": "https://twitter.com/ibrahimcesar"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"start": "react-scripts start",
+		"build-examples": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject",
+		"build": "rimraf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__"
+	},
+	"devDependencies": {
+		"babel-preset-react-app": "^9.1.0",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"react-scripts": "^3.2.0",
+		"rimraf": "^3.0.0",
+    "@babel/cli": "^7.7.4"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

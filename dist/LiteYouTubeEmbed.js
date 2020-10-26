@@ -1,5 +1,5 @@
 import _slicedToArray from "@babel/runtime/helpers/esm/slicedToArray";
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import "./LiteYouTubeEmbed.css";
 
 var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
@@ -29,7 +29,6 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
   var posterUrl = "https://i.ytimg.com/vi/".concat(videoId, "/").concat(poster, ".jpg");
   var ytUrl = noCookie ? "https://www.youtube-nocookie.com" : "https://www.youtube.com";
   var iframeSrc = !playlist ? "".concat(ytUrl, "/embed/").concat(videoId, "?autoplay=1") : "".concat(ytUrl, "/embed/videoseries?list=").concat(videoId);
-  var refVideo = useRef();
 
   var warmConnections = function warmConnections() {
     if (preconnected) return;
@@ -41,16 +40,6 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
     setIframe(true);
   };
 
-  useEffect(function () {
-    var current = refVideo.current;
-    current.style.backgroundImage = "url('".concat(posterUrl, "')");
-    current.addEventListener("pointerover", warmConnections, true);
-    current.addEventListener("click", addIframe, true);
-    return function () {
-      current.removeEventListener("pointerover", warmConnections);
-      current.removeEventListener("click", addIframe);
-    };
-  });
   return React.createElement(Fragment, null, React.createElement("link", {
     rel: "preload",
     href: posterUrl,
@@ -68,9 +57,13 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
     rel: "preconnect",
     href: "https://googleads.g.doubleclick.net"
   })))), React.createElement("div", {
+    onPointerOver: warmConnections,
+    onClick: addIframe,
     className: "".concat(wrapperClass, " ").concat(iframe && activatedClass),
     "data-title": videoTitle,
-    ref: refVideo
+    style: {
+      backgroundImage: "url(".concat(posterUrl, ")")
+    }
   }, React.createElement("div", {
     className: playerClass
   }), iframe && React.createElement("iframe", {
