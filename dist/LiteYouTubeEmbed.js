@@ -1,5 +1,5 @@
 import _slicedToArray from "@babel/runtime/helpers/esm/slicedToArray";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import "./LiteYouTubeEmbed.css";
 
 var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
@@ -12,17 +12,18 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
       activatedClass = _ref.activatedClass,
       iframeClass = _ref.iframeClass,
       playerClass = _ref.playerClass,
-      wrapperClass = _ref.wrapperClass;
+      wrapperClass = _ref.wrapperClass,
+      defaultPlay = _ref.defaultPlay;
 
   var _useState = useState(false),
       _useState2 = _slicedToArray(_useState, 2),
       preconnected = _useState2[0],
       setPreconnected = _useState2[1];
 
-  var _useState3 = useState(false),
+  var _useState3 = useState(defaultPlay),
       _useState4 = _slicedToArray(_useState3, 2),
-      iframe = _useState4[0],
-      setIframe = _useState4[1];
+      iframeLoaded = _useState4[0],
+      setIframeLoaded = _useState4[1];
 
   var videoId = encodeURIComponent(id);
   var videoTitle = title;
@@ -36,11 +37,11 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
   };
 
   var addIframe = function addIframe() {
-    if (iframe) return;
-    setIframe(true);
+    if (iframeLoaded) return;
+    setIframeLoaded(true);
   };
 
-  return React.createElement(Fragment, null, React.createElement("link", {
+  return React.createElement(React.Fragment, null, React.createElement("link", {
     rel: "preload",
     href: posterUrl,
     as: "image"
@@ -59,14 +60,14 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
   })))), React.createElement("div", {
     onPointerOver: warmConnections,
     onClick: addIframe,
-    className: "".concat(wrapperClass, " ").concat(iframe && activatedClass),
+    className: "".concat(wrapperClass, " ").concat(iframeLoaded && activatedClass),
     "data-title": videoTitle,
     style: {
       backgroundImage: "url(".concat(posterUrl, ")")
     }
   }, React.createElement("div", {
     className: playerClass
-  }), iframe && React.createElement("iframe", {
+  }), iframeLoaded && React.createElement("iframe", {
     className: iframeClass,
     title: videoTitle,
     width: "560",
@@ -88,6 +89,7 @@ LiteYouTubeEmbed.defaultProps = {
   activatedClass: "lyt-activated",
   iframeClass: "",
   playerClass: "lty-playbtn",
-  wrapperClass: "yt-lite"
+  wrapperClass: "yt-lite",
+  defaultPlay: false
 };
 export default LiteYouTubeEmbed;
