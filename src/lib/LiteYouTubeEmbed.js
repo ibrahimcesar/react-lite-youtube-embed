@@ -1,13 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import "./LiteYouTubeEmbed.css";
 
-const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, activatedClass, iframeClass, playerClass, wrapperClass
+const LiteYouTubeEmbed = ({ 
+  adNetwork, 
+  id, 
+  playlist, 
+  poster, 
+  title, 
+  noCookie, 
+  activatedClass, 
+  iframeClass, 
+  playerClass, 
+  wrapperClass, 
+  defaultPlay
 }) => {
 
   const [preconnected, setPreconnected] = useState(false);
-  const [iframe, setIframe] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(defaultPlay);
   const videoId = encodeURIComponent(id);
   const videoTitle = title;
   const posterUrl = `https://i.ytimg.com/vi/${videoId}/${poster}.jpg`;
@@ -24,12 +35,12 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, ac
   };
 
   const addIframe = () => {
-    if (iframe) return;
-    setIframe(true);
+    if (iframeLoaded) return;
+    setIframeLoaded(true);
   };
 
   return (
-    <Fragment>
+    <>
       <link rel="preload" href={posterUrl} as="image" />
       <>
       {preconnected && (
@@ -49,12 +60,12 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, ac
       <div
         onPointerOver={warmConnections}
         onClick={addIframe}
-        className={`${wrapperClass} ${iframe && activatedClass}`}
+        className={`${wrapperClass} ${iframeLoaded && activatedClass}`}
         data-title={videoTitle}
         style={{ backgroundImage: `url(${posterUrl})` }}
       >
         <div className={playerClass}></div>
-        {iframe && (
+        {iframeLoaded && (
           <iframe
             className={iframeClass}
             title={videoTitle}
@@ -67,7 +78,7 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, ac
           ></iframe>
         )}
       </div>
-    </Fragment>
+    </>
   );
 };
 
@@ -81,7 +92,8 @@ LiteYouTubeEmbed.propTypes = {
   activatedClass: PropTypes.string,
   iframeClass: PropTypes.string,
   playerClass: PropTypes.string,
-  wrapperClass: PropTypes.string
+  wrapperClass: PropTypes.string,
+  defaultPlay: PropTypes.bool
 };
 
 LiteYouTubeEmbed.defaultProps = {
@@ -95,6 +107,7 @@ LiteYouTubeEmbed.defaultProps = {
   iframeClass: "",
   playerClass: "lty-playbtn",
   wrapperClass: "yt-lite",
+  defaultPlay: false
 };
 
 export default LiteYouTubeEmbed;
