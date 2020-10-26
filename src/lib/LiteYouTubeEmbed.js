@@ -1,5 +1,6 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
+
 import "./LiteYouTubeEmbed.css";
 
 const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, activatedClass, iframeClass, playerClass, wrapperClass
@@ -16,28 +17,16 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, ac
   const iframeSrc = !playlist
     ? `${ytUrl}/embed/${videoId}?autoplay=1`
     : `${ytUrl}/embed/videoseries?list=${videoId}`;
-  const refVideo = useRef();
 
   const warmConnections = () => {
     if (preconnected) return;
     setPreconnected(true);
   };
+
   const addIframe = () => {
     if (iframe) return;
     setIframe(true);
   };
-
-  useEffect(() => {
-    const { current } = refVideo;
-    current.style.backgroundImage = `url('${posterUrl}')`;
-    current.addEventListener("pointerover", warmConnections, true);
-    current.addEventListener("click", addIframe, true);
-
-    return () => {
-      current.removeEventListener("pointerover", warmConnections);
-      current.removeEventListener("click", addIframe);
-    };
-  });
 
   return (
     <Fragment>
@@ -58,9 +47,11 @@ const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, ac
       )}
       </>
       <div
+        onPointerOver={warmConnections}
+        onClick={addIframe}
         className={`${wrapperClass} ${iframe && activatedClass}`}
         data-title={videoTitle}
-        ref={refVideo}
+        style={{ backgroundImage: `url(${posterUrl})` }}
       >
         <div className={playerClass}></div>
         {iframe && (
