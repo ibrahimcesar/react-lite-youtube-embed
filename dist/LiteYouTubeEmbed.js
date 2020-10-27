@@ -13,14 +13,14 @@ var LiteYouTubeEmbed = function LiteYouTubeEmbed(_ref) {
       iframeClass = _ref.iframeClass,
       playerClass = _ref.playerClass,
       wrapperClass = _ref.wrapperClass,
-      defaultPlay = _ref.defaultPlay;
+      autoPlay = _ref.autoPlay;
 
   var _useState = useState(false),
       _useState2 = _slicedToArray(_useState, 2),
       preconnected = _useState2[0],
       setPreconnected = _useState2[1];
 
-  var _useState3 = useState(defaultPlay),
+  var _useState3 = useState(autoPlay),
       _useState4 = _slicedToArray(_useState3, 2),
       iframeLoaded = _useState4[0],
       setIframeLoaded = _useState4[1];
@@ -90,6 +90,6 @@ LiteYouTubeEmbed.defaultProps = {
   iframeClass: "",
   playerClass: "lty-playbtn",
   wrapperClass: "yt-lite",
-  defaultPlay: false
+  autoPlay: false
 };
 export default LiteYouTubeEmbed;

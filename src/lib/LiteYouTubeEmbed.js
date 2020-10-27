@@ -14,11 +14,11 @@ const LiteYouTubeEmbed = ({
   iframeClass, 
   playerClass, 
   wrapperClass, 
-  defaultPlay
+  autoPlay
 }) => {
 
   const [preconnected, setPreconnected] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(defaultPlay);
+  const [iframeLoaded, setIframeLoaded] = useState(autoPlay);
   const videoId = encodeURIComponent(id);
   const videoTitle = title;
   const posterUrl = `https://i.ytimg.com/vi/${videoId}/${poster}.jpg`;
@@ -93,7 +93,7 @@ LiteYouTubeEmbed.propTypes = {
   iframeClass: PropTypes.string,
   playerClass: PropTypes.string,
   wrapperClass: PropTypes.string,
-  defaultPlay: PropTypes.bool
+  autoPlay: PropTypes.bool
 };
 
 LiteYouTubeEmbed.defaultProps = {
@@ -107,7 +107,7 @@ LiteYouTubeEmbed.defaultProps = {
   iframeClass: "",
   playerClass: "lty-playbtn",
   wrapperClass: "yt-lite",
-  defaultPlay: false
+  autoPlay: false
 };
 
 export default LiteYouTubeEmbed;
