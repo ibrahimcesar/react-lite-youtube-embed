@@ -1,56 +1,48 @@
 {
-	"name": "react-lite-youtube-embed",
-	"version": "1.0.0",
-	"main": "dist/index",
-	"module": "dist/index",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
-	},
-	"keywords": [
-		"React",
-		"Reactjs",
-		"YouTube",
-		"YouTube Embed",
-		"Adaptive Loading"
-	],
-	"author": {
-		"name": "Ibrahim Cesar",
-		"email": "email@ibrahimcesar.com",
-		"url": "https://twitter.com/ibrahimcesar"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
-	},
-	"files": [
-		"dist"
-	],
-	"scripts": {
-		"start": "react-scripts start",
-		"build-examples": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"build": "rimraf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.7.4",
-		"babel-preset-react-app": "^9.1.0",
-		"react": "^16.12.0",
-		"react-dom": "^16.12.0",
-		"react-scripts": "^3.2.0",
-		"rimraf": "^3.0.0"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+  "name": "react-lite-youtube-embed",
+  "version": "1.0.31",
+  "description": "Faster YouTube embeds with React Lite YouTube Embed component for React",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
+  },
+  "keywords": [
+    "React",
+    "Reactjs",
+    "YouTube",
+    "YouTube Embed",
+    "Adaptive Loading"
+  ],
+  "author": "Ibrahim Cesar <email@ibrahimcesar.com> (https://twitter.com/ibrahimcesar)",
+  "bugs": {
+    "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
+  },
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -c -w"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.44.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "typescript": "^4.2.3"
+  },
+  "files": [
+    "dist"
+  ]
 }
