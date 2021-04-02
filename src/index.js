@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { LiteYouTubeEmbed } from "./lib";
+import "./lib/LiteYouTubeEmbed.css";
 
 const App = () => (
   <div style={{ width: 640, margin: "15px auto" }}>

@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 
-import "./LiteYouTubeEmbed.css";
-
 const LiteYouTubeEmbed = ({ adNetwork, id, playlist, poster, title, noCookie, activatedClass, iframeClass, playerClass, wrapperClass
 }) => {
 

@@ -1,6 +1,6 @@
 {
 	"name": "react-lite-youtube-embed",
-	"version": "0.4.3",
+	"version": "1.0.0",
 	"main": "dist/index",
 	"module": "dist/index",
 	"repository": {
