@@ -1,22 +1,91 @@
-# React Lite YouTube Embed
+ <div align="center">
+ 
+  <h2>📺  React Lite YouTube Embed</h2>
+  <blockquote>A faster and cleaner YouTube embed component for React</blockquote>
+  
+[![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed) [![License](https://badgen.net/github/license/ibrahimcesar/react-lite-youtube-embed)](./LICENSE) [![Library minified size](https://badgen.net/bundlephobia/min/react-lite-youtube-embed)](https://bundlephobia.com/result?p=react-lite-youtube-embed) [![Library minified + gzipped size](https://badgen.net/bundlephobia/minzip/react-lite-youtube-embed)](https://bundlephobia.com/result?p=react-lite-youtube-embed)
 
-> 📺 A faster and cleaner YouTube embed component for __React__: 1.4kB minified, 699B minified + gzipped
-
-Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.
-
+<strong>Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.</strong>
 ![iFrame example](https://react-lite-youtube-embed.s3-sa-east-1.amazonaws.com/lite.gif)
+</div>
 
-## Version 1.0 - BREAKNG CHANGE
+
+## 🚀 Install
+
+Use your favorite package manager:
+
+```bash
+yarn add react-lite-youtube-embed
+```
+
+```bash
+npm install react-lite-youtube-embed -S
+```
+### 🕹️ Basic Usage
+
+```javascript
+import React from "react";
+import { render } from "react-dom";
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/build/index.css'
+
+const App = () => (
+  <div>
+    <LiteYouTubeEmbed 
+        id="L2vS_050c-M"
+        title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
+    />
+  </div>
+);
+
+render(<App />, document.getElementById("root"));
+```
+
+And that's it.
+
+## 💎 Pro Usage
+
+```javascript
+const App = () => (
+  <div>
+    <LiteYouTubeEmbed
+       id="L2vS_050c-M" // Default none, id of the video or playlist
+       adNetwork={true} // Default true, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
+       playlist={false} // Use  true when your ID be from a playlist
+       poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
+       title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
+       noCookie={true} //Default false, connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
+    />
+  </div>
+);
+```
+
+## 🧰 Bring Your Own Styles
+
+React Lite YouTube Embed is packaged with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
+
+```javascript
+const App = () => (
+  <div>
+    <LiteYouTubeEmbed
+       id="L2vS_050c-M"
+       activeClass="lyt-activated" // Default as "lyt-activated", gives control to wrapper once clicked
+       iframeClass="" // Default none, gives control to add a class to iframe element itself
+       params="" // any params you want to pass to the URL, assume we already had '&' and pass your parameters string
+       playerClass="lty-playbtn" // Default as "lty-playbtn" to control player button styles
+       wrapperClass="yt-lite" // Default as "yt-lite" for the div wrapping the area, it is the most important class and needs extra attention, please refer to LiteYouTubeEmbed.css for a reference.
+    />
+  </div>
+);
+```
+
+## Version 1.0 - BREAKING CHANGE
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Instead in order to use now you have three options:
 
-### Option 1
-
-Manual import our file in your React application this way:
-
 ### Option 2
 
-Place the necessary CSS in your Global CSS file
+Place the necessary CSS in your Global CSS file method of preference
 
 ```css
 .yt-lite {
@@ -100,93 +169,45 @@ Place the necessary CSS in your Global CSS file
     pointer-events: none;
 }
 ```
-### Option 3
+
+For example, for NextJS:
+
+```jsx      
+<style jsx global>{`
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+            sans-serif;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+        
+        // CSS above
+        
+`}</style>
+
+```
+### Option 2
 
 Using your CSS-In-JS tool of choice encapsulate this component and use the css provided as a guide.
 
-## Installation
+### Option 3
 
-Use your favorite package manager:
+Not work on every framework but you can import the css directly, if your bundler allow you to as:
 
-```bash
-yarn add react-lite-youtube-embed
 ```
-
-```bash
-npm install react-lite-youtube-embed -S
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 ```
-
-## Basic usage
-
-```javascript
-import React from "react";
-import { render } from "react-dom";
-import { LiteYouTubeEmbed } from "react-lite-youtube-embed";
-
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed 
-        id="L2vS_050c-M"
-        title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
-    />
-  </div>
-);
-
-render(<App />, document.getElementById("root"));
-```
-And that's it.
-
-## Pro Usage
-
-```javascript
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed
-       id="L2vS_050c-M" // Default none, id of the video or playlist
-       adNetwork={true} // Default true, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
-       playlist={false} // Use  true when your ID be from a playlist
-       poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
-       title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
-       noCookie={true} //Default false, connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
-    />
-  </div>
-);
-```
-
-## Bring Your Own Styles
-
-React Lite YouTube Embed is packaged with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
-
-```javascript
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed
-       id="L2vS_050c-M"
-       activeClass="lyt-activated" // Default as "lyt-activated", gives control to wrapper once clicked
-       iframeClass="" // Default none, gives control to add a class to iframe element itself
-       playerClass="lty-playbtn" // Default as "lty-playbtn" to control player button styles
-       wrapperClass="yt-lite" // Default as "yt-lite" for the div wrapping the area, it is the most important class and needs extra attention, please refer to LiteYouTubeEmbed.css for a reference.
-    />
-  </div>
-);
-```
-## Issues
-Please feel free to open an issue!
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Contributors
-Botho ([elbotho](https://github.com/elbotho))
-
 
 ### TO DO:
 - Add tests
-- More iframe control
 - Webpack support
-
-### GOAL
-- Rewrite in TypeScript
+- Better way to deal with styles - v1.0.0 is a "gambiarra" way of close an issue 😅
 
 ## Thanks
 
@@ -198,12 +219,24 @@ Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loadi
 
 [React Quicklink](https://www.npmjs.com/package/react-quicklink): Faster subsequent page-loads by prefetching in-viewport links during idle time for __React__
 
- ### MIT License
- 
-© Copyright 2019-2021 [Ibrahim Cesar](https://ibrahimcesar.cloud)
+## MIT License
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Copyright (c) 2021 Ibrahim Cesar
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
