@@ -6,7 +6,7 @@ Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-yout
 
 ![iFrame example](https://react-lite-youtube-embed.s3-sa-east-1.amazonaws.com/lite.gif)
 
-## Version 2.0 - BREAKNG CHANGE
+## Version 1.0 - BREAKNG CHANGE
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Instead in order to use now you have three options:
 
