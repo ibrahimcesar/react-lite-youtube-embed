@@ -30,7 +30,7 @@ npm install react-lite-youtube-embed -S
 import React from "react";
 import { render } from "react-dom";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/build/index.css'
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 const App = () => (
   <div>
