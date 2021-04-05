@@ -3,13 +3,11 @@
   position: relative;
   display: block;
   contain: content;
-  background-position: center center;
+  background-position: 50%;
   background-size: cover;
   cursor: pointer;
 }
-
-/* gradient */
-.yt-lite::before {
+.yt-lite:before {
   content: "";
   display: block;
   position: absolute;
@@ -22,14 +20,10 @@
   width: 100%;
   transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
-
-/* responsive iframe with a 16:9 aspect ratio
-    thanks https://css-tricks.com/responsive-iframes/
-*/
-.yt-lite::after {
+.yt-lite:after {
   content: "";
   display: block;
-  padding-bottom: calc(100% / (16 / 9));
+  padding-bottom: 56.25%;
 }
 .yt-lite > iframe {
   width: 100%;
@@ -38,29 +32,25 @@
   top: 0;
   left: 0;
 }
-
-/* play button */
 .yt-lite > .lty-playbtn {
   width: 70px;
   height: 46px;
   background-color: #212121;
   z-index: 1;
   opacity: 0.8;
-  border-radius: 14%; /* TODO: Consider replacing this with YT's actual svg. Eh. */
+  border-radius: 14%;
   transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
 .yt-lite:hover > .lty-playbtn {
-  background-color: #f00;
+  background-color: red;
   opacity: 1;
 }
-/* play button triangle */
 .yt-lite > .lty-playbtn:before {
   content: "";
+  border-color: transparent transparent transparent #fff;
   border-style: solid;
   border-width: 11px 0 11px 19px;
-  border-color: transparent transparent transparent #fff;
 }
-
 .yt-lite > .lty-playbtn,
 .yt-lite > .lty-playbtn:before {
   position: absolute;
@@ -68,12 +58,10 @@
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
-
-/* Post-click styles */
 .yt-lite.lyt-activated {
   cursor: unset;
 }
-.yt-lite.lyt-activated::before,
+.yt-lite.lyt-activated:before,
 .yt-lite.lyt-activated > .lty-playbtn {
   opacity: 0;
   pointer-events: none;

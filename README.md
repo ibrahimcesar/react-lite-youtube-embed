@@ -13,7 +13,6 @@
 
 </div>
 
-
 ## 🚀 Install
 
 Use your favorite package manager:
@@ -83,7 +82,7 @@ const App = () => (
 );
 ```
 
-## Version 1.0 - BREAKING CHANGE
+## ⚠️ Version 1.0 - BREAKING CHANGES ⚠️
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Instead in order to use now you have three options:
 
@@ -210,8 +209,6 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 ### TO DO:
 - Add tests
-- Webpack support
-- Better way to deal with styles - v1.0.0 is a "gambiarra" way of close an issue 😅
 
 ## Thanks
 

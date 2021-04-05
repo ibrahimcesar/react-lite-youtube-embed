@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "noImplicitAny": true,
+      "outDir": "dist/types",
+      "module": "esnext",
+      "target": "es5",
+      "allowJs": true,
+      "sourceMap": true,
+      "declaration": true,
+      "emitDeclarationOnly": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "lib": ["es2018", "dom"],
+      "moduleResolution": "node",
+      "jsx": "react"
+    },
+    "include": ["src/lib"],
+    "exclude": ["src/lib/**/tests"],
+}
