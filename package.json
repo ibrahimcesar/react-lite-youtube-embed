@@ -1,15 +1,11 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "Faster YouTube embeds with React Lite YouTube Embed component for React",
   "main": "build/index.jsx",
   "types": "build/types/index.d.ts",
   "scripts": {
-    "start": "webpack serve --config webpack.config.demo.js",
     "build": "webpack && tsc",
-    "build:demo": "webpack --config webpack.config.demo.js",
-    "test": "jest --silent",
-    "coverage": "npm run test -- --coverage",
     "prepare": "npm run build",
     "trypublish": "npm publish || true"
   },
@@ -108,5 +104,9 @@
       "jsx",
       "node"
     ]
+  },
+  "volta": {
+    "node": "14.16.0",
+    "npm": "7.8.0"
   }
 }

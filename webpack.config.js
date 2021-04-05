@@ -40,13 +40,6 @@ module.exports = {
       new TerserPlugin({ extractComments: true }),
     ],
   },
-  devServer: {
-    open: true,
-    hot: true,
-    host: "localhost",
-    static: path.join(__dirname, 'demo'),
-    port: 9000
-  },
   module: {
     rules: [
       {
