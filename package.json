@@ -6,8 +6,7 @@
   "module": "dist/index.es.jsx",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "prepare": "npm run build",
+    "build": "npx rollup -c",
     "publish": "npm publish || true"
   },
   "repository": {
