@@ -1,6 +1,6 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Faster YouTube embeds with React Lite YouTube Embed component for React",
   "main": "build/index.jsx",
   "types": "build/types/index.d.ts",
