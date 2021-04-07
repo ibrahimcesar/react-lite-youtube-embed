@@ -1,7 +1,0 @@
-console.log('\x1b[36m%s\x1b[0m', `
-______________________________________\n`);
-
-console.log('\x1b[33m%s\x1b[0m', `Thank you for install 📺  React Lite YouTube Embed!`);
-
-console.log('\x1b[36m%s\x1b[0m', `
-______________________________________
