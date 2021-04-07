@@ -3,10 +3,12 @@
 * react-lite-youtube-embed v1.0.49
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
-*  Copyright (c) Ibrahim Cesar (https://twitter.com/ibrahimcesar) and project contributors.
+*  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
 *
 *  This source code is licensed under the MIT license found in the
 *  LICENSE file in the root directory of this source tree.
+*
+*  Author site: https://ibrahimcesar.cloud
 */
     import * as React from 'react';
 import { useState } from 'react';

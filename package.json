@@ -14,7 +14,11 @@
     "type": "git",
     "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
   },
-  "author": "Ibrahim Cesar <email@ibrahimcesar.com> (https://twitter.com/ibrahimcesar)",
+  "author": {
+    "name": "Ibrahim Cesar",
+    "email": "email@ibrahimcesar.com",
+    "url": "https://ibrahimcesar.cloud"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"

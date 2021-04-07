@@ -35,10 +35,12 @@ export default {
 * ${name} v${version}
 *  ${repository.url}
 *
-*  Copyright (c) ${author.replace(/ *<[^)]*> */g, " ")} and project contributors.
+*  Copyright (c) ${author.name} < ${author.email} > and project contributors.
 *
 *  This source code is licensed under the ${license} license found in the
 *  LICENSE file in the root directory of this source tree.
+*
+*  Author site: ${author.url}
 */
     `),
   copy({
