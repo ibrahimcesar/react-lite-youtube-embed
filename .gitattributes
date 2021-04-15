@@ -1,1 +1,3 @@
 dist/* linguist-generated
+rollup.config.js -linguist-vendored
+babel.config.js -linguist-vendored
