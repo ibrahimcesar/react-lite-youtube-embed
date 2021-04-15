@@ -1,2 +1,2 @@
 dist/* linguist-generated
-*.config.js linguist-vendored
+/*.config.js linguist-vendored
