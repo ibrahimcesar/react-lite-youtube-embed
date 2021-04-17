@@ -1,6 +1,6 @@
 
     /**
-* react-lite-youtube-embed v1.0.49
+* react-lite-youtube-embed v1.1.54
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -17,16 +17,19 @@ function LiteYouTubeEmbed(props) {
     var _a = useState(false), preconnected = _a[0], setPreconnected = _a[1];
     var _b = useState(false), iframe = _b[0], setIframe = _b[1];
     var videoId = encodeURIComponent(props.id);
+    var videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
     var videoTitle = props.title;
     var posterImp = props.poster || "hqdefault";
     var paramsImp = "&" + props.params || "";
-    var posterUrl = "https://i.ytimg.com/vi/" + videoId + "/" + posterImp + ".jpg";
+    var posterUrl = !props.playlist ?
+        "https://i.ytimg.com/vi/" + videoId + "/" + posterImp + ".jpg" :
+        "https://i.ytimg.com/vi/" + videoPlaylisCovertId + "/" + posterImp + ".jpg";
     var ytUrl = props.noCookie
         ? "https://www.youtube-nocookie.com"
         : "https://www.youtube.com";
     var iframeSrc = !props.playlist
         ? ytUrl + "/embed/" + videoId + "?autoplay=1" + paramsImp
-        : ytUrl + "/embed/videoseries?list=" + videoId + paramsImp;
+        : ytUrl + "/embed/videoseries?autoplay=1&list=" + videoId + paramsImp;
     var activatedClassImp = props.activatedClass || "lyt-activated";
     var adNetworkImp = props.adNetwork || false;
     var iframeClassImp = props.iframeClass || "";

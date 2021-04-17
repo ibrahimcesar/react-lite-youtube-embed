@@ -1,13 +1,12 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "1.0.49",
-  "description": "Faster YouTube embeds with React Lite YouTube Embed component for React",
+  "version": "2.0.0",
+  "description": "A privacy by default, faster and cleaner YouTube embed component for React applications",
   "main": "dist/index.jsx",
   "module": "dist/index.es.jsx",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "npx rollup -c",
-    "publish": "npm publish || true"
+    "build": "npx rollup -c"
   },
   "repository": {
     "type": "git",
