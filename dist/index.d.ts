@@ -10,6 +10,7 @@ interface LiteYouTube {
     params?: string;
     playerClass?: string;
     playlist?: boolean;
+    playlistCoverId?: string;
     poster?: imgResolution;
     wrapperClass?: string;
 }

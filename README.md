@@ -1,7 +1,7 @@
  <div align="center">
  
   <h2>📺  React Lite YouTube Embed</h2>
-  <blockquote>A faster and cleaner YouTube embed component for React</blockquote>
+  <blockquote>A privacy by default, faster and cleaner YouTube embed component for React applications</blockquote>
   
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
   
@@ -12,6 +12,10 @@
 ![iFrame example](https://react-lite-youtube-embed.s3-sa-east-1.amazonaws.com/lite.gif)
 
 </div>
+
+## 🔒 2.0.0 Privacy by Default
+
+The biggest change is, from 2.0.0 this component is privacy by default. Meaning that will not preconnect with the ad network from Google and connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com.
 
 ## 🚀 Install
 
@@ -56,6 +60,7 @@ const App = () => (
        adNetwork={true} // Default true, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
        params="" // any params you want to pass to the URL, assume we already had '&' and pass your parameters string
        playlist={false} // Use  true when your ID be from a playlist
+       playlistCoverId="L2vS_050c-M" // The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe
        poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
        title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
        noCookie={true} //Default false, connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
@@ -82,13 +87,17 @@ const App = () => (
 );
 ```
 
-## ⚠️ Version 1.0 - BREAKING CHANGES ⚠️
+## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Instead in order to use now you have three options:
 
-### Option 2
+### Option 1
 
 Place the necessary CSS in your Global CSS file method of preference
+
+<details>
+
+<summary> Show me the code!</summary>
 
 ```css
 .yt-lite {
@@ -195,17 +204,49 @@ For example, for NextJS:
 `}</style>
 
 ```
+
+</details>
+
 ### Option 2
 
 Using your CSS-In-JS tool of choice encapsulate this component and use the css provided as a guide.
 
 ### Option 3
 
-Not work on every framework but you can import the css directly, if your bundler allow you to as:
+Not work on every framework but you can import the css directly, check what works best with your bundler / framework.
 
-```
+<details>
+<summary>Show me the code!</summary>
+```ts
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 ```
+
+or in a *.css/scss etc:
+
+```
+@import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+```
+</details>
+## All our props belongs to you
+
+Only two props are required to work: `id` from the YouTube you want to render and `title`
+
+| Prop   |      Type      |  Description |
+|----------|:--------:|------------|
+| **id** |  string | id of the video or playlist |
+| **title** |    string   | Here goes your video title.Always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;) #a111y |
+| activeClass | string | Pass the string class for the active state |
+| adNetwork | boolean | Default: `false`  To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
+| cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com You should opt-in to allow cookies|
+| iFrameClass | string |    Pass the string class for the own iFrame |
+| noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
+| params | string |    any params you want to pass to the URL in the iFrame. Two important things to notice: You can assume you just need to add the params, we already setup for you, so you should write `start=1150` and not `?start=1150` or `&start=1150`. You can place more params but it will need to fully form: `start=1150&other=value&another=value`. First, when you share a YouTube url the param of time is just `t`, but the embed needs `start`.|
+| playerClass | string | Pass the string class for the player, once you can customize it |
+| playlist | boolean |    Use `true` when your id be from a playlist |
+| playlistCoverId | string | The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe  |
+| poster | string. One of `default` `mqdefault`  `hqdefault` `sddefault` `maxresdefault` |   Defines the image size to call on first render as poster image. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api |
+| wrapperClass | string |   Pass the string class that wraps the iFrame |
+
 
 ### TO DO:
 - Add tests

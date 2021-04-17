@@ -15,9 +15,11 @@ interface LiteYouTube {
   adNetwork?: boolean;
   iframeClass?: string;
   noCookie?: boolean;
+  cookie?: boolean;
   params?: string;
   playerClass?: string;
   playlist?: boolean;
+  playlistCoverId?: string;
   poster?: imgResolution;
   wrapperClass?: string;
 }
@@ -26,16 +28,22 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const [preconnected, setPreconnected] = useState(false);
   const [iframe, setIframe] = useState(false);
   const videoId = encodeURIComponent(props.id);
+  const videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
   const videoTitle = props.title;
   const posterImp = props.poster || "hqdefault";
   const paramsImp = `&${props.params}` || "";
-  const posterUrl = `https://i.ytimg.com/vi/${videoId}/${posterImp}.jpg`;
-  const ytUrl = props.noCookie
+  const posterUrl = !props.playlist ?
+    `https://i.ytimg.com/vi/${videoId}/${posterImp}.jpg`:
+    `https://i.ytimg.com/vi/${videoPlaylisCovertId}/${posterImp}.jpg`;
+  let ytUrl = props.noCookie
     ? "https://www.youtube-nocookie.com"
     : "https://www.youtube.com";
+  ytUrl = props.cookie
+    ? "https://www.youtube.com"
+    : "https://www.youtube-nocookie.com";
   const iframeSrc = !props.playlist
     ? `${ytUrl}/embed/${videoId}?autoplay=1${paramsImp}`
-    : `${ytUrl}/embed/videoseries?list=${videoId}${paramsImp}`;
+    : `${ytUrl}/embed/videoseries?autoplay=1&list=${videoId}${paramsImp}`;
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
