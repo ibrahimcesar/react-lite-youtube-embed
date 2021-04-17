@@ -15,7 +15,7 @@
 
 ## 🔒 2.0.0 Privacy by Default
 
-The biggest change is, from 2.0.0 this component is privacy by default. Meaning that will not preconnect with the ad network from Google and connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com.
+The biggest change is, from 2.0.0 this component is private by default. Meaning that will not preconnect with the ad network from Google and connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com.
 
 ## 🚀 Install
 
@@ -227,6 +227,7 @@ or in a *.css/scss etc:
 @import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 ```
 </details>
+
 ## All our props belongs to you
 
 Only two props are required to work: `id` from the YouTube you want to render and `title`
