@@ -23,7 +23,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          A privacy by default, faster and cleaner YouTube embed component for React applications
+          A private by default, faster and cleaner YouTube embed component for React applications
         </p>
 
         <div className={styles.grid}>
