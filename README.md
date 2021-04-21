@@ -1,6 +1,6 @@
  <div align="center">
  
-  <h2>📺  React Lite YouTube Embed</h2>
+  <h1>📺  React Lite YouTube Embed</h1>
   <blockquote>A private by default, faster and cleaner YouTube embed component for React applications</blockquote>
   
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
