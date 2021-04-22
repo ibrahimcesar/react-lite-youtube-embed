@@ -30,8 +30,7 @@ export default {
       sourcemap: true,
     }
   ],
-  plugins: [peerDepsExternal(), resolve(), commonjs(), typescript(), banner2(() => `
-    /**
+  plugins: [peerDepsExternal(), resolve(), commonjs(), typescript(), banner2(() => `/**
 * ${name} v${version}
 *  ${repository.url}
 *
