@@ -100,7 +100,7 @@ export default function Home() {
                 {`
 <LiteYouTubeEmbed
   id="PL0vfts4VzfNigohKr5sPrkcPFpuZmTe2C"
-  title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
+  title="This is a playlist from Firebase YouTube channel"
   playlist={true}
   playlistCoverId="Qhaz36TZG5Y" // Choose an id from any video to be the cover
   poster="hqdefault"
@@ -116,17 +116,17 @@ export default function Home() {
           <LiteYouTubeEmbed
             id="rdpReYuxI5M"
             title="YouTube Embed"
-            poster="hqdefault"
-            params="start=1150"
+            poster="maxresdefault"
+            params="start=1160"
           />
             <pre>
               <code className="language-jsx">
                 {`
 <LiteYouTubeEmbed
   id="L2vS_050c-M"
-  title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
-  params="start=1150"
-  poster="hqdefault"
+  title="Nexo de código aberto"
+  params="start=1160"
+  poster="maxresdefault"
 />
                   `
                   }
