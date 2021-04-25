@@ -32,7 +32,7 @@ yarn add react-lite-youtube-embed
 ```bash
 npm install react-lite-youtube-embed -S
 ```
-### 🕹️ Basic Usage
+## 🕹️ Basic Usage
 
 ```javascript
 import React from "react";
