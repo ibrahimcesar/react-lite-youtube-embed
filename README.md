@@ -221,6 +221,7 @@ Not work on every framework but you can import the css directly, check what work
 
 <details>
 <summary>Show me the code!</summary>
+ 
 ```ts
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 ```
@@ -230,6 +231,7 @@ or in a *.css/scss etc:
 ```
 @import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 ```
+
 </details>
 
 ## All our props belongs to you
