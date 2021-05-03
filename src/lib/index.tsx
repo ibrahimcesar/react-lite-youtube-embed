@@ -22,6 +22,7 @@ interface LiteYouTube {
   playlistCoverId?: string;
   poster?: imgResolution;
   wrapperClass?: string;
+  onIframeAdded?: () => void
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
@@ -50,6 +51,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const iframeClassImp = props.iframeClass || "";
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
+  const onIframeAdded = props.onIframeAdded || function() {};
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -58,6 +60,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
 
   const addIframe = () => {
     if (iframe) return;
+    onIframeAdded()
     setIframe(true);
   };
 
