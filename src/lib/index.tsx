@@ -90,8 +90,9 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         className={`${wrapperClassImp} ${iframe && activatedClassImp}`}
         data-title={videoTitle}
         style={{ backgroundImage: `url(${posterUrl})` }}
+        tabIndex={0}
       >
-        <div className={playerClassImp}></div>
+        <button className={playerClassImp}></button>
         {iframe && (
           <iframe
             className={iframeClassImp}

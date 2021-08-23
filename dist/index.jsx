@@ -1,6 +1,5 @@
-
-    /**
-* react-lite-youtube-embed v1.1.54
+/**
+* react-lite-youtube-embed v2.0.5
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -50,6 +49,9 @@ function LiteYouTubeEmbed(props) {
     var ytUrl = props.noCookie
         ? "https://www.youtube-nocookie.com"
         : "https://www.youtube.com";
+    ytUrl = props.cookie
+        ? "https://www.youtube.com"
+        : "https://www.youtube-nocookie.com";
     var iframeSrc = !props.playlist
         ? ytUrl + "/embed/" + videoId + "?autoplay=1" + paramsImp
         : ytUrl + "/embed/videoseries?autoplay=1&list=" + videoId + paramsImp;
@@ -58,6 +60,7 @@ function LiteYouTubeEmbed(props) {
     var iframeClassImp = props.iframeClass || "";
     var playerClassImp = props.playerClass || "lty-playbtn";
     var wrapperClassImp = props.wrapperClass || "yt-lite";
+    var onIframeAdded = props.onIframeAdded || function () { };
     var warmConnections = function () {
         if (preconnected)
             return;
@@ -66,6 +69,7 @@ function LiteYouTubeEmbed(props) {
     var addIframe = function () {
         if (iframe)
             return;
+        onIframeAdded();
         setIframe(true);
     };
     return (React__namespace.createElement(React__namespace.Fragment, null,
@@ -76,8 +80,8 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement("div", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: { backgroundImage: "url(" + posterUrl + ")" } },
-            React__namespace.createElement("div", { className: playerClassImp }),
+        React__namespace.createElement("div", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: { backgroundImage: "url(" + posterUrl + ")" }, tabIndex: 0 },
+            React__namespace.createElement("button", { className: playerClassImp }),
             iframe && (React__namespace.createElement("iframe", { className: iframeClassImp, title: videoTitle, width: "560", height: "315", frameBorder: "0", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, src: iframeSrc })))));
 }
 
