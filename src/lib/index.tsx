@@ -9,6 +9,7 @@ type imgResolution =
   | "maxresdefault";
 
 interface LiteYouTube {
+  announce: string;
   id: string;
   title: string;
   activatedClass?: string;
@@ -33,6 +34,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const videoTitle = props.title;
   const posterImp = props.poster || "hqdefault";
   const paramsImp = `&${props.params}` || "";
+  const announceWatch = props.announce || "Watch";
   const posterUrl = !props.playlist ?
     `https://i.ytimg.com/vi/${videoId}/${posterImp}.jpg`:
     `https://i.ytimg.com/vi/${videoPlaylisCovertId}/${posterImp}.jpg`;
@@ -90,9 +92,10 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         className={`${wrapperClassImp} ${iframe && activatedClassImp}`}
         data-title={videoTitle}
         style={{ backgroundImage: `url(${posterUrl})` }}
-        tabIndex={0}
       >
-        <button className={playerClassImp}></button>
+        <button
+          className={playerClassImp}
+          aria-label={`${announceWatch} ${videoTitle}`}></button>
         {iframe && (
           <iframe
             className={iframeClassImp}
