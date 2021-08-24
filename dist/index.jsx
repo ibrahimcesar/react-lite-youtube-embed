@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.0.5
+* react-lite-youtube-embed v2.0.6
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -43,6 +43,7 @@ function LiteYouTubeEmbed(props) {
     var videoTitle = props.title;
     var posterImp = props.poster || "hqdefault";
     var paramsImp = "&" + props.params || "";
+    var announceWatch = props.announce || "Watch";
     var posterUrl = !props.playlist ?
         "https://i.ytimg.com/vi/" + videoId + "/" + posterImp + ".jpg" :
         "https://i.ytimg.com/vi/" + videoPlaylisCovertId + "/" + posterImp + ".jpg";
@@ -80,8 +81,8 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement("div", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: { backgroundImage: "url(" + posterUrl + ")" }, tabIndex: 0 },
-            React__namespace.createElement("button", { className: playerClassImp }),
+        React__namespace.createElement("div", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: { backgroundImage: "url(" + posterUrl + ")" } },
+            React__namespace.createElement("button", { className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
             iframe && (React__namespace.createElement("iframe", { className: iframeClassImp, title: videoTitle, width: "560", height: "315", frameBorder: "0", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, src: iframeSrc })))));
 }
 
