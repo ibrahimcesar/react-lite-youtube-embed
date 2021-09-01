@@ -23,7 +23,7 @@
 .yt-lite:after {
   content: "";
   display: block;
-  padding-bottom: 56.25%;
+  padding-bottom: var(--aspect-ratio);
 }
 .yt-lite > iframe {
   width: 100%;
