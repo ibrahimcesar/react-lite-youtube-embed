@@ -242,9 +242,9 @@ Only two props are required to work: `id` from the YouTube you want to render an
 |----------|:--------:|------------|
 | **id** |  string | id of the video or playlist |
 | **title** |    string   | Here goes your video title. Always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;) #a11y |
-| announce |    string   | Default: `Watch`. This will be passed to the button in order to be announced to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | activeClass | string | Pass the string class for the active state |
 | adNetwork | boolean | Default: `false`  To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
+| announce |    string   | Default: `Watch`. This will be passed to the button in order to be announced to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com You should opt-in to allow cookies|
 | iFrameClass | string |    Pass the string class for the own iFrame |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
