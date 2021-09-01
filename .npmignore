@@ -20,3 +20,4 @@ demo
 .gitattributes
 CONTRIBUTING.md
 tsconfig.json
+.vscode
