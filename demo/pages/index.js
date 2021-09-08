@@ -142,7 +142,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Demo for  <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}> 📺 </span> React Lite YouTube Embed
+          Demo for  <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}>‏‏‎ ‎‏‏‎  📺 ‏‏‎ ‎‏‏‎ </span> React Lite YouTube Embed
           
         </a>
       </footer>

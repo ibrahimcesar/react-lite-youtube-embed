@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 
 type imgResolution =
   | "default"
@@ -14,6 +13,8 @@ interface LiteYouTube {
   title: string;
   activatedClass?: string;
   adNetwork?: boolean;
+  aspectHeight?: number;
+  aspectWidth?: number;
   iframeClass?: string;
   noCookie?: boolean;
   cookie?: boolean;
@@ -27,8 +28,8 @@ interface LiteYouTube {
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
-  const [preconnected, setPreconnected] = useState(false);
-  const [iframe, setIframe] = useState(false);
+  const [preconnected, setPreconnected] = React.useState(false);
+  const [iframe, setIframe] = React.useState(false);
   const videoId = encodeURIComponent(props.id);
   const videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
   const videoTitle = props.title;
@@ -50,6 +51,8 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
+  const aspectHeight = props.aspectHeight || 9;
+  const aspectWidth = props.aspectWidth || 16;
   const iframeClassImp = props.iframeClass || "";
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
@@ -91,7 +94,12 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe && activatedClassImp}`}
         data-title={videoTitle}
-        style={{ backgroundImage: `url(${posterUrl})` }}
+        style={{
+          backgroundImage: `url(${posterUrl})`,
+          ...({
+            '--aspect-ratio': `${(aspectHeight / aspectWidth) * 100}%`,
+          } as React.CSSProperties),
+        }}
       >
         <button
           className={playerClassImp}

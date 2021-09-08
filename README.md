@@ -1,10 +1,10 @@
  <div align="center">
- 
+
   <h1>📺  React Lite YouTube Embed</h1>
   <blockquote>A private by default, faster and cleaner YouTube embed component for React applications</blockquote>
-  
+
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
-  
+
 [![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed)&nbsp; &nbsp;[![License](https://badgen.net/github/license/ibrahimcesar/react-lite-youtube-embed)](./LICENSE)&nbsp; &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/ibrahimcesar/react-lite-youtube-embed/bug)
 
 <p>Developed in 🇧🇷 <span role="img" aria-label="Flag for Brazil">Brazil</p>
@@ -93,7 +93,7 @@ const App = () => (
 
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
 
-To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Instead in order to use now you have three options:
+To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead in order to use now you have three options:
 
 ### Option 1
 
@@ -188,7 +188,7 @@ Place the necessary CSS in your Global CSS file method of preference
 
 For example, for NextJS:
 
-```jsx      
+```jsx
 <style jsx global>{`
         html,
         body {
@@ -201,10 +201,9 @@ For example, for NextJS:
 
         * {
           box-sizing: border-box;
-        }
-        
+
         // CSS above
-        
+
 `}</style>
 
 ```
@@ -221,7 +220,7 @@ Not work on every framework but you can import the css directly, check what work
 
 <details>
 <summary>Show me the code!</summary>
- 
+
 ```ts
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 ```
@@ -245,6 +244,8 @@ Only two props are required to work: `id` from the YouTube you want to render an
 | activeClass | string | Pass the string class for the active state |
 | adNetwork | boolean | Default: `false`  To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
 | announce |    string   | Default: `Watch`. This will be passed to the button in order to be announced to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
+| aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
+| aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com You should opt-in to allow cookies|
 | iFrameClass | string |    Pass the string class for the own iFrame |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
@@ -257,22 +258,24 @@ Only two props are required to work: `id` from the YouTube you want to render an
 | onIframeAdded | function | Callback that will be called when iframe is added |
 
 
-### TO DO:
-- Add tests
+## 🙇‍♂️ Thanks
 
-## Thanks
+- Paul Irish ([paulirish](https://github.com/paulirish)) for [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)
+- Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loading ideas
+- [All contributors](https://github.com/ibrahimcesar/react-lite-youtube-embed/graphs/contributors)
 
-Paul Irish ([paulirish](https://github.com/paulirish)) for [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)  
-Acauã Sperl de Faria ([acaua](https://github.com/acaua)) for code review  
-Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loading ideas
+### 📝 Read more
+- [Why I made my open source React component private by default](https://ibrahimcesar.cloud/blog/why-i-made-my-open-source-react-component-private-by-default/)
 
-## See Also
 
-[React Quicklink](https://www.npmjs.com/package/react-quicklink): Faster subsequent page-loads by prefetching in-viewport links during idle time for __React__
+### 🈺 TODO:
+
+- [ ] Add tests
+
 
 ## MIT License
 
-Copyright (c) 2021 Ibrahim Cesar
+Copyright (c) 2021 [Ibrahim Cesar](https://ibrahimcesar.cloud)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
