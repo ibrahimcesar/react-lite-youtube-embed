@@ -6,7 +6,7 @@ import Prism from "prismjs"
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-      useEffect(() => {
+    useEffect(() => {
       Prism.highlightAll();
     }, []);
 
@@ -87,6 +87,28 @@ export default function Home() {
               </pre>
           </div>
           <div>
+            <h2>Using the Webp image format</h2>
+          <LiteYouTubeEmbed
+              id="HaEPXoXVf2k"
+              title="Amazon DynamoDB Deep Dive"
+              poster="hqdefault"
+              webp
+            />
+            <pre>
+              <code className="language-jsx">
+                {`
+<LiteYouTubeEmbed
+  id="HaEPXoXVf2k"
+  title="Amazon DynamoDB Deep Dive"
+  poster="hqdefault"
+  webp
+/>
+                  `
+                  }
+                </code>
+              </pre>
+          </div>
+          <div>
           <h2>A playlist</h2>
           <LiteYouTubeEmbed
           id="PL0vfts4VzfNigohKr5sPrkcPFpuZmTe2C" // Default none, id of the video or playlist
@@ -134,6 +156,12 @@ export default function Home() {
               </pre>
           </div>
         </div>
+        {/* <LiteYouTubeEmbed
+            id="jB20NKw3c6I"
+            title="YouTube Embed"
+          poster="maxresdefault"
+          validatePoster
+        /> */}
       </main>
 
       <footer className={styles.footer}>
@@ -143,7 +171,6 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Demo for  <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}>‏‏‎ ‎‏‏‎  📺 ‏‏‎ ‎‏‏‎ </span> React Lite YouTube Embed
-          
         </a>
       </footer>
     </div>

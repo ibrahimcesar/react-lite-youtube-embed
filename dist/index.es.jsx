@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.0.9-beta
+* react-lite-youtube-embed v2.0.11-beta.6
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -46,9 +46,11 @@ function LiteYouTubeEmbed(props) {
     var posterImp = props.poster || "hqdefault";
     var paramsImp = "&" + props.params || "";
     var announceWatch = props.announce || "Watch";
+    var format = props.webp ? 'webp' : 'jpg';
+    var vi = props.webp ? 'vi_webp' : 'vi';
     var posterUrl = !props.playlist ?
-        "https://i.ytimg.com/vi/" + videoId + "/" + posterImp + ".jpg" :
-        "https://i.ytimg.com/vi/" + videoPlaylisCovertId + "/" + posterImp + ".jpg";
+        "https://i.ytimg.com/" + vi + "/" + videoId + "/" + posterImp + "." + format :
+        "https://i.ytimg.com/" + vi + "/" + videoPlaylisCovertId + "/" + posterImp + "." + format;
     var ytUrl = props.noCookie
         ? "https://www.youtube-nocookie.com"
         : "https://www.youtube.com";
@@ -85,7 +87,7 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React.createElement(React.Fragment, null,
                 React.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React.createElement("div", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
+        React.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
             React.createElement("button", { className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
