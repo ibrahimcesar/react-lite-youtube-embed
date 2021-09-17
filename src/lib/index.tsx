@@ -23,6 +23,7 @@ interface LiteYouTube {
   playlist?: boolean;
   playlistCoverId?: string;
   poster?: imgResolution;
+  webp?: boolean;
   wrapperClass?: string;
   onIframeAdded?: () => void
 }
@@ -36,9 +37,11 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const posterImp = props.poster || "hqdefault";
   const paramsImp = `&${props.params}` || "";
   const announceWatch = props.announce || "Watch";
+  const format = props.webp ? 'webp' : 'jpg';
+  const vi = props.webp ? 'vi_webp' : 'vi'
   const posterUrl = !props.playlist ?
-    `https://i.ytimg.com/vi/${videoId}/${posterImp}.jpg`:
-    `https://i.ytimg.com/vi/${videoPlaylisCovertId}/${posterImp}.jpg`;
+    `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}` :
+    `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`;
   let ytUrl = props.noCookie
     ? "https://www.youtube-nocookie.com"
     : "https://www.youtube.com";
@@ -56,7 +59,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const iframeClassImp = props.iframeClass || "";
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
-  const onIframeAdded = props.onIframeAdded || function() {};
+  const onIframeAdded = props.onIframeAdded || function () { };
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -69,9 +72,14 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
     setIframe(true);
   };
 
+
   return (
     <>
-      <link rel="preload" href={posterUrl} as="image" />
+      <link
+        rel="preload"
+        href={posterUrl}
+        as="image"
+        />
       <>
         {preconnected && (
           <>
@@ -89,7 +97,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
           </>
         )}
       </>
-      <div
+      <article
         onPointerOver={warmConnections}
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe && activatedClassImp}`}
@@ -103,7 +111,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
       >
         <button
           className={playerClassImp}
-          aria-label={`${announceWatch} ${videoTitle}`}></button>
+          aria-label={`${announceWatch} ${videoTitle}`} />
         {iframe && (
           <iframe
             className={iframeClassImp}
@@ -116,7 +124,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
             src={iframeSrc}
           ></iframe>
         )}
-      </div>
+      </article>
     </>
   );
 }
