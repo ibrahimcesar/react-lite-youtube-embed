@@ -247,7 +247,7 @@ Only two props are required to work: `id` from the YouTube you want to render an
 | aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com You should opt-in to allow cookies|
-| iFrameClass | string |    Pass the string class for the own iFrame |
+| iframeClass | string |    Pass the string class for the own iFrame |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
 | params | string |    any params you want to pass to the URL in the iFrame. Two important things to notice: You can assume you just need to add the params, we already setup for you, so you should write `start=1150` and not `?start=1150` or `&start=1150`. You can place more params but it will need to fully form: `start=1150&other=value&another=value`. First, when you share a YouTube url the param of time is just `t`, but the embed needs `start`.|
 | playerClass | string | Pass the string class for the player, once you can customize it |
