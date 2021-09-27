@@ -257,6 +257,7 @@ Only two props are required to work: `id` from the YouTube you want to render an
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
 | onIframeAdded | function | Callback that will be called when iframe is added |
+| onIframeAdded | function | Callback that will be called when iframe is added |
 
 
 ## 🙇‍♂️ Thanks
