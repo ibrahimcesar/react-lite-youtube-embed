@@ -8,9 +8,12 @@ interface LiteYouTube {
     adNetwork?: boolean;
     aspectHeight?: number;
     aspectWidth?: number;
-    iframeClass?: string;
-    noCookie?: boolean;
+    autoplay?: boolean;
     cookie?: boolean;
+    iframeClass?: string;
+    muted?: boolean;
+    noCookie?: boolean;
+    onIframeAdded?: () => void;
     params?: string;
     playerClass?: string;
     playlist?: boolean;
@@ -18,9 +21,6 @@ interface LiteYouTube {
     poster?: imgResolution;
     webp?: boolean;
     wrapperClass?: string;
-    onIframeAdded?: () => void;
-    autoplay?: boolean;
-    muted?: boolean;
 }
 export default function LiteYouTubeEmbed(props: LiteYouTube): JSX.Element;
 export {};
