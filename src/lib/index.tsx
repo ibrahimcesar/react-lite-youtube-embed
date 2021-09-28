@@ -26,11 +26,13 @@ interface LiteYouTube {
   webp?: boolean;
   wrapperClass?: string;
   onIframeAdded?: () => void
+  autoplay?: boolean,
+  muted?: boolean,
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const [preconnected, setPreconnected] = React.useState(false);
-  const [iframe, setIframe] = React.useState(false);
+  const [iframe, setIframe] = React.useState(!!props.autoplay);
   const videoId = encodeURIComponent(props.id);
   const videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
   const videoTitle = props.title;
@@ -48,9 +50,11 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   ytUrl = props.cookie
     ? "https://www.youtube.com"
     : "https://www.youtube-nocookie.com";
+
+  const muted = props.muted ? "&muted=1" : "";
   const iframeSrc = !props.playlist
-    ? `${ytUrl}/embed/${videoId}?autoplay=1${paramsImp}`
-    : `${ytUrl}/embed/videoseries?autoplay=1&list=${videoId}${paramsImp}`;
+    ? `${ytUrl}/embed/${videoId}?autoplay=1${muted}${paramsImp}`
+    : `${ytUrl}/embed/videoseries?autoplay=1${muted}&list=${videoId}${paramsImp}`;
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
@@ -100,7 +104,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
       <article
         onPointerOver={warmConnections}
         onClick={addIframe}
-        className={`${wrapperClassImp} ${iframe && activatedClassImp}`}
+        className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
         data-title={videoTitle}
         style={{
           backgroundImage: `url(${posterUrl})`,

@@ -19,6 +19,8 @@ interface LiteYouTube {
     webp?: boolean;
     wrapperClass?: string;
     onIframeAdded?: () => void;
+    autoplay?: boolean;
+    muted?: boolean;
 }
 export default function LiteYouTubeEmbed(props: LiteYouTube): JSX.Element;
 export {};
