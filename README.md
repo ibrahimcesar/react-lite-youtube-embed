@@ -75,7 +75,7 @@ const App = () => (
 
 ## 🧰 Bring Your Own Styles
 
-React Lite YouTube Embed is packaged with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
+React Lite YouTube Embed comes with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
 
 ```javascript
 const App = () => (
@@ -85,7 +85,7 @@ const App = () => (
        activeClass="lyt-activated" // Default as "lyt-activated", gives control to wrapper once clicked
        iframeClass="" // Default none, gives control to add a class to iframe element itself
        playerClass="lty-playbtn" // Default as "lty-playbtn" to control player button styles
-       wrapperClass="yt-lite" // Default as "yt-lite" for the div wrapping the area, it is the most important class and needs extra attention, please refer to LiteYouTubeEmbed.css for a reference.
+       wrapperClass="yt-lite" // Default as "yt-lite" for the div wrapping the area, the most important class and needs extra attention, please refer to LiteYouTubeEmbed.css for a reference.
     />
   </div>
 );
@@ -93,7 +93,7 @@ const App = () => (
 
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
 
-To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead in order to use now you have three options:
+To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead use now you have three options:
 
 ### Option 1
 
@@ -227,7 +227,7 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 or in a *.css/scss etc:
 
-```
+```css
 @import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 ```
 
@@ -235,29 +235,30 @@ or in a *.css/scss etc:
 
 ## All our props belongs to you
 
-Only two props are required to work: `id` from the YouTube you want to render and `title`
+The most minimalist implementation requires two props: `id` from the YouTube you want to render and `title`, for the iFrame.
 
 | Prop   |      Type      |  Description |
 |----------|:--------:|------------|
 | **id** |  string | id of the video or playlist |
-| **title** |    string   | Here goes your video title. Always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;) #a11y |
+| **title** |    string   | Here goes your video title. Always provide a title for iFrames: [https://dequeuniversity.com/tips/provide-iframe-titles](https://dequeuniversity.com/tips/provide-iframe-titles) Help the web be accessible ;) #a11y |
 | activeClass | string | Pass the string class for the active state |
 | adNetwork | boolean | Default: `false`  To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
-| announce |    string   | Default: `Watch`. This will be passed to the button in order to be announced to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
+| announce |    string   | Default: `Watch`. This will added to the button announce to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com You should opt-in to allow cookies|
-| iFrameClass | string |    Pass the string class for the own iFrame |
+| autoplay | boolean |  Default `false`. Autoplay the video on load |
+| cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
+| iframeClass | string |    Pass the string class for the own iFrame |
+| muted | boolean | If the video has sound or not. Required autoplay `true` to work |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
-| params | string |    any params you want to pass to the URL in the iFrame. Two important things to notice: You can assume you just need to add the params, we already setup for you, so you should write `start=1150` and not `?start=1150` or `&start=1150`. You can place more params but it will need to fully form: `start=1150&other=value&another=value`. First, when you share a YouTube url the param of time is just `t`, but the embed needs `start`.|
+| onIframeAdded | function | Callback that will fired when iframe loads |
+| params | string |    any params you want to pass to the URL in the iFrame. Two important points to notice: You need to add the params, we already setup for you, so you should write `start=1150` and not `?start=1150` or `&start=1150`. You can place more params but it will need to fully form: `start=1150&other=value&another=value`. First, when you share a YouTube url the param of time is `t`, but the embed needs `start`.|
 | playerClass | string | Pass the string class for the player, once you can customize it |
 | playlist | boolean |    Use `true` when your id be from a playlist |
-| playlistCoverId | string | The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe  |
-| poster | string. One of `default` `mqdefault`  `hqdefault` `sddefault` `maxresdefault` |   Defines the image size to call on first render as poster image. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api |
+| playlistCoverId | string | The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possible  |
+| poster | string. One of `default` `mqdefault`  `hqdefault` `sddefault` `maxresdefault` |   Defines the image size to call on first render as poster image. See: [https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
-| onIframeAdded | function | Callback that will be called when iframe is added |
-
 
 ## 🙇‍♂️ Thanks
 
@@ -266,13 +267,12 @@ Only two props are required to work: `id` from the YouTube you want to render an
 - [All contributors](https://github.com/ibrahimcesar/react-lite-youtube-embed/graphs/contributors)
 
 ### 📝 Read more
+
 - [Why I made my open source React component private by default](https://ibrahimcesar.cloud/blog/why-i-made-my-open-source-react-component-private-by-default/)
 
-
-### 🈺 TODO:
+### 🈺 TODO
 
 - [ ] Add tests
-
 
 ## MIT License
 

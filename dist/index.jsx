@@ -63,7 +63,7 @@ var __assign = function() {
 
 function LiteYouTubeEmbed(props) {
     var _a = React__namespace.useState(false), preconnected = _a[0], setPreconnected = _a[1];
-    var _b = React__namespace.useState(false), iframe = _b[0], setIframe = _b[1];
+    var _b = React__namespace.useState(!!props.autoplay), iframe = _b[0], setIframe = _b[1];
     var videoId = encodeURIComponent(props.id);
     var videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
     var videoTitle = props.title;
@@ -81,9 +81,10 @@ function LiteYouTubeEmbed(props) {
     ytUrl = props.cookie
         ? "https://www.youtube.com"
         : "https://www.youtube-nocookie.com";
+    var muted = props.muted ? "&muted=1" : "";
     var iframeSrc = !props.playlist
-        ? ytUrl + "/embed/" + videoId + "?autoplay=1" + paramsImp
-        : ytUrl + "/embed/videoseries?autoplay=1&list=" + videoId + paramsImp;
+        ? ytUrl + "/embed/" + videoId + "?autoplay=1" + muted + "}" + paramsImp
+        : ytUrl + "/embed/videoseries?autoplay=1" + muted + "&list=" + videoId + paramsImp;
     var activatedClassImp = props.activatedClass || "lyt-activated";
     var adNetworkImp = props.adNetwork || false;
     var aspectHeight = props.aspectHeight || 9;
@@ -111,7 +112,7 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe && activatedClassImp), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
+        React__namespace.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
             React__namespace.createElement("button", { className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
