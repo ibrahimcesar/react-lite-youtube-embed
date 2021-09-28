@@ -53,7 +53,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
 
   const muted = props.muted ? "&muted=1" : "";
   const iframeSrc = !props.playlist
-    ? `${ytUrl}/embed/${videoId}?autoplay=1${muted}}${paramsImp}`
+    ? `${ytUrl}/embed/${videoId}?autoplay=1${muted}${paramsImp}`
     : `${ytUrl}/embed/videoseries?autoplay=1${muted}&list=${videoId}${paramsImp}`;
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
