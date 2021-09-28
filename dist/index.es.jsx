@@ -59,7 +59,7 @@ function LiteYouTubeEmbed(props) {
         : "https://www.youtube-nocookie.com";
     var muted = props.muted ? "&muted=1" : "";
     var iframeSrc = !props.playlist
-        ? ytUrl + "/embed/" + videoId + "?autoplay=1" + muted + "}" + paramsImp
+        ? ytUrl + "/embed/" + videoId + "?autoplay=1" + muted + paramsImp
         : ytUrl + "/embed/videoseries?autoplay=1" + muted + "&list=" + videoId + paramsImp;
     var activatedClassImp = props.activatedClass || "lyt-activated";
     var adNetworkImp = props.adNetwork || false;
