@@ -8,7 +8,7 @@ type imgResolution =
   | "maxresdefault";
 
 interface LiteYouTube {
-  announce: string;
+  announce?: string;
   id: string;
   title: string;
   activatedClass?: string;
