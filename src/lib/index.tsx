@@ -37,6 +37,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const videoTitle = props.title;
   const posterImp = props.poster || "hqdefault";
   const paramsImp = `&${props.params}` || "";
+  const mutedImp = props.muted ? "&mute=1" : "";
   const announceWatch = props.announce || "Watch";
   const format = props.webp ? 'webp' : 'jpg';
   const vi = props.webp ? 'vi_webp' : 'vi'
@@ -50,10 +51,9 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
     ? "https://www.youtube.com"
     : "https://www.youtube-nocookie.com";
 
-  const muted = props.muted ? "&mute=1" : "";
   const iframeSrc = !props.playlist
-    ? `${ytUrl}/embed/${videoId}?autoplay=1${muted}${paramsImp}`
-    : `${ytUrl}/embed/videoseries?autoplay=1${muted}&list=${videoId}${paramsImp}`;
+    ? `${ytUrl}/embed/${videoId}?autoplay=1&state=1${mutedImp}${paramsImp}`
+    : `${ytUrl}/embed/videoseries?autoplay=1${mutedImp}&list=${videoId}${paramsImp}`;
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;

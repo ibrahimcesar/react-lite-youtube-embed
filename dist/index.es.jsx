@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.1.0
+* react-lite-youtube-embed v2.1.3
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -45,6 +45,7 @@ function LiteYouTubeEmbed(props) {
     var videoTitle = props.title;
     var posterImp = props.poster || "hqdefault";
     var paramsImp = "&" + props.params || "";
+    var mutedImp = props.muted ? "&mute=1" : "";
     var announceWatch = props.announce || "Watch";
     var format = props.webp ? 'webp' : 'jpg';
     var vi = props.webp ? 'vi_webp' : 'vi';
@@ -57,10 +58,9 @@ function LiteYouTubeEmbed(props) {
     ytUrl = props.cookie
         ? "https://www.youtube.com"
         : "https://www.youtube-nocookie.com";
-    var muted = props.muted ? "&mute=1" : "";
     var iframeSrc = !props.playlist
-        ? ytUrl + "/embed/" + videoId + "?autoplay=1" + muted + paramsImp
-        : ytUrl + "/embed/videoseries?autoplay=1" + muted + "&list=" + videoId + paramsImp;
+        ? ytUrl + "/embed/" + videoId + "?autoplay=1&state=1" + mutedImp + paramsImp
+        : ytUrl + "/embed/videoseries?autoplay=1" + mutedImp + "&list=" + videoId + paramsImp;
     var activatedClassImp = props.activatedClass || "lyt-activated";
     var adNetworkImp = props.adNetwork || false;
     var aspectHeight = props.aspectHeight || 9;
