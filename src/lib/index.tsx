@@ -26,13 +26,12 @@ interface LiteYouTube {
   webp?: boolean;
   wrapperClass?: string;
   onIframeAdded?: () => void
-  autoplay?: boolean,
   muted?: boolean,
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const [preconnected, setPreconnected] = React.useState(false);
-  const [iframe, setIframe] = React.useState(!!props.autoplay);
+  const [iframe, setIframe] = React.useState(false);
   const videoId = encodeURIComponent(props.id);
   const videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
   const videoTitle = props.title;
@@ -83,7 +82,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         rel="preload"
         href={posterUrl}
         as="image"
-        />
+      />
       <>
         {preconnected && (
           <>

@@ -246,7 +246,6 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | announce |    string   | Default: `Watch`. This will added to the button announce to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| autoplay | boolean |  Default `false`. Autoplay the video on load |
 | cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
 | iframeClass | string |    Pass the string class for the own iFrame |
 | muted | boolean | If the video has sound or not. Required autoplay `true` to work |

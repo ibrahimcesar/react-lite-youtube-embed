@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.0.14
+* react-lite-youtube-embed v2.1.0
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -39,7 +39,7 @@ var __assign = function() {
 
 function LiteYouTubeEmbed(props) {
     var _a = React.useState(false), preconnected = _a[0], setPreconnected = _a[1];
-    var _b = React.useState(!!props.autoplay), iframe = _b[0], setIframe = _b[1];
+    var _b = React.useState(false), iframe = _b[0], setIframe = _b[1];
     var videoId = encodeURIComponent(props.id);
     var videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
     var videoTitle = props.title;
