@@ -27,6 +27,7 @@ interface LiteYouTube {
   wrapperClass?: string;
   onIframeAdded?: () => void
   muted?: boolean,
+  thumbnail: string,
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
@@ -41,9 +42,10 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const announceWatch = props.announce || "Watch";
   const format = props.webp ? 'webp' : 'jpg';
   const vi = props.webp ? 'vi_webp' : 'vi'
-  const posterUrl = !props.playlist ?
-    `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}` :
-    `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`;
+  const posterUrl = props.thumbnail || (!props.playlist 
+    ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}` 
+    : `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`);
+
   let ytUrl = props.noCookie
     ? "https://www.youtube-nocookie.com"
     : "https://www.youtube.com";
