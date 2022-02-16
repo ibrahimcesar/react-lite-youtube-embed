@@ -27,7 +27,7 @@ interface LiteYouTube {
   wrapperClass?: string;
   onIframeAdded?: () => void
   muted?: boolean,
-  thumbnail: string,
+  thumbnail?: string,
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
