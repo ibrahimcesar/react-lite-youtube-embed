@@ -11,7 +11,7 @@
   "dependencies": {
     "babel-plugin-prismjs": "^2.1.0",
     "next": "11.1.4",
-    "prismjs": "^1.25.0",
+    "prismjs": "^1.27.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-lite-youtube-embed": "2.2.0"
