@@ -14,7 +14,7 @@
 
 ![iFrame example](_example_lite.gif)
 
-## [View Demo](https://react-lite-youtube-embed.ibrahimcesar.cloud/)
+## [View Demo](https://main.d36j4m8wacytqv.amplifyapp.com)
 
 </div>
 
