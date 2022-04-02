@@ -73,10 +73,14 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
 
   const addIframe = () => {
     if (iframe) return;
-    onIframeAdded()
     setIframe(true);
   };
 
+  React.useEffect(() => {
+    if (iframe) {
+      onIframeAdded();
+    }
+  }, [iframe]);
 
   return (
     <>
