@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type imgResolution =
+export type imgResolution =
   | "default"
   | "mqdefault"
   | "hqdefault"
