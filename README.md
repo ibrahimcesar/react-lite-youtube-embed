@@ -257,6 +257,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | playlist | boolean |    Use `true` when your id be from a playlist |
 | playlistCoverId | string | The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possible  |
 | poster | string. One of `default` `mqdefault`  `hqdefault` `sddefault` `maxresdefault` |   Defines the image size to call on first render as poster image. See: [https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
+| rel | string |   Default `preload`. allows for prefetch or preload of the link url |
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
 
