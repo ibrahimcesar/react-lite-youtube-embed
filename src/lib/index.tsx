@@ -28,6 +28,7 @@ interface LiteYouTube {
   onIframeAdded?: () => void
   muted?: boolean,
   thumbnail?: string,
+  rel?: string,
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
@@ -41,7 +42,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const mutedImp = props.muted ? "&mute=1" : "";
   const announceWatch = props.announce || "Watch";
   const format = props.webp ? 'webp' : 'jpg';
-  const vi = props.webp ? 'vi_webp' : 'vi'
+  const vi = props.webp ? 'vi_webp' : 'vi';
   const posterUrl = props.thumbnail || (!props.playlist 
     ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}` 
     : `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`);
@@ -65,6 +66,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
   const onIframeAdded = props.onIframeAdded || function () { };
+  const rel = props.rel ? 'prefetch' : 'preload';
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -85,7 +87,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   return (
     <>
       <link
-        rel="preload"
+        rel={rel}
         href={posterUrl}
         as="image"
       />
