@@ -121,6 +121,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         }}
       >
         <button
+          type="button"
           className={playerClassImp}
           aria-label={`${announceWatch} ${videoTitle}`} />
         {iframe && (
