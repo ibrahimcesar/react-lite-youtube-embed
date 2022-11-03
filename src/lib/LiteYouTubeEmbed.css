@@ -7,7 +7,7 @@
   background-size: cover;
   cursor: pointer;
 }
-.yt-lite:before {
+.yt-lite.lyt-activated::before {
   content: "";
   display: block;
   position: absolute;
@@ -20,7 +20,7 @@
   width: 100%;
   transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
-.yt-lite:after {
+.yt-lite::after {
   content: "";
   display: block;
   padding-bottom: var(--aspect-ratio);
@@ -45,14 +45,14 @@
   background-color: red;
   opacity: 1;
 }
-.yt-lite > .lty-playbtn:before {
+.yt-lite > .lty-playbtn::before {
   content: "";
   border-color: transparent transparent transparent #fff;
   border-style: solid;
   border-width: 11px 0 11px 19px;
 }
 .yt-lite > .lty-playbtn,
-.yt-lite > .lty-playbtn:before {
+.yt-lite > .lty-playbtn::before {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -61,7 +61,7 @@
 .yt-lite.lyt-activated {
   cursor: unset;
 }
-.yt-lite.lyt-activated:before,
+.yt-lite.lyt-activated::before,
 .yt-lite.lyt-activated > .lty-playbtn {
   opacity: 0;
   pointer-events: none;
