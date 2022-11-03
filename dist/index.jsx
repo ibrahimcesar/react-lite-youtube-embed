@@ -115,7 +115,7 @@ function LiteYouTubeEmbed(props) {
         React__namespace.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
-            React__namespace.createElement("button", { className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
+            React__namespace.createElement("button", { type: "button", className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
             iframe && (React__namespace.createElement("iframe", { className: iframeClassImp, title: videoTitle, width: "560", height: "315", frameBorder: "0", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, src: iframeSrc })))));
 }
 
