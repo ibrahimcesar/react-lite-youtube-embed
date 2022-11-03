@@ -7,7 +7,7 @@ export type imgResolution =
   | "sddefault"
   | "maxresdefault";
 
-interface LiteYouTube {
+export interface LiteYouTube {
   announce?: string;
   id: string;
   title: string;
