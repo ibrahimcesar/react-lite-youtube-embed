@@ -1,5 +1,6 @@
 import * as React from "react";
 
+
 export type imgResolution =
   | "default"
   | "mqdefault"
@@ -7,7 +8,7 @@ export type imgResolution =
   | "sddefault"
   | "maxresdefault";
 
-export interface LiteYouTube {
+export interface LiteYouTubeProps {
   announce?: string;
   id: string;
   title: string;
@@ -31,7 +32,7 @@ export interface LiteYouTube {
   rel?: string,
 }
 
-export default function LiteYouTubeEmbed(props: LiteYouTube) {
+function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: HTMLIFrameElement) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(false);
   const videoId = encodeURIComponent(props.id);
@@ -126,6 +127,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
           aria-label={`${announceWatch} ${videoTitle}`} />
         {iframe && (
           <iframe
+            ref={ref}
             className={iframeClassImp}
             title={videoTitle}
             width="560"
@@ -140,3 +142,5 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
     </>
   );
 }
+
+export default React.forwardRef<HTMLIFrameElement,LiteYouTubeProps>(LiteYouTubeEmbedComponent)
