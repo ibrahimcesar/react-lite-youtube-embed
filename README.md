@@ -261,6 +261,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | thumbnail | string |   Pass an optional image url to override the default poster and set a custom poster image |
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
+| containerElement | string | Default `article`. Pass the element to be used for the container.
 
 ## 🙇‍♂️ Thanks
 
