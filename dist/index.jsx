@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.3.1
+* react-lite-youtube-embed v2.3.5
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -94,6 +94,7 @@ function LiteYouTubeEmbed(props) {
     var wrapperClassImp = props.wrapperClass || "yt-lite";
     var onIframeAdded = props.onIframeAdded || function () { };
     var rel = props.rel ? 'prefetch' : 'preload';
+    var ContainerElement = props.containerElement || 'article';
     var warmConnections = function () {
         if (preconnected)
             return;
@@ -117,7 +118,7 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
+        React__namespace.createElement(ContainerElement, { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
             React__namespace.createElement("button", { type: "button", className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),

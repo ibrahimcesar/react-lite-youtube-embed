@@ -21,5 +21,6 @@ export interface LiteYouTube {
     muted?: boolean;
     thumbnail?: string;
     rel?: string;
+    containerElement?: keyof JSX.IntrinsicElements;
 }
 export default function LiteYouTubeEmbed(props: LiteYouTube): JSX.Element;
