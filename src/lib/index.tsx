@@ -29,6 +29,7 @@ export interface LiteYouTube {
   muted?: boolean,
   thumbnail?: string,
   rel?: string,
+  containerElement?: keyof JSX.IntrinsicElements;
 }
 
 export default function LiteYouTubeEmbed(props: LiteYouTube) {
@@ -67,6 +68,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const wrapperClassImp = props.wrapperClass || "yt-lite";
   const onIframeAdded = props.onIframeAdded || function () { };
   const rel = props.rel ? 'prefetch' : 'preload';
+  const ContainerElement = props.containerElement || 'article';
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -108,7 +110,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
           </>
         )}
       </>
-      <article
+      <ContainerElement
         onPointerOver={warmConnections}
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
@@ -136,7 +138,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
             src={iframeSrc}
           ></iframe>
         )}
-      </article>
+      </ContainerElement>
     </>
   );
 }
