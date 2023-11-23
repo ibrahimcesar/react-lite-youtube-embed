@@ -1,6 +1,5 @@
 import * as React from "react";
 
-
 export type imgResolution =
   | "default"
   | "mqdefault"
@@ -33,7 +32,7 @@ export interface LiteYouTubeProps {
   containerElement?: keyof JSX.IntrinsicElements;
 }
 
-function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: HTMLIFrameElement) {
+function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: React.Ref<HTMLIFrameElement>) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(false);
   const videoId = encodeURIComponent(props.id);
@@ -145,4 +144,4 @@ function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: HTMLIFrameEleme
   );
 }
 
-export default React.forwardRef<HTMLIFrameElement,LiteYouTubeProps>(LiteYouTubeEmbedComponent)
+export default React.forwardRef<HTMLIFrameElement, LiteYouTubeProps>(LiteYouTubeEmbedComponent)

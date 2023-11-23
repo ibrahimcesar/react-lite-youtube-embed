@@ -7,8 +7,10 @@
   background-size: cover;
   cursor: pointer;
 }
+
 .yt-lite.lyt-activated::before {
   content: "";
+  box-sizing: content-box;
   display: block;
   position: absolute;
   top: 0;

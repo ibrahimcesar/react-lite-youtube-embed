@@ -7,8 +7,9 @@
       "allowJs": true,
       "sourceMap": true,
       "declaration": true,
-      "suppressImplicitAnyIndexErrors": true,
-      "lib": ["es2018", "dom", "es6"],
+      "lib": [
+        "es2018", "dom", "es6"
+      ],
       "moduleResolution": "node",
       "jsx": "react",
       "forceConsistentCasingInFileNames": true,
@@ -27,6 +28,10 @@
       "noFallthroughCasesInSwitch": true,
       "types": []
     },
-    "include": ["src/lib"],
-    "exclude": ["demo"]
+    "include": [
+      "src/lib"
+    ],
+    "exclude": [
+      "demo"
+    ]
 }
