@@ -278,7 +278,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 
 ## MIT License
 
-Copyright (c) 2020 — 2022 [Ibrahim Cesar](https://ibrahimcesar.cloud)
+Copyright (c) 2020 — 2023 [Ibrahim Cesar](https://ibrahimcesar.cloud)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
