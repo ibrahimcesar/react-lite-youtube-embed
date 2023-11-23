@@ -1,5 +1,6 @@
 import * as React from "react";
 
+
 export type imgResolution =
   | "default"
   | "mqdefault"
@@ -7,7 +8,7 @@ export type imgResolution =
   | "sddefault"
   | "maxresdefault";
 
-interface LiteYouTube {
+export interface LiteYouTubeProps {
   announce?: string;
   id: string;
   title: string;
@@ -29,9 +30,10 @@ interface LiteYouTube {
   muted?: boolean,
   thumbnail?: string,
   rel?: string,
+  containerElement?: keyof JSX.IntrinsicElements;
 }
 
-export default function LiteYouTubeEmbed(props: LiteYouTube) {
+function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: HTMLIFrameElement) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(false);
   const videoId = encodeURIComponent(props.id);
@@ -67,6 +69,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const wrapperClassImp = props.wrapperClass || "yt-lite";
   const onIframeAdded = props.onIframeAdded || function () { };
   const rel = props.rel ? 'prefetch' : 'preload';
+  const ContainerElement = props.containerElement || 'article';
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -108,7 +111,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
           </>
         )}
       </>
-      <article
+      <ContainerElement
         onPointerOver={warmConnections}
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
@@ -121,10 +124,12 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         }}
       >
         <button
+          type="button"
           className={playerClassImp}
           aria-label={`${announceWatch} ${videoTitle}`} />
         {iframe && (
           <iframe
+            ref={ref}
             className={iframeClassImp}
             title={videoTitle}
             width="560"
@@ -135,7 +140,9 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
             src={iframeSrc}
           ></iframe>
         )}
-      </article>
+      </ContainerElement>
     </>
   );
 }
+
+export default React.forwardRef<HTMLIFrameElement,LiteYouTubeProps>(LiteYouTubeEmbedComponent)

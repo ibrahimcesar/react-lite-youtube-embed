@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.1.3
+* react-lite-youtube-embed v2.3.5
 *  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
@@ -73,9 +73,9 @@ function LiteYouTubeEmbed(props) {
     var announceWatch = props.announce || "Watch";
     var format = props.webp ? 'webp' : 'jpg';
     var vi = props.webp ? 'vi_webp' : 'vi';
-    var posterUrl = !props.playlist ?
-        "https://i.ytimg.com/" + vi + "/" + videoId + "/" + posterImp + "." + format :
-        "https://i.ytimg.com/" + vi + "/" + videoPlaylisCovertId + "/" + posterImp + "." + format;
+    var posterUrl = props.thumbnail || (!props.playlist
+        ? "https://i.ytimg.com/" + vi + "/" + videoId + "/" + posterImp + "." + format
+        : "https://i.ytimg.com/" + vi + "/" + videoPlaylisCovertId + "/" + posterImp + "." + format);
     var ytUrl = props.noCookie
         ? "https://www.youtube-nocookie.com"
         : "https://www.youtube.com";
@@ -93,6 +93,8 @@ function LiteYouTubeEmbed(props) {
     var playerClassImp = props.playerClass || "lty-playbtn";
     var wrapperClassImp = props.wrapperClass || "yt-lite";
     var onIframeAdded = props.onIframeAdded || function () { };
+    var rel = props.rel ? 'prefetch' : 'preload';
+    var ContainerElement = props.containerElement || 'article';
     var warmConnections = function () {
         if (preconnected)
             return;
@@ -101,21 +103,25 @@ function LiteYouTubeEmbed(props) {
     var addIframe = function () {
         if (iframe)
             return;
-        onIframeAdded();
         setIframe(true);
     };
+    React__namespace.useEffect(function () {
+        if (iframe) {
+            onIframeAdded();
+        }
+    }, [iframe]);
     return (React__namespace.createElement(React__namespace.Fragment, null,
-        React__namespace.createElement("link", { rel: "preload", href: posterUrl, as: "image" }),
+        React__namespace.createElement("link", { rel: rel, href: posterUrl, as: "image" }),
         React__namespace.createElement(React__namespace.Fragment, null, preconnected && (React__namespace.createElement(React__namespace.Fragment, null,
             React__namespace.createElement("link", { rel: "preconnect", href: ytUrl }),
             React__namespace.createElement("link", { rel: "preconnect", href: "https://www.google.com" }),
             adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
+        React__namespace.createElement(ContainerElement, { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
-            React__namespace.createElement("button", { className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
+            React__namespace.createElement("button", { type: "button", className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
             iframe && (React__namespace.createElement("iframe", { className: iframeClassImp, title: videoTitle, width: "560", height: "315", frameBorder: "0", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, src: iframeSrc })))));
 }
 
