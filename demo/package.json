@@ -13,7 +13,7 @@
     "prismjs": "^1.27.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-lite-youtube-embed": "2.4.0-rc"
+    "react-lite-youtube-embed": "2.4.0"
   },
   "volta": {
     "node": "20.10.0"
