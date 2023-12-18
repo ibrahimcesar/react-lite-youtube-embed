@@ -7,7 +7,7 @@
 
 [![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed)&nbsp; &nbsp;&nbsp; &nbsp;![Total Downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed?color=%23FF0000&logo=npm)&nbsp; &nbsp;&nbsp; &nbsp;[![License](https://badgen.net/github/license/ibrahimcesar/react-lite-youtube-embed)](./LICENSE)&nbsp; &nbsp;  &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/ibrahimcesar/react-lite-youtube-embed/bug)
 
- 
+
 <p>Developed in 🇧🇷 <span role="img" aria-label="Flag for Brazil">Brazil</p>
 
 <strong>Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.</strong>
@@ -43,7 +43,7 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 const App = () => (
   <div>
-    <LiteYouTubeEmbed 
+    <LiteYouTubeEmbed
         id="L2vS_050c-M"
         title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
     />
@@ -260,7 +260,8 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | thumbnail | string |   Pass an optional image url to override the default poster and set a custom poster image |
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
-| containerElement | string | Default `article`. Pass the element to be used for the container.
+| containerElement | string | Default `article`. Pass the element to be used for the container. |
+| style | object | Pass the style object to be used for the container, overriding any root styles. |
 
 ## 🙇‍♂️ Thanks
 

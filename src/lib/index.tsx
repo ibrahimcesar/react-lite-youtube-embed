@@ -30,6 +30,7 @@ export interface LiteYouTubeProps {
   thumbnail?: string,
   rel?: string,
   containerElement?: keyof JSX.IntrinsicElements;
+  style?: React.CSSProperties;
 }
 
 function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: React.Ref<HTMLIFrameElement>) {
@@ -69,6 +70,7 @@ function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: React.Ref<HTMLI
   const onIframeAdded = props.onIframeAdded || function () { };
   const rel = props.rel ? 'prefetch' : 'preload';
   const ContainerElement = props.containerElement || 'article';
+  const style = props.style || {};
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -120,6 +122,7 @@ function LiteYouTubeEmbedComponent(props: LiteYouTubeProps, ref: React.Ref<HTMLI
           ...({
             '--aspect-ratio': `${(aspectHeight / aspectWidth) * 100}%`,
           } as React.CSSProperties),
+          ...style,
         }}
       >
         <button
