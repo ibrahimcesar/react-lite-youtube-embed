@@ -36,11 +36,12 @@
 }
 
 .lty-playbtn { 
-  background: rgba(33, 33, 33);
+  background: rgb(40, 40, 40);
   border-radius: 50% / 10%;
   color: #FFFFFF;
   font-size: 2.67vw; /* Reducido un 33% */
-  height: 5.33vw; /* Reducido un 33% */
+  height: 21%; /* Reducido un 33% */
+  width: 16%; /* Reducido un 33% */
   margin: 0;
   padding: 0;
   position: absolute; /* Cambiado de relative a absolute */
@@ -50,8 +51,8 @@
   text-align: center;
   text-indent: 0.1em;
   transition: all 150ms ease-out;
-  width: 8vw; /* Reducido un 33% */
-  opacity: 80%;
+  
+  /*opacity: 80%;*/
   border:none;
 }
 
@@ -72,12 +73,12 @@
 
 .lty-playbtn::after {
   border-style: solid;
-  border-width: 1.07vw 0 1.07vw 1.85vw; /* Reducido un 33% proporcionalmente */
-  border-color: transparent transparent transparent rgb(255, 255, 255);
+  border-width: 1.59em 0 1.59em 2.76em; /* Reducido un 33% proporcionalmente */
+  border-color: transparent transparent transparent #ffffff;
   content: ' ';
-  font-size: 1.07vw; /* Reducido un 33% proporcionalmente */
+  font-size: 1.391vw; /* Reducido un 33% proporcionalmente */
   height: 0;
-  margin: -1.07vw 0 0 -0.8vw; /* Reducido un 33% proporcionalmente */
+  margin: -2.2vw 0 0 -1.4vw; /* Reducido un 33% proporcionalmente */
   top: 50%;
   position: absolute;
   width: 0;
