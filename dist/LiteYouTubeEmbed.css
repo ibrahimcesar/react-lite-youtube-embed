@@ -7,7 +7,6 @@
   background-size: cover;
   cursor: pointer;
 }
-
 .yt-lite.lyt-activated::before {
   content: "";
   box-sizing: content-box;
@@ -34,33 +33,29 @@
   top: 0;
   left: 0;
 }
-
-.lty-playbtn { 
-  background: rgb(40, 40, 40);
+.yt-lite > .lty-playbtn { 
+  background: #282828;
   border-radius: 50% / 10%;
   color: #FFFFFF;
-  font-size: 2.67vw; /* Reducido un 33% */
-  height: 21%; /* Reducido un 33% */
-  width: 16%; /* Reducido un 33% */
+  font-size: 2.67vw; 
+  height: 21%; 
+  width: 16%; 
   margin: 0;
   padding: 0;
-  position: absolute; /* Cambiado de relative a absolute */
-  top: 50%; /* Centrado verticalmente */
-  left: 50%; /* Centrado horizontalmente */
-  transform: translate(-50%, -50%); /* Asegura que el elemento esté perfectamente centrado */
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
   text-align: center;
   text-indent: 0.1em;
   transition: all 150ms ease-out;
-  
-  /*opacity: 80%;*/
   border:none;
+  cursor: pointer;
 }
-
-.lty-playbtn:hover {
-  background: red;
+.yt-lite:hover > .lty-playbtn {
+  background: #ff0000;
 }
-
-.lty-playbtn::before { 
+.yt-lite > .lty-playbtn::before { 
   background: inherit;
   border-radius: 5% / 50%;
   bottom: 9%;
@@ -70,20 +65,18 @@
   right: -5%;
   top: 9%;
 }
-
-.lty-playbtn::after {
+.yt-lite > .lty-playbtn::after {
   border-style: solid;
-  border-width: 1.59em 0 1.59em 2.76em; /* Reducido un 33% proporcionalmente */
+  border-width: 1.59em 0 1.59em 2.76em; 
   border-color: transparent transparent transparent #ffffff;
   content: ' ';
-  font-size: 1.391vw; /* Reducido un 33% proporcionalmente */
+  font-size: 1.391vw; 
   height: 0;
-  margin: -2.2vw 0 0 -1.4vw; /* Reducido un 33% proporcionalmente */
+  margin: -2.2vw 0 0 -1.4vw; 
   top: 50%;
   position: absolute;
   width: 0;
 }
-
 .yt-lite.lyt-activated {
   cursor: unset;
 }
