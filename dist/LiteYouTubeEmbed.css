@@ -38,8 +38,8 @@
   border-radius: 50% / 10%;
   color: #FFFFFF;
   font-size: 2.67vw; 
-  height: 21%; 
-  width: 16%; 
+  aspect-ratio: 4 / 3;
+  width: 13%; 
   margin: 0;
   padding: 0;
   position: absolute; 
