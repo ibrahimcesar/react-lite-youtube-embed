@@ -7,7 +7,6 @@
   background-size: cover;
   cursor: pointer;
 }
-
 .yt-lite.lyt-activated::before {
   content: "";
   box-sizing: content-box;
@@ -34,31 +33,51 @@
   top: 0;
   left: 0;
 }
-.yt-lite > .lty-playbtn {
-  width: 70px;
-  height: 46px;
-  background-color: #212121;
-  z-index: 1;
-  opacity: 0.8;
-  border-radius: 14%;
-  transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+.yt-lite > .lty-playbtn { 
+  background: #282828;
+  border-radius: 50% / 10%;
+  color: #FFFFFF;
+  font-size: 2.67vw; 
+  aspect-ratio: 4 / 3;
+  width: 13%; 
+  margin: 0;
+  padding: 0;
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  text-align: center;
+  text-indent: 0.1em;
+  transition: all 150ms ease-out;
+  border:none;
+  cursor: pointer;
+  box-sizing:border-box;
 }
 .yt-lite:hover > .lty-playbtn {
-  background-color: red;
-  opacity: 1;
+  background: #ff0000;
 }
-.yt-lite > .lty-playbtn::before {
+.yt-lite > .lty-playbtn::before { 
+  background: inherit;
+  border-radius: 5% / 50%;
+  bottom: 9%;
   content: "";
-  border-color: transparent transparent transparent #fff;
-  border-style: solid;
-  border-width: 11px 0 11px 19px;
-}
-.yt-lite > .lty-playbtn,
-.yt-lite > .lty-playbtn::before {
+  left: -5%;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  right: -5%;
+  top: 9%;
+}
+.yt-lite > .lty-playbtn::after {
+  content: ' ';
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="e7W1PuLICMV1" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" project-id="9a75212fc1074c55af2cb0551ce2d224" export-id="575bc7e367f545e99d0ef0b67ae47337" cached="false"><polygon points="50,23.15 19,76.85 81,76.85 50,23.15" transform="matrix(0 4.83871-5.586592 0 429.3296-91.9355)" fill="%23fff"/></svg>');
+  aspect-ratio: 1 / 1;
+  height: 23%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: translate(-50%, -50%); 
+  top:50%;
+  position:absolute;
+
 }
 .yt-lite.lyt-activated {
   cursor: unset;
