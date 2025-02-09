@@ -51,6 +51,7 @@
   transition: all 150ms ease-out;
   border:none;
   cursor: pointer;
+  box-sizing:border-box;
 }
 .yt-lite:hover > .lty-playbtn {
   background: #ff0000;
@@ -66,16 +67,17 @@
   top: 9%;
 }
 .yt-lite > .lty-playbtn::after {
-  border-style: solid;
-  border-width: 1.59em 0 1.59em 2.76em; 
-  border-color: transparent transparent transparent #ffffff;
   content: ' ';
-  font-size: 1.391vw; 
-  height: 0;
-  margin: -2.2vw 0 0 -1.4vw; 
-  top: 50%;
-  position: absolute;
-  width: 0;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="e7W1PuLICMV1" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" project-id="9a75212fc1074c55af2cb0551ce2d224" export-id="575bc7e367f545e99d0ef0b67ae47337" cached="false"><polygon points="50,23.15 19,76.85 81,76.85 50,23.15" transform="matrix(0 4.83871-5.586592 0 429.3296-91.9355)" fill="%23fff"/></svg>');
+  aspect-ratio: 1 / 1;
+  height: 23%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: translate(-50%, -50%); 
+  top:50%;
+  position:absolute;
+
 }
 .yt-lite.lyt-activated {
   cursor: unset;
