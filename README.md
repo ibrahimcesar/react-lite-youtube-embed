@@ -39,7 +39,7 @@ npm install react-lite-youtube-embed -S
 import React from "react";
 import { render } from "react-dom";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 const App = () => (
   <div>
@@ -68,8 +68,8 @@ const App = () => (
        playlistCoverId="L2vS_050c-M" // The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe
        poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
        title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
-       noCookie={true} // Default false, connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
-       ref={myRef} // Use this ref prop to programmatically access the underlying iframe element
+       cookie={false} // Default false, don't connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
+       ref={myRef} // Use this ref prop to programmatically access the underlying iframe element. It will only have a value after the user pressed the play button
     />
   </div>
 );
@@ -91,6 +91,45 @@ const App = () => (
     />
   </div>
 );
+```
+
+## 🤖 Controlling the player
+
+You can programmatically control the YouTube player via [YouTubes IFrame Player API](https://developers.google.com/youtube/iframe_api_reference). However typically YouTube requires you to load an additional script from their servers (`https://www.youtube.com/iframe_api`), which is small but it will load another script. So this is neither performant nor very privacy-friendly. Instead, you can also send messages to the iframe via (`postMessage`)[https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage] using the ref prop. If you don't want to create the `postMessage()` calls yourself, there is also a little (wrapper library)[https://github.com/mich418/youtube-iframe-ctrl] for controlling the iframe with this method.
+
+> [!WARNING]  
+> This will only work if you set the `enableJsApi` prop to true. Also, the ref will only be defined, when the iframe has been loaded (which happens after clicking on the poster). So you can't start the player through this method. If you really want the player to always load the iframe right away (which is not good in terms of privacy), you can use the `alwaysLoadIframe` prop to do this.
+
+```jsx
+const App = () => (
+  const ytRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setIsPlaying((oldState) => !oldState);
+          ytRef.current?.contentWindow?.postMessage(
+            `{"event": "command", "func": "${isPlaying ? "pauseVideo" : "playVideo"}"}`,
+            "*",
+          );
+        }}
+      >
+        External Play Button
+      </button>
+      <YouTubeNew
+        title="My Video"
+        id="L2vS_050c-M"
+        ref={ytRef}
+        enableJsApi
+        alwaysLoadIframe
+      />
+    </div>
+  );
+};
+);
+
 ```
 
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
@@ -222,13 +261,13 @@ Not work on every framework but you can import the css directly, check what work
 <summary>Show me the code!</summary>
 
 ```ts
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import 'react-lite-youtube-embed/dist/index.css';
 ```
 
 or in a *.css/scss etc:
 
 ```css
-@import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+@import "~react-lite-youtube-embed/dist/index.css";
 ```
 
 </details>
@@ -246,7 +285,9 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | announce |    string   | Default: `Watch`. This will added to the button announce to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
+| cookie | boolean | Default: `false`. Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
+| enableJsApi | boolean | Default: `false`. If this is enabled, you can send messages to the iframe (e.g. access via the `ref` prop) to control the player programmatically. |
+| alwaysLoadIframe | boolean | Default: `false`. If this is enabled, the original YouTube iframe will always be loaded right away (this is bad for privacy). |
 | iframeClass | string |    Pass the string class for the own iFrame |
 | muted | boolean | If the video has sound or not. Required autoplay `true` to work |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
