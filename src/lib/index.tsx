@@ -42,7 +42,7 @@ function LiteYouTubeEmbedComponent(
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
   const videoId = encodeURIComponent(props.id);
-  const videoPlaylisCovertId =
+  const videoPlaylistCoverId =
     typeof props.playlistCoverId === "string"
       ? encodeURIComponent(props.playlistCoverId)
       : null;
@@ -76,7 +76,7 @@ function LiteYouTubeEmbedComponent(
     props.thumbnail ||
     (!props.playlist
       ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}`
-      : `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`);
+      : `https://i.ytimg.com/${vi}/${videoPlaylistCoverId}/${posterImp}.${format}`);
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
