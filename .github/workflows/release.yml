@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test:
-    name: Update docs
+    name: Testing the lib
     runs-on: ubuntu-18.04
     needs: tag
 
