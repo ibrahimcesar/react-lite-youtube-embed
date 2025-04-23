@@ -7,7 +7,7 @@ export type imgResolution =
   | "sddefault"
   | "maxresdefault";
 
-export interface LiteYouTube {
+export interface LiteYouTubeProps {
   announce?: string;
   id: string;
   title: string;
@@ -18,6 +18,8 @@ export interface LiteYouTube {
   iframeClass?: string;
   noCookie?: boolean;
   cookie?: boolean;
+  enableJsApi?: boolean;
+  alwaysLoadIframe?: boolean;
   params?: string;
   playerClass?: string;
   playlist?: boolean;
@@ -25,27 +27,37 @@ export interface LiteYouTube {
   poster?: imgResolution;
   webp?: boolean;
   wrapperClass?: string;
-  onIframeAdded?: () => void
-  muted?: boolean,
-  thumbnail?: string,
-  rel?: string,
+  onIframeAdded?: () => void;
+  muted?: boolean;
+  thumbnail?: string;
+  rel?: string;
+  containerElement?: keyof React.JSX.IntrinsicElements;
+  style?: React.CSSProperties;
 }
 
-export default function LiteYouTubeEmbed(props: LiteYouTube) {
+function LiteYouTubeEmbedComponent(
+  props: LiteYouTubeProps,
+  ref: React.Ref<HTMLIFrameElement>,
+) {
   const [preconnected, setPreconnected] = React.useState(false);
-  const [iframe, setIframe] = React.useState(false);
+  const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
   const videoId = encodeURIComponent(props.id);
-  const videoPlaylisCovertId = typeof props.playlistCoverId === 'string' ? encodeURIComponent(props.playlistCoverId) : null;
+  const videoPlaylistCoverId =
+    typeof props.playlistCoverId === "string"
+      ? encodeURIComponent(props.playlistCoverId)
+      : null;
   const videoTitle = props.title;
   const posterImp = props.poster || "hqdefault";
-  const paramsImp = `&${props.params}` || "";
-  const mutedImp = props.muted ? "&mute=1" : "";
   const announceWatch = props.announce || "Watch";
-  const format = props.webp ? 'webp' : 'jpg';
-  const vi = props.webp ? 'vi_webp' : 'vi';
-  const posterUrl = props.thumbnail || (!props.playlist 
-    ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}` 
-    : `https://i.ytimg.com/${vi}/${videoPlaylisCovertId}/${posterImp}.${format}`);
+
+  // Iframe Parameters
+  const iframeParams = new URLSearchParams({
+    ...(props.muted ? { mute: "1" } : {}),
+    // When the iframe is not loaded immediately, the video should play as soon as its loaded (which happens when the button is clicked)
+    ...(props.alwaysLoadIframe ? {} : { autoplay: "1", state: "1" }),
+    ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
+    ...(props.playlist ? { list: videoId } : {}),
+  });
 
   let ytUrl = props.noCookie
     ? "https://www.youtube-nocookie.com"
@@ -55,8 +67,16 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
     : "https://www.youtube-nocookie.com";
 
   const iframeSrc = !props.playlist
-    ? `${ytUrl}/embed/${videoId}?autoplay=1&state=1${mutedImp}${paramsImp}`
-    : `${ytUrl}/embed/videoseries?autoplay=1${mutedImp}&list=${videoId}${paramsImp}`;
+    ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
+    : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`;
+
+  const format = props.webp ? "webp" : "jpg";
+  const vi = props.webp ? "vi_webp" : "vi";
+  const posterUrl =
+    props.thumbnail ||
+    (!props.playlist
+      ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}`
+      : `https://i.ytimg.com/${vi}/${videoPlaylistCoverId}/${posterImp}.${format}`);
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
@@ -65,8 +85,10 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
   const iframeClassImp = props.iframeClass || "";
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
-  const onIframeAdded = props.onIframeAdded || function () { };
-  const rel = props.rel ? 'prefetch' : 'preload';
+  const onIframeAdded = props.onIframeAdded || function () {};
+  const rel = props.rel ? "prefetch" : "preload";
+  const ContainerElement = props.containerElement || "article";
+  const style = props.style || {};
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -86,11 +108,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
 
   return (
     <>
-      <link
-        rel={rel}
-        href={posterUrl}
-        as="image"
-      />
+      <link rel={rel} href={posterUrl} as="image" />
       <>
         {preconnected && (
           <>
@@ -108,7 +126,7 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
           </>
         )}
       </>
-      <article
+      <ContainerElement
         onPointerOver={warmConnections}
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
@@ -116,16 +134,19 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
         style={{
           backgroundImage: `url(${posterUrl})`,
           ...({
-            '--aspect-ratio': `${(aspectHeight / aspectWidth) * 100}%`,
+            "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
           } as React.CSSProperties),
+          ...style,
         }}
       >
         <button
           type="button"
           className={playerClassImp}
-          aria-label={`${announceWatch} ${videoTitle}`} />
+          aria-label={`${announceWatch} ${videoTitle}`}
+        />
         {iframe && (
           <iframe
+            ref={ref}
             className={iframeClassImp}
             title={videoTitle}
             width="560"
@@ -136,7 +157,11 @@ export default function LiteYouTubeEmbed(props: LiteYouTube) {
             src={iframeSrc}
           ></iframe>
         )}
-      </article>
+      </ContainerElement>
     </>
   );
 }
+
+export default React.forwardRef<HTMLIFrameElement, LiteYouTubeProps>(
+  LiteYouTubeEmbedComponent,
+);

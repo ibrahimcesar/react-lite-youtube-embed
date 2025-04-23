@@ -7,7 +7,7 @@
 
 [![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed)&nbsp; &nbsp;&nbsp; &nbsp;![Total Downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed?color=%23FF0000&logo=npm)&nbsp; &nbsp;&nbsp; &nbsp;[![License](https://badgen.net/github/license/ibrahimcesar/react-lite-youtube-embed)](./LICENSE)&nbsp; &nbsp;  &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/ibrahimcesar/react-lite-youtube-embed/bug)
 
- 
+
 <p>Developed in 🇧🇷 <span role="img" aria-label="Flag for Brazil">Brazil</p>
 
 <strong>Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.</strong>
@@ -39,11 +39,11 @@ npm install react-lite-youtube-embed -S
 import React from "react";
 import { render } from "react-dom";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 const App = () => (
   <div>
-    <LiteYouTubeEmbed 
+    <LiteYouTubeEmbed
         id="L2vS_050c-M"
         title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
     />
@@ -62,13 +62,14 @@ const App = () => (
   <div>
     <LiteYouTubeEmbed
        id="L2vS_050c-M" // Default none, id of the video or playlist
-       adNetwork={true} // Default true, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
+       adNetwork={false} // Default false, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
        params="" // any params you want to pass to the URL, assume we already had '&' and pass your parameters string
-       playlist={false} // Use  true when your ID be from a playlist
+       playlist={false} // Use true when your ID be from a playlist
        playlistCoverId="L2vS_050c-M" // The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe
        poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
        title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
-       noCookie={true} //Default false, connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
+       cookie={false} // Default false, don't connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
+       ref={myRef} // Use this ref prop to programmatically access the underlying iframe element. It will only have a value after the user pressed the play button
     />
   </div>
 );
@@ -90,6 +91,45 @@ const App = () => (
     />
   </div>
 );
+```
+
+## 🤖 Controlling the player
+
+You can programmatically control the YouTube player via [YouTubes IFrame Player API](https://developers.google.com/youtube/iframe_api_reference). However typically YouTube requires you to load an additional script from their servers (`https://www.youtube.com/iframe_api`), which is small but it will load another script. So this is neither performant nor very privacy-friendly. Instead, you can also send messages to the iframe via (`postMessage`)[https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage] using the ref prop. If you don't want to create the `postMessage()` calls yourself, there is also a little (wrapper library)[https://github.com/mich418/youtube-iframe-ctrl] for controlling the iframe with this method.
+
+> [!WARNING]  
+> This will only work if you set the `enableJsApi` prop to true. Also, the ref will only be defined, when the iframe has been loaded (which happens after clicking on the poster). So you can't start the player through this method. If you really want the player to always load the iframe right away (which is not good in terms of privacy), you can use the `alwaysLoadIframe` prop to do this.
+
+```jsx
+const App = () => (
+  const ytRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setIsPlaying((oldState) => !oldState);
+          ytRef.current?.contentWindow?.postMessage(
+            `{"event": "command", "func": "${isPlaying ? "pauseVideo" : "playVideo"}"}`,
+            "*",
+          );
+        }}
+      >
+        External Play Button
+      </button>
+      <YouTubeNew
+        title="My Video"
+        id="L2vS_050c-M"
+        ref={ytRef}
+        enableJsApi
+        alwaysLoadIframe
+      />
+    </div>
+  );
+};
+);
+
 ```
 
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
@@ -121,7 +161,6 @@ Place the necessary CSS in your Global CSS file method of preference
     display: block;
     position: absolute;
     top: 0;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQ7AIAgEF/T/D+kbq/RWAlnQyyazA4aoAB4FsBSA/bFjuF1EOL7VbrIrBuusmrt4ZZORfb6ehbWdnRHEIiITaEUKa5EJqUakRSaEYBJSCY2dEstQY7AuxahwXFrvZmWl2rh4JZ07z9dLtesfNj5q0FU3A5ObbwAAAABJRU5ErkJggg==);
     background-position: top;
     background-repeat: repeat-x;
     height: 60px;
@@ -148,16 +187,15 @@ Place the necessary CSS in your Global CSS file method of preference
 
 /* play button */
 .yt-lite > .lty-playbtn {
-    width: 70px;
+    width: 65px;
     height: 46px;
-    background-color: #212121;
     z-index: 1;
     opacity: 0.8;
-    border-radius: 14%; /* TODO: Consider replacing this with YT's actual svg. Eh. */
+    border: none;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22YouTube_Icon%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%201024%20721%22%20enable-background%3D%22new%200%200%201024%20721%22%20xml%3Aspace%3D%22preserve%22%3E%3Cscript%20xmlns%3D%22%22%3E%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20Object.defineProperty(navigator%2C%20%22globalPrivacyControl%22%2C%20%7B%0A%20%20%20%20%20%20%20%20value%3A%20false%2C%0A%20%20%20%20%20%20%20%20configurable%3A%20false%2C%0A%20%20%20%20%20%20%20%20writable%3A%20false%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20document.currentScript.parentElement.removeChild(document.currentScript)%3B%0A%20%20%20%20%7D%20catch(e)%20%7B%7D%3B%0A%20%20%20%20%20%20%3C%2Fscript%3E%0A%3Cpath%20id%3D%22Triangle%22%20fill%3D%22%23FFFFFF%22%20d%3D%22M407%2C493l276-143L407%2C206V493z%22%2F%3E%0A%3Cpath%20id%3D%22The_Sharpness%22%20opacity%3D%220.12%22%20fill%3D%22%23420000%22%20d%3D%22M407%2C206l242%2C161.6l34-17.6L407%2C206z%22%2F%3E%0A%3Cg%20id%3D%22Lozenge%22%3E%0A%09%3Cg%3E%0A%09%09%0A%09%09%09%3ClinearGradient%20id%3D%22SVGID_1_%22%20gradientUnits%3D%22userSpaceOnUse%22%20x1%3D%22512.5%22%20y1%3D%22719.7%22%20x2%3D%22512.5%22%20y2%3D%221.2%22%20gradientTransform%3D%22matrix(1%200%200%20-1%200%20721)%22%3E%0A%09%09%09%3Cstop%20offset%3D%220%22%20style%3D%22stop-color%3A%23E52D27%22%2F%3E%0A%09%09%09%3Cstop%20offset%3D%221%22%20style%3D%22stop-color%3A%23BF171D%22%2F%3E%0A%09%09%3C%2FlinearGradient%3E%0A%09%09%3Cpath%20fill%3D%22url(%23SVGID_1_)%22%20d%3D%22M1013%2C156.3c0%2C0-10-70.4-40.6-101.4C933.6%2C14.2%2C890%2C14%2C870.1%2C11.6C727.1%2C1.3%2C512.7%2C1.3%2C512.7%2C1.3%20%20%20%20h-0.4c0%2C0-214.4%2C0-357.4%2C10.3C135%2C14%2C91.4%2C14.2%2C52.6%2C54.9C22%2C85.9%2C12%2C156.3%2C12%2C156.3S1.8%2C238.9%2C1.8%2C321.6v77.5%20%20%20%20C1.8%2C481.8%2C12%2C564.4%2C12%2C564.4s10%2C70.4%2C40.6%2C101.4c38.9%2C40.7%2C89.9%2C39.4%2C112.6%2C43.7c81.7%2C7.8%2C347.3%2C10.3%2C347.3%2C10.3%20%20%20%20s214.6-0.3%2C357.6-10.7c20-2.4%2C63.5-2.6%2C102.3-43.3c30.6-31%2C40.6-101.4%2C40.6-101.4s10.2-82.7%2C10.2-165.3v-77.5%20%20%20%20C1023.2%2C238.9%2C1013%2C156.3%2C1013%2C156.3z%20M407%2C493V206l276%2C144L407%2C493z%22%2F%3E%0A%09%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E");
     transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
 .yt-lite:hover > .lty-playbtn {
-    background-color: #f00;
     opacity: 1;
 }
 /* play button triangle */
@@ -223,13 +261,13 @@ Not work on every framework but you can import the css directly, check what work
 <summary>Show me the code!</summary>
 
 ```ts
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import 'react-lite-youtube-embed/dist/index.css';
 ```
 
 or in a *.css/scss etc:
 
 ```css
-@import "~react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+@import "~react-lite-youtube-embed/dist/index.css";
 ```
 
 </details>
@@ -247,7 +285,9 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | announce |    string   | Default: `Watch`. This will added to the button announce to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
 | aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
 | aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| cookie | boolean |    Default: `false` Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
+| cookie | boolean | Default: `false`. Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
+| enableJsApi | boolean | Default: `false`. If this is enabled, you can send messages to the iframe (e.g. access via the `ref` prop) to control the player programmatically. |
+| alwaysLoadIframe | boolean | Default: `false`. If this is enabled, the original YouTube iframe will always be loaded right away (this is bad for privacy). |
 | iframeClass | string |    Pass the string class for the own iFrame |
 | muted | boolean | If the video has sound or not. Required autoplay `true` to work |
 | noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
@@ -261,6 +301,8 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | thumbnail | string |   Pass an optional image url to override the default poster and set a custom poster image |
 | webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
 | wrapperClass | string |   Pass the string class that wraps the iFrame |
+| containerElement | string | Default `article`. Pass the element to be used for the container. |
+| style | object | Pass the style object to be used for the container, overriding any root styles. |
 
 ## 🙇‍♂️ Thanks
 
@@ -274,11 +316,11 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 
 ### 🈺 TODO
 
-- [ ] Add tests
+- [x] Add tests
 
 ## MIT License
 
-Copyright (c) 2020 — 2022 [Ibrahim Cesar](https://ibrahimcesar.cloud)
+Copyright (c) 2021 — 2023 [Ibrahim Cesar](https://ibrahimcesar.cloud)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

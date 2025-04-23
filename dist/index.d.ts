@@ -1,5 +1,6 @@
-export declare type imgResolution = "default" | "mqdefault" | "hqdefault" | "sddefault" | "maxresdefault";
-export interface LiteYouTube {
+import * as React from "react";
+export type imgResolution = "default" | "mqdefault" | "hqdefault" | "sddefault" | "maxresdefault";
+export interface LiteYouTubeProps {
     announce?: string;
     id: string;
     title: string;
@@ -10,6 +11,8 @@ export interface LiteYouTube {
     iframeClass?: string;
     noCookie?: boolean;
     cookie?: boolean;
+    enableJsApi?: boolean;
+    alwaysLoadIframe?: boolean;
     params?: string;
     playerClass?: string;
     playlist?: boolean;
@@ -21,5 +24,8 @@ export interface LiteYouTube {
     muted?: boolean;
     thumbnail?: string;
     rel?: string;
+    containerElement?: keyof React.JSX.IntrinsicElements;
+    style?: React.CSSProperties;
 }
-export default function LiteYouTubeEmbed(props: LiteYouTube): JSX.Element;
+declare const _default: React.ForwardRefExoticComponent<LiteYouTubeProps & React.RefAttributes<HTMLIFrameElement>>;
+export default _default;

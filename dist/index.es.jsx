@@ -70,6 +70,7 @@ function LiteYouTubeEmbed(props) {
     var wrapperClassImp = props.wrapperClass || "yt-lite";
     var onIframeAdded = props.onIframeAdded || function () { };
     var rel = props.rel ? 'prefetch' : 'preload';
+    var ContainerElement = props.containerElement || 'article';
     var warmConnections = function () {
         if (preconnected)
             return;
@@ -93,7 +94,7 @@ function LiteYouTubeEmbed(props) {
             adNetworkImp && (React.createElement(React.Fragment, null,
                 React.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
                 React.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React.createElement("article", { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
+        React.createElement(ContainerElement, { onPointerOver: warmConnections, onClick: addIframe, className: wrapperClassImp + " " + (iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign({ backgroundImage: "url(" + posterUrl + ")" }, {
                 '--aspect-ratio': (aspectHeight / aspectWidth) * 100 + "%",
             }) },
             React.createElement("button", { type: "button", className: playerClassImp, "aria-label": announceWatch + " " + videoTitle }),
