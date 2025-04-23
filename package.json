@@ -1,6 +1,6 @@
 {
   "name": "react-lite-youtube-embed",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "A private by default, faster and cleaner YouTube embed component for React applications",
   "type": "module",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
+    "url": "git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git"
   },
   "author": {
     "name": "Ibrahim Cesar",
