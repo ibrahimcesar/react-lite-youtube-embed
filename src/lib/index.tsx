@@ -1,12 +1,6 @@
 import * as React from "react";
 import useYoutubeThumbnail from "./useYoutubeThumbnail";
-
-export type imgResolution =
-  | "default"
-  | "mqdefault"
-  | "hqdefault"
-  | "sddefault"
-  | "maxresdefault";
+import { imgResolution } from "./useYoutubeThumbnail";
 
 export interface LiteYouTubeProps {
   announce?: string;
@@ -78,7 +72,7 @@ function LiteYouTubeEmbedComponent(
   const vi = props.webp ? "vi_webp" : "vi";
 
   const dynamicThumbnailUrl = useDynamicThumbnail
-    ? useYoutubeThumbnail(props.id, vi, format)
+    ? useYoutubeThumbnail(props.id, vi, format, posterImp)
     : null;
 
   const posterUrl =
