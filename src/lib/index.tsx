@@ -1,11 +1,6 @@
 import * as React from "react";
-
-export type imgResolution =
-  | "default"
-  | "mqdefault"
-  | "hqdefault"
-  | "sddefault"
-  | "maxresdefault";
+import useYoutubeThumbnail from "./useYoutubeThumbnail";
+import { imgResolution } from "./useYoutubeThumbnail";
 
 export interface LiteYouTubeProps {
   announce?: string;
@@ -37,7 +32,7 @@ export interface LiteYouTubeProps {
 
 function LiteYouTubeEmbedComponent(
   props: LiteYouTubeProps,
-  ref: React.Ref<HTMLIFrameElement>,
+  ref: React.Ref<HTMLIFrameElement>
 ) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
@@ -70,13 +65,22 @@ function LiteYouTubeEmbedComponent(
     ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
     : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`;
 
+  const useDynamicThumbnail =
+    !props.thumbnail && !props.playlist && posterImp === "maxresdefault";
+
   const format = props.webp ? "webp" : "jpg";
   const vi = props.webp ? "vi_webp" : "vi";
+
+  const dynamicThumbnailUrl = useDynamicThumbnail
+    ? useYoutubeThumbnail(props.id, vi, format, posterImp)
+    : null;
+
   const posterUrl =
     props.thumbnail ||
-    (!props.playlist
-      ? `https://i.ytimg.com/${vi}/${videoId}/${posterImp}.${format}`
-      : `https://i.ytimg.com/${vi}/${videoPlaylistCoverId}/${posterImp}.${format}`);
+    dynamicThumbnailUrl ||
+    `https://i.ytimg.com/${vi}/${
+      props.playlist ? videoPlaylistCoverId : videoId
+    }/${posterImp}.${format}`;
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
@@ -163,5 +167,5 @@ function LiteYouTubeEmbedComponent(
 }
 
 export default React.forwardRef<HTMLIFrameElement, LiteYouTubeProps>(
-  LiteYouTubeEmbedComponent,
+  LiteYouTubeEmbedComponent
 );
