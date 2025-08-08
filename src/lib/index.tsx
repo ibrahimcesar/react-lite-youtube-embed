@@ -24,6 +24,7 @@ export interface LiteYouTubeProps {
   wrapperClass?: string;
   onIframeAdded?: () => void;
   muted?: boolean;
+  autoplay: boolean;
   thumbnail?: string;
   rel?: string;
   containerElement?: keyof React.JSX.IntrinsicElements;
@@ -45,11 +46,14 @@ function LiteYouTubeEmbedComponent(
   const posterImp = props.poster || "hqdefault";
   const announceWatch = props.announce || "Watch";
 
+  const shouldAddAutoplayParam = props.alwaysLoadIframe
+    ? props.autoplay && props.muted
+    : true; // When the iframe is not loaded immediately, the video should play as soon as its loaded (which happens when the button is clicked)
+
   // Iframe Parameters
   const iframeParams = new URLSearchParams({
     ...(props.muted ? { mute: "1" } : {}),
-    // When the iframe is not loaded immediately, the video should play as soon as its loaded (which happens when the button is clicked)
-    ...(props.alwaysLoadIframe ? {} : { autoplay: "1", state: "1" }),
+    ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
     ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
     ...(props.playlist ? { list: videoId } : {}),
   });
