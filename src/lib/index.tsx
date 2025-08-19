@@ -33,7 +33,7 @@ export interface LiteYouTubeProps {
 
 function LiteYouTubeEmbedComponent(
   props: LiteYouTubeProps,
-  ref: React.Ref<HTMLIFrameElement>
+  ref: React.Ref<HTMLIFrameElement>,
 ) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
@@ -57,6 +57,16 @@ function LiteYouTubeEmbedComponent(
     ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
     ...(props.playlist ? { list: videoId } : {}),
   });
+
+  // parse props.params into individual search parameters and append them to iframeParams
+  if (props.params) {
+    const additionalParams = new URLSearchParams(
+      props.params.startsWith("&") ? props.params.slice(1) : props.params,
+    );
+    additionalParams.forEach((value, key) => {
+      iframeParams.append(key, value);
+    });
+  }
 
   let ytUrl = props.noCookie
     ? "https://www.youtube-nocookie.com"
@@ -171,5 +181,5 @@ function LiteYouTubeEmbedComponent(
 }
 
 export default React.forwardRef<HTMLIFrameElement, LiteYouTubeProps>(
-  LiteYouTubeEmbedComponent
+  LiteYouTubeEmbedComponent,
 );
