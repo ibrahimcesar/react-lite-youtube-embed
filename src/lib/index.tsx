@@ -24,7 +24,7 @@ export interface LiteYouTubeProps {
   wrapperClass?: string;
   onIframeAdded?: () => void;
   muted?: boolean;
-  autoplay: boolean;
+  autoplay?: boolean;
   thumbnail?: string;
   rel?: string;
   containerElement?: keyof React.JSX.IntrinsicElements;
