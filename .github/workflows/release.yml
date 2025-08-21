@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build the project
+        run: npm run build
+
       - name: Run the test suite
         run: npm run test
 
@@ -52,6 +55,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm install
+
+      - name: Build the project
+        run: npm run build
+
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
