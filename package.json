@@ -1,6 +1,6 @@
 {
   "name": "@nicojav/react-lite-youtube-embed",
-  "version": "2.5.5-rc3",
+  "version": "2.5.5-rc4",
   "description": "A private by default, faster and cleaner YouTube embed component for React applications",
   "type": "module",
   "main": "dist/index.js",
@@ -33,6 +33,15 @@
     "YouTube Embed",
     "Adaptive Loading"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.es.js"
+    },
+    "./dist/LiteYouTubeEmbed.css": "./dist/LiteYouTubeEmbed.css"
+  },
   "publishConfig": {
     "access": "public"
   },
