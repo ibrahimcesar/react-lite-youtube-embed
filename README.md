@@ -315,10 +315,6 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 
 - [Why I made my open source React component private by default](https://ibrahimcesar.cloud/blog/why-i-made-my-open-source-react-component-private-by-default/)
 
-### 🈺 TODO
-
-- [x] Add tests
-
 ## MIT License
 
 Copyright (c) 2021 — 2025 [Ibrahim Cesar](https://ibrahimcesar.cloud)
