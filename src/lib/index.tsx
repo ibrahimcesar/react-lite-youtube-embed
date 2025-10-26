@@ -173,6 +173,7 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
+            referrerPolicy="strict-origin-when-cross-origin"
           ></iframe>
         )}
       </ContainerElement>
