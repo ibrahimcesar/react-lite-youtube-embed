@@ -12,6 +12,11 @@ on:
           - minor
           - major
         default: 'patch'
+      is_beta:
+        description: 'Is this a beta release?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   create-release:
@@ -59,7 +64,11 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-          NEW_VERSION=$(npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version)
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            NEW_VERSION=$(npm version prerelease --preid=beta --no-git-tag-version)
+          else
+            NEW_VERSION=$(npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version)
+          fi
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "New version: $NEW_VERSION"
 
@@ -168,27 +177,52 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ steps.bump_version.outputs.version }} \
-            --title "Release ${{ steps.bump_version.outputs.version }}" \
-            --notes-file CHANGELOG.md \
-            --verify-tag
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            gh release create ${{ steps.bump_version.outputs.version }} \
+              --title "Release ${{ steps.bump_version.outputs.version }} (Beta)" \
+              --notes-file CHANGELOG.md \
+              --verify-tag \
+              --prerelease
+          else
+            gh release create ${{ steps.bump_version.outputs.version }} \
+              --title "Release ${{ steps.bump_version.outputs.version }}" \
+              --notes-file CHANGELOG.md \
+              --verify-tag
+          fi
 
       - name: Publish to NPM
-        run: npm publish
+        run: |
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            npm publish --tag beta
+          else
+            npm publish
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create release summary
         run: |
-          echo "## 🎉 Release ${{ steps.bump_version.outputs.version }} Published!" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            echo "## 🧪 Beta Release ${{ steps.bump_version.outputs.version }} Published!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## 🎉 Release ${{ steps.bump_version.outputs.version }} Published!" >> $GITHUB_STEP_SUMMARY
+          fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Package Information" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ steps.clean_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Previous Version**: ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Bump Type**: ${{ github.event.inputs.version_bump }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            echo "- **Release Type**: Beta (prerelease)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Bump Type**: ${{ github.event.inputs.version_bump }}" >> $GITHUB_STEP_SUMMARY
+          fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
           echo "- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [NPM Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            echo "- [NPM Package (beta)](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- [NPM Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          fi
           echo "" >> $GITHUB_STEP_SUMMARY
           cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY

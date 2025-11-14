@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.5.6
+* react-lite-youtube-embed v2.5.7-beta.0
 *  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
@@ -11,23 +11,23 @@
 */
 import { jsxs as h, Fragment as f, jsx as n } from "react/jsx-runtime";
 import * as r from "react";
-import { useState as R, useEffect as H } from "react";
-const J = {
+import { useState as F, useEffect as R } from "react";
+const H = {
   default: 120,
   mqdefault: 320,
   hqdefault: 480,
   sddefault: 640,
   maxresdefault: 1280
-}, _ = (t, a, d, u = "maxresdefault") => {
-  const [e, o] = R("");
-  return H(() => {
-    const l = `https://img.youtube.com/${a}/${t}/${u}.${d}`, m = `https://img.youtube.com/${a}/${t}/hqdefault.${d}`, c = J[u], i = new Image();
+}, J = (t, a, d, u = "maxresdefault") => {
+  const [e, o] = F("");
+  return R(() => {
+    const l = `https://img.youtube.com/${a}/${t}/${u}.${d}`, m = `https://img.youtube.com/${a}/${t}/hqdefault.${d}`, c = H[u], i = new Image();
     i.onload = () => {
       i.width < c ? o(m) : o(l);
     }, i.onerror = () => o(m), i.src = l;
   }, [t, a, d, u]), e;
 };
-function V(t, a, d, u, e) {
+function _(t, a, d, u, e) {
   const o = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -41,7 +41,7 @@ function V(t, a, d, u, e) {
   };
   return JSON.stringify(o);
 }
-function z(t, a) {
+function V(t, a) {
   const [d, u] = r.useState(!1), [e, o] = r.useState(t.alwaysLoadIframe || !1), l = encodeURIComponent(t.id), m = typeof t.playlistCoverId == "string" ? encodeURIComponent(t.playlistCoverId) : null, c = t.title, i = t.poster || "hqdefault", g = t.announce || "Watch", I = t.alwaysLoadIframe ? t.autoplay && t.muted : !0, y = r.useMemo(() => {
     const v = new URLSearchParams({
       ...t.muted ? { mute: "1" } : {},
@@ -51,8 +51,8 @@ function z(t, a) {
     });
     return t.params && new URLSearchParams(
       t.params.startsWith("&") ? t.params.slice(1) : t.params
-    ).forEach((q, F) => {
-      v.append(F, q);
+    ).forEach((Y, q) => {
+      v.append(q, Y);
     }), v;
   }, [t.muted, I, t.enableJsApi, t.playlist, l, t.params]), s = r.useMemo(
     () => t.cookie ? "https://www.youtube.com" : "https://www.youtube-nocookie.com",
@@ -60,16 +60,16 @@ function z(t, a) {
   ), U = r.useMemo(
     () => t.playlist ? `${s}/embed/videoseries?${y.toString()}` : `${s}/embed/${l}?${y.toString()}`,
     [t.playlist, s, l, y]
-  ), S = !t.thumbnail && !t.playlist && i === "maxresdefault", b = t.webp ? "webp" : "jpg", w = t.webp ? "vi_webp" : "vi", k = S ? _(t.id, w, b, i) : null, $ = r.useMemo(
+  ), S = !t.thumbnail && !t.playlist && i === "maxresdefault", b = t.webp ? "webp" : "jpg", w = t.webp ? "vi_webp" : "vi", k = S ? J(t.id, w, b, i) : null, $ = r.useMemo(
     () => t.thumbnail || k || `https://i.ytimg.com/${w}/${t.playlist ? m : l}/${i}.${b}`,
     [t.thumbnail, k, w, t.playlist, m, l, i, b]
   ), x = t.activatedClass || "lyt-activated", P = t.adNetwork || !1, T = t.aspectHeight || 9, W = t.aspectWidth || 16, L = t.iframeClass || "", N = t.playerClass || "lty-playbtn", j = t.wrapperClass || "yt-lite", C = r.useCallback(
     t.onIframeAdded || function() {
     },
     [t.onIframeAdded]
-  ), A = t.rel ? "prefetch" : "preload", D = t.containerElement || "article", E = t.style || {}, M = t.noscriptFallback !== !1, O = () => {
+  ), A = t.rel ? "prefetch" : "preload", D = t.containerElement || "article", E = t.noscriptFallback !== !1, M = () => {
     d || u(!0);
-  }, Y = () => {
+  }, O = () => {
     e || o(!0);
   };
   return r.useEffect(() => {
@@ -95,7 +95,7 @@ function z(t, a) {
       {
         type: "application/ld+json",
         dangerouslySetInnerHTML: {
-          __html: V(
+          __html: _(
             t.id,
             c,
             $,
@@ -105,7 +105,7 @@ function z(t, a) {
         }
       }
     ),
-    M && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ h(
+    E && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ h(
       "a",
       {
         href: `https://www.youtube.com/watch?v=${t.id}`,
@@ -120,8 +120,8 @@ function z(t, a) {
     /* @__PURE__ */ h(
       D,
       {
-        onPointerOver: O,
-        onClick: Y,
+        onPointerOver: M,
+        onClick: O,
         className: `${j} ${e ? x : ""}`,
         "data-title": c,
         role: e ? void 0 : "img",
@@ -129,7 +129,7 @@ function z(t, a) {
         style: {
           backgroundImage: `url(${$})`,
           "--aspect-ratio": `${T / W * 100}%`,
-          ...E
+          ...t.style || {}
         },
         children: [
           /* @__PURE__ */ n(
@@ -163,10 +163,10 @@ function z(t, a) {
     )
   ] });
 }
-const Q = r.forwardRef(
-  z
+const K = r.forwardRef(
+  V
 );
 export {
-  Q as default
+  K as default
 };
 //# sourceMappingURL=index.es.js.map

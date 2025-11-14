@@ -268,10 +268,9 @@ describe("LiteYouTubeEmbed", () => {
 
     // Check if custom styles are applied
     const article = container.querySelector("article");
-    expect(article).toHaveStyle({
-      border: "2px solid red",
-      borderRadius: "10px",
-    });
+    const styleAttr = article?.getAttribute("style");
+    expect(styleAttr).toContain("border: 2px solid red");
+    expect(styleAttr).toContain("border-radius: 10px");
   });
 
   test("renders with muted parameter", () => {
