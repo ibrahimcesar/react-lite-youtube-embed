@@ -197,6 +197,38 @@ Comprehensive code review identified **21 improvement opportunities** across cri
 
 This document you're reading! 📝
 
+**Plus: Automated Release Workflow**
+
+Added comprehensive automated release system:
+
+1. **New Workflow: `auto-release.yml`**
+   - Manual workflow dispatch with version selection (patch/minor/major)
+   - Automated version bumping in package.json
+   - Intelligent changelog generation from git commits
+   - Groups changes by type (features, fixes, docs, perf, a11y)
+   - Lists all contributors automatically
+   - Creates git tag and GitHub release
+   - Publishes to NPM automatically
+   - Provides detailed summary
+
+2. **Enhanced: `release.yml`**
+   - Applied CI/CD optimizations (npm cache, artifacts sharing)
+   - Works for manual GitHub releases
+
+3. **Documentation: `.github/RELEASE.md`**
+   - Complete release process guide
+   - Conventional commit guidelines
+   - Troubleshooting section
+   - Best practices
+   - Emergency procedures
+
+**Benefits:**
+- ✅ Consistent release process
+- ✅ Professional changelogs
+- ✅ Contributor recognition
+- ✅ Reduced manual errors
+- ✅ Semantic versioning enforcement
+
 ---
 
 ## Summary Statistics
@@ -215,11 +247,14 @@ This document you're reading! 📝
 | Metric | Count |
 |--------|-------|
 | Pull Requests | 6 |
-| Files Modified | 12 |
-| Lines Changed | ~200 |
+| Files Modified | 15 |
+| Lines Changed | ~650 |
 | New Configurations | 2 (.eslintrc.json, .prettierrc.json) |
+| New Workflows | 1 (auto-release.yml) |
+| Enhanced Workflows | 1 (release.yml) |
 | Deprecated Files Removed | 1 (jest.config.js) |
 | New Props Added | 2 (focusOnLoad, referrerPolicy) |
+| Documentation Added | 2 (CLAUDE.md, .github/RELEASE.md) |
 | Tests | 20/20 passing ✅ |
 
 ---
