@@ -45,7 +45,7 @@ const App = () => (
   <div>
     <LiteYouTubeEmbed
         id="L2vS_050c-M"
-        title="What’s new in Material Design for the web (Chrome Dev Summit 2019)"
+        title="What's new in Material Design for the web (Chrome Dev Summit 2019)"
     />
   </div>
 );
@@ -54,6 +54,121 @@ render(<App />, document.getElementById("root"));
 ```
 
 And that's it.
+
+## 🔍 SEO & Search Engine Optimization
+
+Improve your video discoverability in search engines with structured data and fallback links.
+
+### Why SEO Matters
+
+By default, search engine crawlers cannot discover videos embedded with lite embeds because:
+- No followable links exist before user interaction
+- No structured metadata for search engines to index
+- The facade pattern is invisible to crawlers
+
+This component now supports **JSON-LD structured data** and **noscript fallbacks** to solve these issues.
+
+### Basic SEO Setup
+
+```javascript
+<LiteYouTubeEmbed
+  id="L2vS_050c-M"
+  title="What's new in Material Design"
+  seo={{
+    name: "What's new in Material Design for the web",
+    description: "Learn about the latest Material Design updates presented at Chrome Dev Summit 2019",
+    uploadDate: "2019-11-11T08:00:00Z",
+    duration: "PT15M33S"
+  }}
+/>
+```
+
+This will generate:
+- ✅ **JSON-LD structured data** following [schema.org VideoObject](https://schema.org/VideoObject)
+- ✅ **Noscript fallback** with direct YouTube link (enabled by default)
+- ✅ **Google rich results** eligibility (video carousels, thumbnails in search)
+
+### Fetching Video Metadata
+
+Use the included helper script to quickly fetch video metadata:
+
+```bash
+# Make the script executable (first time only)
+chmod +x scripts/fetch-youtube-metadata.sh
+
+# Fetch metadata in JSON format
+./scripts/fetch-youtube-metadata.sh dQw4w9WgXcQ
+
+# Get ready-to-use React component code
+./scripts/fetch-youtube-metadata.sh dQw4w9WgXcQ --format react
+```
+
+**Requirements:** `curl` and `jq` must be installed.
+
+The script uses YouTube's oEmbed API (no auth required) and provides:
+- Video title
+- Thumbnail URL
+- Template with TODO fields for description, upload date, and duration
+
+### Manual Metadata Collection
+
+For complete metadata, you can:
+
+1. **Visit the video page** and manually copy:
+   - Description
+   - Upload date (convert to ISO 8601: `YYYY-MM-DDTHH:MM:SSZ`)
+   - Duration (convert to ISO 8601: `PT#H#M#S`)
+
+2. **Use YouTube Data API v3** ([get free API key](https://console.cloud.google.com/apis/credentials)):
+   ```bash
+   curl "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=VIDEO_ID&key=YOUR_API_KEY"
+   ```
+
+3. **Browser DevTools approach**:
+   - Open video page → Inspect → Search for `"datePublished"` and `"duration"` in HTML
+
+### Duration Format Examples
+
+ISO 8601 duration format: `PT#H#M#S`
+
+- `"PT3M33S"` - 3 minutes 33 seconds
+- `"PT15M"` - 15 minutes
+- `"PT1H30M"` - 1 hour 30 minutes
+- `"PT2H15M30S"` - 2 hours 15 minutes 30 seconds
+
+### SEO Prop Reference
+
+```typescript
+interface VideoSEO {
+  name?: string;           // Video title (falls back to title prop)
+  description?: string;    // Video description (50-160 chars recommended)
+  uploadDate?: string;     // ISO 8601 date (e.g., "2024-01-15T08:00:00Z")
+  duration?: string;       // ISO 8601 duration (e.g., "PT3M33S")
+  thumbnailUrl?: string;   // Custom thumbnail (auto-generated if omitted)
+  contentUrl?: string;     // YouTube watch URL (auto-generated)
+  embedUrl?: string;       // Embed URL (auto-generated)
+}
+```
+
+### Disabling Noscript Fallback
+
+The noscript fallback is enabled by default. To disable:
+
+```javascript
+<LiteYouTubeEmbed
+  id="L2vS_050c-M"
+  title="Video Title"
+  noscriptFallback={false}
+/>
+```
+
+### Verify Your SEO Setup
+
+Test your structured data with Google's tools:
+- [Rich Results Test](https://search.google.com/test/rich-results)
+- [Schema Markup Validator](https://validator.schema.org/)
+
+**Note:** Playlists do not support SEO structured data (only individual videos).
 
 ## 💎 Pro Usage
 
@@ -290,9 +405,11 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | containerElement | string | `"article"` | The HTML element to be used for the container |
 | cookie | boolean | `false` | Set to `true` to use https://www.youtube.com instead of Privacy-Enhanced Mode (https://www.youtube-nocookie.com) |
 | enableJsApi | boolean | `false` | If enabled, you can send messages to the iframe (via the `ref` prop) to control the player programmatically |
+| focusOnLoad | boolean | `false` | Automatically focus iframe when loaded (useful for keyboard navigation) |
 | iframeClass | string | `""` | Pass the string class for the iframe element itself |
 | muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
 | noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
+| noscriptFallback | boolean | `true` | Include noscript tag with YouTube link for accessibility and SEO crawlers |
 | onIframeAdded | function | `undefined` | Callback fired when iframe loads |
 | params | string | `""` | Additional params to pass to the URL. Format: `start=1150&other=value`. Don't include `?` or leading `&`. Note: use `start` not `t` for time |
 | playerClass | string | `"lty-playbtn"` | Pass the string class for the player button to customize it |
@@ -301,6 +418,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | poster | `"default"` \| `"mqdefault"` \| `"hqdefault"` \| `"sddefault"` \| `"maxresdefault"` | `"hqdefault"` | Defines the image size for the poster. Note: `sddefault` and `maxresdefault` aren't always available. See: [YouTube API docs](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
 | referrerPolicy | string | `"strict-origin-when-cross-origin"` | Sets the referrer policy for the iframe |
 | rel | string | `"preload"` | Allows for `prefetch` or `preload` of the link url |
+| seo | VideoSEO | `undefined` | SEO metadata for search engines. Generates JSON-LD structured data. See [SEO section](#-seo--search-engine-optimization) for details |
 | style | object | `{}` | Style object for the container, overriding any root styles |
 | thumbnail | string | `undefined` | Pass an optional image url to override the default poster and set a custom poster image |
 | webp | boolean | `false` | When set, uses the WebP format for poster images |

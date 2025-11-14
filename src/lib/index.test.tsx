@@ -357,4 +357,192 @@ describe("LiteYouTubeEmbed", () => {
     expect(ref.current).not.toBeNull();
     expect(ref.current!.tagName).toBe("IFRAME");
   });
+
+  describe("SEO features", () => {
+    test("renders JSON-LD structured data when seo prop is provided", () => {
+      const seoProps = {
+        ...defaultProps,
+        seo: {
+          name: "Rick Astley - Never Gonna Give You Up (Official Video)",
+          description: "The official video for Rick Astley's 1987 hit Never Gonna Give You Up",
+          uploadDate: "2009-10-25T00:00:00Z",
+          duration: "PT3M33S",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...seoProps} />);
+
+      // Check if JSON-LD script is rendered
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      expect(jsonLdScript).toBeInTheDocument();
+
+      // Parse and verify JSON-LD content
+      if (jsonLdScript && jsonLdScript.textContent) {
+        const jsonLdData = JSON.parse(jsonLdScript.textContent);
+        expect(jsonLdData["@context"]).toBe("https://schema.org");
+        expect(jsonLdData["@type"]).toBe("VideoObject");
+        expect(jsonLdData.name).toBe(seoProps.seo.name);
+        expect(jsonLdData.description).toBe(seoProps.seo.description);
+        expect(jsonLdData.uploadDate).toBe(seoProps.seo.uploadDate);
+        expect(jsonLdData.duration).toBe(seoProps.seo.duration);
+        expect(jsonLdData.contentUrl).toBe(
+          `https://www.youtube.com/watch?v=${defaultProps.id}`
+        );
+        expect(jsonLdData.embedUrl).toBe(
+          `https://www.youtube-nocookie.com/embed/${defaultProps.id}`
+        );
+        expect(Array.isArray(jsonLdData.thumbnailUrl)).toBe(true);
+        expect(jsonLdData.thumbnailUrl.length).toBeGreaterThan(0);
+      }
+    });
+
+    test("falls back to title prop when seo.name is not provided", () => {
+      const seoProps = {
+        ...defaultProps,
+        seo: {
+          description: "A great video",
+          duration: "PT3M33S",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...seoProps} />);
+
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      if (jsonLdScript && jsonLdScript.textContent) {
+        const jsonLdData = JSON.parse(jsonLdScript.textContent);
+        expect(jsonLdData.name).toBe(defaultProps.title);
+      }
+    });
+
+    test("uses custom thumbnailUrl when provided in seo prop", () => {
+      const customThumbnailUrl = "https://example.com/custom-thumbnail.jpg";
+      const seoProps = {
+        ...defaultProps,
+        seo: {
+          thumbnailUrl: customThumbnailUrl,
+          duration: "PT3M33S",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...seoProps} />);
+
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      if (jsonLdScript && jsonLdScript.textContent) {
+        const jsonLdData = JSON.parse(jsonLdScript.textContent);
+        expect(jsonLdData.thumbnailUrl).toContain(customThumbnailUrl);
+      }
+    });
+
+    test("does not render JSON-LD for playlists", () => {
+      const playlistProps = {
+        ...defaultProps,
+        playlist: true,
+        seo: {
+          name: "My Playlist",
+          duration: "PT10M",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...playlistProps} />);
+
+      // JSON-LD should not be rendered for playlists
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      expect(jsonLdScript).not.toBeInTheDocument();
+    });
+
+    test("renders noscript fallback by default", () => {
+      const { container } = render(<LiteYouTubeEmbed {...defaultProps} />);
+
+      // Check if noscript element is rendered
+      const noscript = container.querySelector("noscript");
+      expect(noscript).toBeInTheDocument();
+
+      // Check if noscript contains the expected content
+      if (noscript && noscript.innerHTML) {
+        expect(noscript.innerHTML).toContain(
+          `https://www.youtube.com/watch?v=${defaultProps.id}`
+        );
+        expect(noscript.innerHTML).toContain(defaultProps.title);
+        expect(noscript.innerHTML).toContain("on YouTube");
+        expect(noscript.innerHTML).toContain(
+          `Watch ${defaultProps.title} on YouTube`
+        );
+      }
+    });
+
+    test("does not render noscript when noscriptFallback is false", () => {
+      const { container } = render(
+        <LiteYouTubeEmbed {...defaultProps} noscriptFallback={false} />
+      );
+
+      // Noscript should not be rendered
+      const noscript = container.querySelector("noscript");
+      expect(noscript).not.toBeInTheDocument();
+    });
+
+    test("does not render noscript fallback for playlists", () => {
+      const playlistProps = {
+        ...defaultProps,
+        playlist: true,
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...playlistProps} />);
+
+      // Noscript should not be rendered for playlists
+      const noscript = container.querySelector("noscript");
+      expect(noscript).not.toBeInTheDocument();
+    });
+
+    test("uses youtube.com in JSON-LD embedUrl when cookie prop is true", () => {
+      const seoProps = {
+        ...defaultProps,
+        cookie: true,
+        seo: {
+          duration: "PT3M33S",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...seoProps} />);
+
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      if (jsonLdScript && jsonLdScript.textContent) {
+        const jsonLdData = JSON.parse(jsonLdScript.textContent);
+        expect(jsonLdData.embedUrl).toBe(
+          `https://www.youtube.com/embed/${defaultProps.id}`
+        );
+      }
+    });
+
+    test("renders both JSON-LD and noscript when seo prop is provided", () => {
+      const seoProps = {
+        ...defaultProps,
+        seo: {
+          name: "Test Video",
+          description: "A test video",
+          duration: "PT3M33S",
+        },
+      };
+
+      const { container } = render(<LiteYouTubeEmbed {...seoProps} />);
+
+      // Both should be present
+      const jsonLdScript = container.querySelector(
+        'script[type="application/ld+json"]'
+      );
+      const noscript = container.querySelector("noscript");
+
+      expect(jsonLdScript).toBeInTheDocument();
+      expect(noscript).toBeInTheDocument();
+    });
+  });
 });
