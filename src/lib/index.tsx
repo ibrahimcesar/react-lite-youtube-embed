@@ -31,7 +31,7 @@ export interface LiteYouTubeProps {
   containerElement?: keyof React.JSX.IntrinsicElements;
   style?: React.CSSProperties;
   focusOnLoad?: boolean;
-  referrerPolicy?: string;
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
 }
 
 function LiteYouTubeEmbedComponent(
