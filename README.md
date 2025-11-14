@@ -12,9 +12,11 @@
 
 <strong>Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.</strong>
 
-[![iFrame example](_example_lite.gif)](https://main.d1vubvlhfep0xm.amplifyapp.com/)
+[![iFrame example](_example_lite.gif)](https://ibrahimcesar.github.io/react-lite-youtube-embed)
 
-## [View Demo](https://main.d1vubvlhfep0xm.amplifyapp.com/)
+## ✨ [View Live Demo](https://ibrahimcesar.github.io/react-lite-youtube-embed)
+
+> **Live demo automatically updated with each release** - Try out all features and see code examples
 
 </div>
 
