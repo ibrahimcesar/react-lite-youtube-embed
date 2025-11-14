@@ -285,7 +285,7 @@ function LiteYouTubeEmbedComponent(
             href={`https://www.youtube.com/watch?v=${props.id}`}
             aria-label={`Watch ${videoTitle} on YouTube`}
           >
-            Watch "{videoTitle}" on YouTube
+            Watch &quot;{videoTitle}&quot; on YouTube
           </a>
         </noscript>
       )}
