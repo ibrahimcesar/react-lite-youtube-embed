@@ -118,7 +118,7 @@ const App = () => (
       >
         External Play Button
       </button>
-      <YouTubeNew
+      <LiteYouTubeEmbed
         title="My Video"
         id="L2vS_050c-M"
         ref={ytRef}
@@ -276,34 +276,35 @@ or in a *.css/scss etc:
 
 The most minimalist implementation requires two props: `id` from the YouTube you want to render and `title`, for the iFrame.
 
-| Prop   |      Type      |  Description |
-|----------|:--------:|------------|
-| **id** |  string | id of the video or playlist |
-| **title** |    string   | Here goes your video title. Always provide a title for iFrames: [https://dequeuniversity.com/tips/provide-iframe-titles](https://dequeuniversity.com/tips/provide-iframe-titles) Help the web be accessible ;) #a11y |
-| activeClass | string | Pass the string class for the active state |
-| adNetwork | boolean | Default: `false`  To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
-| announce |    string   | Default: `Watch`. This will added to the button announce to the final user as in `Clickable Watch, ${title}, button` , customize to match your own language #a11y #i18n |
-| aspectHeight |    number   | Default: `9`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| aspectWidth |    number   | Default: `16`. Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using. |
-| autoplay | boolean | Default: `false`. Enables autoplay videos. Important note: this will only works with `muted={true}` and `alwaysLoadIframe={true}`|
-| cookie | boolean | Default: `false`. Connect to YouTube via the Privacy-Enhanced Mode using [https://www.youtube-nocookie.com](https://www.youtube-nocookie.com). You should opt-in to allow cookies|
-| enableJsApi | boolean | Default: `false`. If this is enabled, you can send messages to the iframe (e.g. access via the `ref` prop) to control the player programmatically. |
-| alwaysLoadIframe | boolean | Default: `false`. If this is enabled, the original YouTube iframe will always be loaded right away (this is bad for privacy). |
-| iframeClass | string |    Pass the string class for the own iFrame |
-| muted | boolean | If the video has sound or not. Required autoplay `true` to work |
-| noCookie | boolean |    `Deprecated` Default `false` _use option **cookie** to opt-in_|
-| onIframeAdded | function | Callback that will fired when iframe loads |
-| params | string |    any params you want to pass to the URL in the iFrame. Two important points to notice: You need to add the params, we already setup for you, so you should write `start=1150` and not `?start=1150` or `&start=1150`. You can place more params but it will need to fully form: `start=1150&other=value&another=value`. First, when you share a YouTube url the param of time is `t`, but the embed needs `start`.|
-| playerClass | string | Pass the string class for the player, once you can customize it |
-| playlist | boolean |    Use `true` when your id be from a playlist |
-| playlistCoverId | string | The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possible  |
-| poster | string. One of `default` `mqdefault`  `hqdefault` `sddefault` `maxresdefault` |   Defines the image size to call on first render as poster image. See: [https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
-| rel | string |   Default `preload`. allows for prefetch or preload of the link url |
-| thumbnail | string |   Pass an optional image url to override the default poster and set a custom poster image |
-| webp | boolean |   Default `false`. When set, uses the WebP format for poster images |
-| wrapperClass | string |   Pass the string class that wraps the iFrame |
-| containerElement | string | Default `article`. Pass the element to be used for the container. |
-| style | object | Pass the style object to be used for the container, overriding any root styles. |
+| Prop   |      Type      |  Default | Description |
+|----------|:--------:|:--------:|------------|
+| **id** |  string | - | **Required**. ID of the video or playlist |
+| **title** |    string   | - | **Required**. Video title for the iFrame. Always provide a title for iFrames: [https://dequeuniversity.com/tips/provide-iframe-titles](https://dequeuniversity.com/tips/provide-iframe-titles) Help the web be accessible ;) #a11y |
+| activeClass | string | `"lyt-activated"` | Pass the string class for the active state |
+| adNetwork | boolean | `false` | To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
+| alwaysLoadIframe | boolean | `false` | If enabled, the original YouTube iframe will always be loaded right away (not recommended for privacy) |
+| announce |    string   | `"Watch"` | Text added to the button for screen readers as `Clickable {announce}, {title}, button`. Customize to match your language #a11y #i18n |
+| aspectHeight |    number   | `9` | Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using |
+| aspectWidth |    number   | `16` | Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using |
+| autoplay | boolean | `false` | Enables autoplay videos. Important: only works with `muted={true}` and `alwaysLoadIframe={true}` |
+| containerElement | string | `"article"` | The HTML element to be used for the container |
+| cookie | boolean | `false` | Set to `true` to use https://www.youtube.com instead of Privacy-Enhanced Mode (https://www.youtube-nocookie.com) |
+| enableJsApi | boolean | `false` | If enabled, you can send messages to the iframe (via the `ref` prop) to control the player programmatically |
+| iframeClass | string | `""` | Pass the string class for the iframe element itself |
+| muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
+| noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
+| onIframeAdded | function | `undefined` | Callback fired when iframe loads |
+| params | string | `""` | Additional params to pass to the URL. Format: `start=1150&other=value`. Don't include `?` or leading `&`. Note: use `start` not `t` for time |
+| playerClass | string | `"lty-playbtn"` | Pass the string class for the player button to customize it |
+| playlist | boolean | `false` | Set to `true` when your id is from a playlist |
+| playlistCoverId | string | `undefined` | Video ID to use for playlist cover image. Playlists don't have a standard cover pattern |
+| poster | `"default"` \| `"mqdefault"` \| `"hqdefault"` \| `"sddefault"` \| `"maxresdefault"` | `"hqdefault"` | Defines the image size for the poster. Note: `sddefault` and `maxresdefault` aren't always available. See: [YouTube API docs](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
+| referrerPolicy | string | `"strict-origin-when-cross-origin"` | Sets the referrer policy for the iframe |
+| rel | string | `"preload"` | Allows for `prefetch` or `preload` of the link url |
+| style | object | `{}` | Style object for the container, overriding any root styles |
+| thumbnail | string | `undefined` | Pass an optional image url to override the default poster and set a custom poster image |
+| webp | boolean | `false` | When set, uses the WebP format for poster images |
+| wrapperClass | string | `"yt-lite"` | Pass the string class that wraps the iFrame. **Important**: This class needs extra attention, refer to LiteYouTubeEmbed.css |
 
 ## 🙇‍♂️ Thanks
 

@@ -10,7 +10,8 @@
     "build": "npx rollup -c",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
