@@ -1,0 +1,194 @@
+name: Automated Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: 'patch'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          NEW_VERSION=$(npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version)
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Get version without v prefix
+        id: clean_version
+        run: |
+          VERSION="${{ steps.bump_version.outputs.version }}"
+          CLEAN_VERSION="${VERSION#v}"
+          echo "version=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+          echo "Clean version: $CLEAN_VERSION"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            PREVIOUS_TAG=$(git rev-list --max-parents=0 HEAD)
+          fi
+
+          echo "## 🚀 What's Changed" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+
+          # Get commits grouped by type
+          git log $PREVIOUS_TAG..HEAD --pretty=format:"%s|%an|%ae" --no-merges | while IFS='|' read -r subject author email; do
+            case "$subject" in
+              feat:*|feat\(*)
+                echo "### ✨ Features" >> CHANGELOG_FEATURES.tmp
+                echo "- $subject by @$author" >> CHANGELOG_FEATURES.tmp
+                ;;
+              fix:*)
+                echo "### 🐛 Bug Fixes" >> CHANGELOG_FIXES.tmp
+                echo "- $subject by @$author" >> CHANGELOG_FIXES.tmp
+                ;;
+              docs:*)
+                echo "### 📚 Documentation" >> CHANGELOG_DOCS.tmp
+                echo "- $subject by @$author" >> CHANGELOG_DOCS.tmp
+                ;;
+              perf:*)
+                echo "### ⚡ Performance" >> CHANGELOG_PERF.tmp
+                echo "- $subject by @$author" >> CHANGELOG_PERF.tmp
+                ;;
+              refactor:*)
+                echo "### ♻️ Refactoring" >> CHANGELOG_REFACTOR.tmp
+                echo "- $subject by @$author" >> CHANGELOG_REFACTOR.tmp
+                ;;
+              test:*)
+                echo "### 🧪 Tests" >> CHANGELOG_TESTS.tmp
+                echo "- $subject by @$author" >> CHANGELOG_TESTS.tmp
+                ;;
+              chore:*|build:*|ci:*)
+                echo "### 🔧 Chores & CI" >> CHANGELOG_CHORES.tmp
+                echo "- $subject by @$author" >> CHANGELOG_CHORES.tmp
+                ;;
+              a11y:*)
+                echo "### ♿ Accessibility" >> CHANGELOG_A11Y.tmp
+                echo "- $subject by @$author" >> CHANGELOG_A11Y.tmp
+                ;;
+              *)
+                echo "### 🔄 Other Changes" >> CHANGELOG_OTHER.tmp
+                echo "- $subject by @$author" >> CHANGELOG_OTHER.tmp
+                ;;
+            esac
+          done
+
+          # Combine all sections
+          [ -f CHANGELOG_FEATURES.tmp ] && cat CHANGELOG_FEATURES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_FIXES.tmp ] && cat CHANGELOG_FIXES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_A11Y.tmp ] && cat CHANGELOG_A11Y.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_PERF.tmp ] && cat CHANGELOG_PERF.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_DOCS.tmp ] && cat CHANGELOG_DOCS.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_REFACTOR.tmp ] && cat CHANGELOG_REFACTOR.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_TESTS.tmp ] && cat CHANGELOG_TESTS.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_CHORES.tmp ] && cat CHANGELOG_CHORES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f CHANGELOG_OTHER.tmp ] && cat CHANGELOG_OTHER.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+
+          # Get contributors
+          echo "## 👥 Contributors" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          git log $PREVIOUS_TAG..HEAD --format='%an|%ae' --no-merges | sort -u | while IFS='|' read -r name email; do
+            echo "- $name" >> CHANGELOG.md
+          done
+
+          # Get full comparison
+          echo "" >> CHANGELOG.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...${{ steps.bump_version.outputs.version }}" >> CHANGELOG.md
+
+          # Clean up temp files
+          rm -f CHANGELOG_*.tmp
+
+          # Output changelog for use in release
+          cat CHANGELOG.md
+
+      - name: Commit version bump
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore: bump version from ${{ steps.current_version.outputs.version }} to ${{ steps.clean_version.outputs.version }}"
+
+      - name: Create and push tag
+        run: |
+          git tag -a ${{ steps.bump_version.outputs.version }} -m "Release ${{ steps.bump_version.outputs.version }}"
+          git push origin main
+          git push origin ${{ steps.bump_version.outputs.version }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ steps.bump_version.outputs.version }} \
+            --title "Release ${{ steps.bump_version.outputs.version }}" \
+            --notes-file CHANGELOG.md \
+            --verify-tag
+
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create release summary
+        run: |
+          echo "## 🎉 Release ${{ steps.bump_version.outputs.version }} Published!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Package Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.clean_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Previous Version**: ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Bump Type**: ${{ github.event.inputs.version_bump }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [NPM Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY

@@ -30,6 +30,8 @@ export interface LiteYouTubeProps {
   rel?: string;
   containerElement?: keyof React.JSX.IntrinsicElements;
   style?: React.CSSProperties;
+  focusOnLoad?: boolean;
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
 }
 
 function LiteYouTubeEmbedComponent(
@@ -51,31 +53,41 @@ function LiteYouTubeEmbedComponent(
     ? props.autoplay && props.muted
     : true; // When the iframe is not loaded immediately, the video should play as soon as its loaded (which happens when the button is clicked)
 
-  // Iframe Parameters
-  const iframeParams = new URLSearchParams({
-    ...(props.muted ? { mute: "1" } : {}),
-    ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
-    ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
-    ...(props.playlist ? { list: videoId } : {}),
-  });
-
-  // parse props.params into individual search parameters and append them to iframeParams
-  if (props.params) {
-    const additionalParams = new URLSearchParams(
-      props.params.startsWith("&") ? props.params.slice(1) : props.params,
-    );
-    additionalParams.forEach((value, key) => {
-      iframeParams.append(key, value);
+  // Iframe Parameters - memoized to avoid recreating URLSearchParams on every render
+  const iframeParams = React.useMemo(() => {
+    const params = new URLSearchParams({
+      ...(props.muted ? { mute: "1" } : {}),
+      ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
+      ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
+      ...(props.playlist ? { list: videoId } : {}),
     });
-  }
 
-  const ytUrl = props.cookie
-    ? "https://www.youtube.com"
-    : "https://www.youtube-nocookie.com";
+    // parse props.params into individual search parameters and append them to params
+    if (props.params) {
+      const additionalParams = new URLSearchParams(
+        props.params.startsWith("&") ? props.params.slice(1) : props.params,
+      );
+      additionalParams.forEach((value, key) => {
+        params.append(key, value);
+      });
+    }
 
-  const iframeSrc = !props.playlist
-    ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
-    : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`;
+    return params;
+  }, [props.muted, shouldAddAutoplayParam, props.enableJsApi, props.playlist, videoId, props.params]);
+
+  const ytUrl = React.useMemo(
+    () => props.cookie
+      ? "https://www.youtube.com"
+      : "https://www.youtube-nocookie.com",
+    [props.cookie]
+  );
+
+  const iframeSrc = React.useMemo(
+    () => !props.playlist
+      ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
+      : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`,
+    [props.playlist, ytUrl, videoId, iframeParams]
+  );
 
   const useDynamicThumbnail =
     !props.thumbnail && !props.playlist && posterImp === "maxresdefault";
@@ -87,12 +99,14 @@ function LiteYouTubeEmbedComponent(
     ? useYoutubeThumbnail(props.id, vi, format, posterImp)
     : null;
 
-  const posterUrl =
-    props.thumbnail ||
-    dynamicThumbnailUrl ||
-    `https://i.ytimg.com/${vi}/${
-      props.playlist ? videoPlaylistCoverId : videoId
-    }/${posterImp}.${format}`;
+  const posterUrl = React.useMemo(
+    () => props.thumbnail ||
+      dynamicThumbnailUrl ||
+      `https://i.ytimg.com/${vi}/${
+        props.playlist ? videoPlaylistCoverId : videoId
+      }/${posterImp}.${format}`,
+    [props.thumbnail, dynamicThumbnailUrl, vi, props.playlist, videoPlaylistCoverId, videoId, posterImp, format]
+  );
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
   const adNetworkImp = props.adNetwork || false;
@@ -122,8 +136,13 @@ function LiteYouTubeEmbedComponent(
   React.useEffect(() => {
     if (iframe) {
       onIframeAdded();
+
+      // Focus iframe if focusOnLoad is enabled and ref is available
+      if (props.focusOnLoad && typeof ref === 'object' && ref?.current) {
+        ref.current.focus();
+      }
     }
-  }, [iframe, onIframeAdded]);
+  }, [iframe, onIframeAdded, props.focusOnLoad, ref]);
 
   return (
     <>
@@ -150,6 +169,8 @@ function LiteYouTubeEmbedComponent(
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
         data-title={videoTitle}
+        role={!iframe ? "img" : undefined}
+        aria-label={!iframe ? `${videoTitle} - YouTube video preview` : undefined}
         style={{
           backgroundImage: `url(${posterUrl})`,
           ...({
@@ -162,7 +183,13 @@ function LiteYouTubeEmbedComponent(
           type="button"
           className={playerClassImp}
           aria-label={`${announceWatch} ${videoTitle}`}
-        />
+          aria-hidden={iframe || undefined}
+          tabIndex={iframe ? -1 : 0}
+        >
+          <span className="lty-visually-hidden">
+            {announceWatch}
+          </span>
+        </button>
         {iframe && (
           <iframe
             ref={ref}
@@ -174,7 +201,7 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy={props.referrerPolicy || "strict-origin-when-cross-origin"}
           ></iframe>
         )}
       </ContainerElement>

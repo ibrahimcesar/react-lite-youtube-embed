@@ -1,132 +1,13 @@
 /**
-* react-lite-youtube-embed v2.5.0
-*  https://github.com/ibrahimcesar/react-lite-youtube-embed.git
+* react-lite-youtube-embed v2.5.6
+*  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
-*  Copyright (c) Ibrahim Cesar < email@ibrahimcesar.com > and project contributors.
+*  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
 *
 *  This source code is licensed under the MIT license found in the
 *  LICENSE file in the root directory of this source tree.
 *
 *  Author site: https://ibrahimcesar.cloud
 */
-    'use strict';
-
-var React = require('react');
-
-function _interopNamespace(e) {
-    if (e && e.__esModule) return e;
-    var n = Object.create(null);
-    if (e) {
-        Object.keys(e).forEach(function (k) {
-            if (k !== 'default') {
-                var d = Object.getOwnPropertyDescriptor(e, k);
-                Object.defineProperty(n, k, d.get ? d : {
-                    enumerable: true,
-                    get: function () { return e[k]; }
-                });
-            }
-        });
-    }
-    n["default"] = e;
-    return Object.freeze(n);
-}
-
-var React__namespace = /*#__PURE__*/_interopNamespace(React);
-
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
-function LiteYouTubeEmbedComponent(props, ref) {
-    var _a = React__namespace.useState(false), preconnected = _a[0], setPreconnected = _a[1];
-    var _b = React__namespace.useState(props.alwaysLoadIframe || false), iframe = _b[0], setIframe = _b[1];
-    var videoId = encodeURIComponent(props.id);
-    var videoPlaylistCoverId = typeof props.playlistCoverId === "string"
-        ? encodeURIComponent(props.playlistCoverId)
-        : null;
-    var videoTitle = props.title;
-    var posterImp = props.poster || "hqdefault";
-    var announceWatch = props.announce || "Watch";
-    // Iframe Parameters
-    var iframeParams = new URLSearchParams(__assign(__assign(__assign(__assign({}, (props.muted ? { mute: "1" } : {})), (props.alwaysLoadIframe ? {} : { autoplay: "1", state: "1" })), (props.enableJsApi ? { enablejsapi: "1" } : {})), (props.playlist ? { list: videoId } : {})));
-    var ytUrl = props.noCookie
-        ? "https://www.youtube-nocookie.com"
-        : "https://www.youtube.com";
-    ytUrl = props.cookie
-        ? "https://www.youtube.com"
-        : "https://www.youtube-nocookie.com";
-    var iframeSrc = !props.playlist
-        ? "".concat(ytUrl, "/embed/").concat(videoId, "?").concat(iframeParams.toString())
-        : "".concat(ytUrl, "/embed/videoseries?").concat(iframeParams.toString());
-    var format = props.webp ? "webp" : "jpg";
-    var vi = props.webp ? "vi_webp" : "vi";
-    var posterUrl = props.thumbnail ||
-        (!props.playlist
-            ? "https://i.ytimg.com/".concat(vi, "/").concat(videoId, "/").concat(posterImp, ".").concat(format)
-            : "https://i.ytimg.com/".concat(vi, "/").concat(videoPlaylistCoverId, "/").concat(posterImp, ".").concat(format));
-    var activatedClassImp = props.activatedClass || "lyt-activated";
-    var adNetworkImp = props.adNetwork || false;
-    var aspectHeight = props.aspectHeight || 9;
-    var aspectWidth = props.aspectWidth || 16;
-    var iframeClassImp = props.iframeClass || "";
-    var playerClassImp = props.playerClass || "lty-playbtn";
-    var wrapperClassImp = props.wrapperClass || "yt-lite";
-    var onIframeAdded = props.onIframeAdded || function () { };
-    var rel = props.rel ? "prefetch" : "preload";
-    var ContainerElement = props.containerElement || "article";
-    var style = props.style || {};
-    var warmConnections = function () {
-        if (preconnected)
-            return;
-        setPreconnected(true);
-    };
-    var addIframe = function () {
-        if (iframe)
-            return;
-        setIframe(true);
-    };
-    React__namespace.useEffect(function () {
-        if (iframe) {
-            onIframeAdded();
-        }
-    }, [iframe]);
-    return (React__namespace.createElement(React__namespace.Fragment, null,
-        React__namespace.createElement("link", { rel: rel, href: posterUrl, as: "image" }),
-        React__namespace.createElement(React__namespace.Fragment, null, preconnected && (React__namespace.createElement(React__namespace.Fragment, null,
-            React__namespace.createElement("link", { rel: "preconnect", href: ytUrl }),
-            React__namespace.createElement("link", { rel: "preconnect", href: "https://www.google.com" }),
-            adNetworkImp && (React__namespace.createElement(React__namespace.Fragment, null,
-                React__namespace.createElement("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
-                React__namespace.createElement("link", { rel: "preconnect", href: "https://googleads.g.doubleclick.net" })))))),
-        React__namespace.createElement(ContainerElement, { onPointerOver: warmConnections, onClick: addIframe, className: "".concat(wrapperClassImp, " ").concat(iframe ? activatedClassImp : ""), "data-title": videoTitle, style: __assign(__assign({ backgroundImage: "url(".concat(posterUrl, ")") }, {
-                "--aspect-ratio": "".concat((aspectHeight / aspectWidth) * 100, "%"),
-            }), style) },
-            React__namespace.createElement("button", { type: "button", className: playerClassImp, "aria-label": "".concat(announceWatch, " ").concat(videoTitle) }),
-            iframe && (React__namespace.createElement("iframe", { ref: ref, className: iframeClassImp, title: videoTitle, width: "560", height: "315", frameBorder: "0", allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", allowFullScreen: true, src: iframeSrc })))));
-}
-var index = React__namespace.forwardRef(LiteYouTubeEmbedComponent);
-
-module.exports = index;
+"use strict";const t=require("react/jsx-runtime"),b=require("react");function M(e){const a=Object.create(null,{[Symbol.toStringTag]:{value:"Module"}});if(e){for(const n in e)if(n!=="default"){const o=Object.getOwnPropertyDescriptor(e,n);Object.defineProperty(a,n,o.get?o:{enumerable:!0,get:()=>e[n]})}}return a.default=e,Object.freeze(a)}const i=M(b),_={default:120,mqdefault:320,hqdefault:480,sddefault:640,maxresdefault:1280},D=(e,a,n,o="maxresdefault")=>{const[l,d]=b.useState("");return b.useEffect(()=>{const c=`https://img.youtube.com/${a}/${e}/${o}.${n}`,u=`https://img.youtube.com/${a}/${e}/hqdefault.${n}`,r=_[o],s=new Image;s.onload=()=>{s.width<r?d(u):d(c)},s.onerror=()=>d(u),s.src=c},[e,a,n,o]),l};function Y(e,a){const[n,o]=i.useState(!1),[l,d]=i.useState(e.alwaysLoadIframe||!1),c=encodeURIComponent(e.id),u=typeof e.playlistCoverId=="string"?encodeURIComponent(e.playlistCoverId):null,r=e.title,s=e.poster||"hqdefault",g=e.announce||"Watch",w=e.alwaysLoadIframe?e.autoplay&&e.muted:!0,f=i.useMemo(()=>{const I=new URLSearchParams({...e.muted?{mute:"1"}:{},...w?{autoplay:"1"}:{},...e.enableJsApi?{enablejsapi:"1"}:{},...e.playlist?{list:c}:{}});return e.params&&new URLSearchParams(e.params.startsWith("&")?e.params.slice(1):e.params).forEach((R,F)=>{I.append(F,R)}),I},[e.muted,w,e.enableJsApi,e.playlist,c,e.params]),m=i.useMemo(()=>e.cookie?"https://www.youtube.com":"https://www.youtube-nocookie.com",[e.cookie]),C=i.useMemo(()=>e.playlist?`${m}/embed/videoseries?${f.toString()}`:`${m}/embed/${c}?${f.toString()}`,[e.playlist,m,c,f]),k=!e.thumbnail&&!e.playlist&&s==="maxresdefault",h=e.webp?"webp":"jpg",y=e.webp?"vi_webp":"vi",$=k?D(e.id,y,h,s):null,x=i.useMemo(()=>e.thumbnail||$||`https://i.ytimg.com/${y}/${e.playlist?u:c}/${s}.${h}`,[e.thumbnail,$,y,e.playlist,u,c,s,h]),v=e.activatedClass||"lyt-activated",P=e.adNetwork||!1,S=e.aspectHeight||9,U=e.aspectWidth||16,O=e.iframeClass||"",A=e.playerClass||"lty-playbtn",L=e.wrapperClass||"yt-lite",j=i.useCallback(e.onIframeAdded||function(){},[e.onIframeAdded]),N=e.rel?"prefetch":"preload",T=e.containerElement||"article",W=e.style||{},q=()=>{n||o(!0)},E=()=>{l||d(!0)};return i.useEffect(()=>{l&&(j(),e.focusOnLoad&&typeof a=="object"&&(a!=null&&a.current)&&a.current.focus())},[l,j,e.focusOnLoad,a]),t.jsxs(t.Fragment,{children:[t.jsx("link",{rel:N,href:x,as:"image"}),t.jsx(t.Fragment,{children:n&&t.jsxs(t.Fragment,{children:[t.jsx("link",{rel:"preconnect",href:m}),t.jsx("link",{rel:"preconnect",href:"https://www.google.com"}),P&&t.jsxs(t.Fragment,{children:[t.jsx("link",{rel:"preconnect",href:"https://static.doubleclick.net"}),t.jsx("link",{rel:"preconnect",href:"https://googleads.g.doubleclick.net"})]})]})}),t.jsxs(T,{onPointerOver:q,onClick:E,className:`${L} ${l?v:""}`,"data-title":r,role:l?void 0:"img","aria-label":l?void 0:`${r} - YouTube video preview`,style:{backgroundImage:`url(${x})`,"--aspect-ratio":`${S/U*100}%`,...W},children:[t.jsx("button",{type:"button",className:A,"aria-label":`${g} ${r}`,"aria-hidden":l||void 0,tabIndex:l?-1:0,children:t.jsx("span",{className:"lty-visually-hidden",children:g})}),l&&t.jsx("iframe",{ref:a,className:O,title:r,width:"560",height:"315",style:{border:0},allow:"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",allowFullScreen:!0,src:C,referrerPolicy:e.referrerPolicy||"strict-origin-when-cross-origin"})]})]})}const H=i.forwardRef(Y);module.exports=H;
 //# sourceMappingURL=index.js.map
