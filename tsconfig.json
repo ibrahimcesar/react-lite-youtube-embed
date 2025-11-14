@@ -32,6 +32,9 @@
       "src/lib"
     ],
     "exclude": [
-      "demo"
+      "demo",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "src/setupTests.ts"
     ]
 }
