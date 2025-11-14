@@ -357,6 +357,118 @@ describe("LiteYouTubeEmbed", () => {
     expect(ref.current!.tagName).toBe("IFRAME");
   });
 
+  describe("Lazy loading", () => {
+    test("renders with background-image by default (no lazy loading)", () => {
+      const { container } = render(<LiteYouTubeEmbed {...defaultProps} />);
+
+      // Should use background-image
+      const article = container.querySelector("article");
+      expect(article).toHaveStyle({
+        backgroundImage: expect.stringContaining("i.ytimg.com"),
+      });
+
+      // Should NOT have img tag
+      const thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).not.toBeInTheDocument();
+
+      // Should have preload link
+      const preloadLink = document.querySelector('link[as="image"]');
+      expect(preloadLink).toBeInTheDocument();
+    });
+
+    test("renders with img tag when lazyLoad is true", () => {
+      const { container } = render(
+        <LiteYouTubeEmbed {...defaultProps} lazyLoad />
+      );
+
+      // Should NOT use background-image
+      const article = container.querySelector("article");
+      const styleAttr = article?.getAttribute("style");
+      expect(styleAttr).not.toContain("backgroundImage");
+
+      // Should have img tag with loading="lazy"
+      const thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).toBeInTheDocument();
+      expect(thumbnail).toHaveAttribute("loading", "lazy");
+      expect(thumbnail).toHaveAttribute(
+        "src",
+        expect.stringContaining("i.ytimg.com")
+      );
+      expect(thumbnail).toHaveAttribute(
+        "alt",
+        `${defaultProps.title} - YouTube thumbnail`
+      );
+
+      // Should NOT have preload link
+      const preloadLink = document.querySelector('link[as="image"]');
+      expect(preloadLink).not.toBeInTheDocument();
+    });
+
+    test("removes img tag after iframe is loaded", () => {
+      const { container } = render(
+        <LiteYouTubeEmbed {...defaultProps} lazyLoad />
+      );
+
+      // Initially should have img tag
+      let thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).toBeInTheDocument();
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Img tag should be removed after iframe loads
+      thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).not.toBeInTheDocument();
+
+      // Iframe should be present
+      const iframe = container.querySelector("iframe");
+      expect(iframe).toBeInTheDocument();
+    });
+
+    test("works with custom thumbnail and lazy loading", () => {
+      const customThumbnail = "https://example.com/custom.jpg";
+      const { container } = render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          lazyLoad
+          thumbnail={customThumbnail}
+        />
+      );
+
+      // Should use custom thumbnail URL
+      const thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).toHaveAttribute("src", customThumbnail);
+    });
+
+    test("works with webp format and lazy loading", () => {
+      const { container } = render(
+        <LiteYouTubeEmbed {...defaultProps} lazyLoad webp />
+      );
+
+      // Should use webp format
+      const thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).toHaveAttribute("src", expect.stringContaining(".webp"));
+    });
+
+    test("works with custom poster resolution and lazy loading", () => {
+      const { container } = render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          lazyLoad
+          poster="maxresdefault" as imgResolution
+        />
+      );
+
+      // Should use maxresdefault resolution
+      const thumbnail = container.querySelector(".lty-thumbnail");
+      expect(thumbnail).toHaveAttribute(
+        "src",
+        expect.stringContaining("maxresdefault")
+      );
+    });
+  });
+
   describe("SEO features", () => {
     test("renders JSON-LD structured data when seo prop is provided", () => {
       const seoProps = {

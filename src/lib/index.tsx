@@ -92,6 +92,13 @@ export interface LiteYouTubeProps {
   focusOnLoad?: boolean;
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
   /**
+   * Enable lazy loading for thumbnail image.
+   * Uses native browser lazy loading to defer offscreen images.
+   * Improves Lighthouse scores and reduces bandwidth for below-fold videos.
+   * @default false
+   */
+  lazyLoad?: boolean;
+  /**
    * SEO metadata for search engines. Enables rich results and better discoverability.
    * Provides structured data following schema.org VideoObject specification.
    * @see https://developers.google.com/search/docs/appearance/structured-data/video
@@ -244,7 +251,7 @@ function LiteYouTubeEmbedComponent(
 
   return (
     <>
-      <link rel={rel} href={posterUrl} as="image" />
+      {!props.lazyLoad && <link rel={rel} href={posterUrl} as="image" />}
       <>
         {preconnected && (
           <>
@@ -296,11 +303,19 @@ function LiteYouTubeEmbedComponent(
         role={!iframe ? "img" : undefined}
         aria-label={!iframe ? `${videoTitle} - YouTube video preview` : undefined}
         style={{
-          backgroundImage: `url(${posterUrl})`,
+          ...(!props.lazyLoad && { backgroundImage: `url(${posterUrl})` }),
           "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
           ...(props.style || {}),
         } as React.CSSProperties}
       >
+        {props.lazyLoad && !iframe && (
+          <img
+            src={posterUrl}
+            alt={`${videoTitle} - YouTube thumbnail`}
+            className="lty-thumbnail"
+            loading="lazy"
+          />
+        )}
         <button
           type="button"
           className={playerClassImp}
