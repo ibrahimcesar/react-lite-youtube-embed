@@ -29,6 +29,8 @@ export interface LiteYouTubeProps {
   rel?: string;
   containerElement?: keyof React.JSX.IntrinsicElements;
   style?: React.CSSProperties;
+  focusOnLoad?: boolean;
+  referrerPolicy?: string;
 }
 
 function LiteYouTubeEmbedComponent(
@@ -121,8 +123,13 @@ function LiteYouTubeEmbedComponent(
   React.useEffect(() => {
     if (iframe) {
       onIframeAdded();
+
+      // Focus iframe if focusOnLoad is enabled and ref is available
+      if (props.focusOnLoad && typeof ref === 'object' && ref?.current) {
+        ref.current.focus();
+      }
     }
-  }, [iframe]);
+  }, [iframe, onIframeAdded, props.focusOnLoad, ref]);
 
   return (
     <>
@@ -149,6 +156,8 @@ function LiteYouTubeEmbedComponent(
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
         data-title={videoTitle}
+        role={!iframe ? "img" : undefined}
+        aria-label={!iframe ? `${videoTitle} - YouTube video preview` : undefined}
         style={{
           backgroundImage: `url(${posterUrl})`,
           ...({
@@ -161,7 +170,13 @@ function LiteYouTubeEmbedComponent(
           type="button"
           className={playerClassImp}
           aria-label={`${announceWatch} ${videoTitle}`}
-        />
+          aria-hidden={iframe || undefined}
+          tabIndex={iframe ? -1 : 0}
+        >
+          <span className="lty-visually-hidden">
+            {announceWatch}
+          </span>
+        </button>
         {iframe && (
           <iframe
             ref={ref}
@@ -173,7 +188,7 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy={props.referrerPolicy || "strict-origin-when-cross-origin"}
           ></iframe>
         )}
       </ContainerElement>
