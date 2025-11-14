@@ -251,6 +251,8 @@ const App = () => (
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead use now you have three options:
 
+> **📘 Using Next.js or SSR?** Check out the [SSR Guide](./SSR_GUIDE.md) for setup instructions, troubleshooting, and best practices.
+
 ### Option 1
 
 Place the necessary CSS in your Global CSS file method of preference
