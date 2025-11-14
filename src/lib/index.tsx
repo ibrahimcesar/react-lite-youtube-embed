@@ -201,7 +201,7 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
-            referrerPolicy={props.referrerPolicy || "strict-origin-when-cross-origin"}
+            referrerPolicy={(props.referrerPolicy || "strict-origin-when-cross-origin") as React.HTMLAttributeReferrerPolicy}
           ></iframe>
         )}
       </ContainerElement>
