@@ -51,7 +51,7 @@ export default function Home() {
           <LiteYouTubeEmbed
             id="HaEPXoXVf2k"
               title="AWS re:Invent 2018: Amazon DynamoDB Deep Dive: Advanced Design Patterns for DynamoDB (DAT401)"
-              cover="maxresdefault"
+              poster="maxresdefault"
             />
             <pre>
               <code className="language-jsx">
