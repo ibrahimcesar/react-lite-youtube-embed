@@ -10,7 +10,12 @@
     "build": "npx rollup -c",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\""
   },
   "repository": {
     "type": "git",
