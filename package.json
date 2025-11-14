@@ -65,6 +65,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
     "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^27.2.0",
     "prettier": "^2.8.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
