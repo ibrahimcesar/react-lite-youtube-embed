@@ -121,7 +121,6 @@ function LiteYouTubeEmbedComponent(
   );
   const rel = props.rel ? "prefetch" : "preload";
   const ContainerElement = props.containerElement || "article";
-  const style = props.style || {};
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -173,11 +172,9 @@ function LiteYouTubeEmbedComponent(
         aria-label={!iframe ? `${videoTitle} - YouTube video preview` : undefined}
         style={{
           backgroundImage: `url(${posterUrl})`,
-          ...({
-            "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
-          } as React.CSSProperties),
-          ...style,
-        }}
+          "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
+          ...(props.style || {}),
+        } as React.CSSProperties}
       >
         <button
           type="button"
