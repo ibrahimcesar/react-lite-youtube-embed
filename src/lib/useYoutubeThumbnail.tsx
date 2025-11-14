@@ -39,7 +39,7 @@ export const useYoutubeThumbnail = (
     };
     img.onerror = () => setUrl(fallbackUrl);
     img.src = testUrl;
-  }, [videoId]);
+  }, [videoId, vi, format, imageRes]);
 
   return url;
 };
