@@ -2,6 +2,65 @@ import * as React from "react";
 import useYoutubeThumbnail from "./useYoutubeThumbnail";
 import { imgResolution } from "./useYoutubeThumbnail";
 
+/**
+ * SEO metadata for YouTube video following schema.org VideoObject structure.
+ * See: https://developers.google.com/search/docs/appearance/structured-data/video
+ *
+ * All fields are optional but providing them improves search engine discoverability
+ * and enables rich results (video carousels, thumbnails in search results).
+ *
+ * Use the provided `scripts/fetch-youtube-metadata.sh` helper to easily retrieve
+ * this data from YouTube's API.
+ */
+export interface VideoSEO {
+  /**
+   * The title of the video. If not provided, falls back to the component's `title` prop.
+   * @example "What's new in Material Design for the web"
+   */
+  name?: string;
+
+  /**
+   * A description of the video content.
+   * Recommended: 50-160 characters for optimal search result display.
+   * @example "Learn about the latest Material Design updates presented at Chrome Dev Summit 2019"
+   */
+  description?: string;
+
+  /**
+   * ISO 8601 date when the video was uploaded to YouTube.
+   * @example "2019-11-11T08:00:00Z" or "2019-11-11"
+   */
+  uploadDate?: string;
+
+  /**
+   * ISO 8601 duration format. Required for video rich results.
+   * Format: PT#H#M#S where # is the number of hours, minutes, seconds
+   * @example "PT1M33S" (1 minute 33 seconds)
+   * @example "PT15M" (15 minutes)
+   * @example "PT1H30M" (1 hour 30 minutes)
+   */
+  duration?: string;
+
+  /**
+   * Custom thumbnail URL. If not provided, auto-generated from video ID.
+   * Recommended: At least 1200px wide for best quality in search results.
+   * @example "https://i.ytimg.com/vi/VIDEO_ID/maxresdefault.jpg"
+   */
+  thumbnailUrl?: string;
+
+  /**
+   * Direct URL to watch the video. Auto-generated if not provided.
+   * @example "https://www.youtube.com/watch?v=L2vS_050c-M"
+   */
+  contentUrl?: string;
+
+  /**
+   * The embed URL. Auto-generated from video ID if not provided.
+   * @example "https://www.youtube.com/embed/L2vS_050c-M"
+   */
+  embedUrl?: string;
+}
+
 export interface LiteYouTubeProps {
   announce?: string;
   id: string;
@@ -32,6 +91,45 @@ export interface LiteYouTubeProps {
   style?: React.CSSProperties;
   focusOnLoad?: boolean;
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  /**
+   * SEO metadata for search engines. Enables rich results and better discoverability.
+   * Provides structured data following schema.org VideoObject specification.
+   * @see https://developers.google.com/search/docs/appearance/structured-data/video
+   */
+  seo?: VideoSEO;
+  /**
+   * Include noscript fallback link for accessibility and search crawlers.
+   * When true, adds a direct YouTube link inside <noscript> tags.
+   * @default true
+   */
+  noscriptFallback?: boolean;
+}
+
+/**
+ * Generates JSON-LD structured data for VideoObject schema.
+ * @see https://schema.org/VideoObject
+ * @see https://developers.google.com/search/docs/appearance/structured-data/video
+ */
+function generateVideoStructuredData(
+  videoId: string,
+  title: string,
+  posterUrl: string,
+  ytUrl: string,
+  seo?: VideoSEO,
+): string {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: seo?.name || title,
+    thumbnailUrl: [seo?.thumbnailUrl || posterUrl],
+    embedUrl: seo?.embedUrl || `${ytUrl}/embed/${videoId}`,
+    contentUrl: seo?.contentUrl || `https://www.youtube.com/watch?v=${videoId}`,
+    ...(seo?.description && { description: seo.description }),
+    ...(seo?.uploadDate && { uploadDate: seo.uploadDate }),
+    ...(seo?.duration && { duration: seo.duration }),
+  };
+
+  return JSON.stringify(structuredData);
 }
 
 function LiteYouTubeEmbedComponent(
@@ -121,6 +219,7 @@ function LiteYouTubeEmbedComponent(
   );
   const rel = props.rel ? "prefetch" : "preload";
   const ContainerElement = props.containerElement || "article";
+  const includeNoscriptFallback = props.noscriptFallback !== false; // Default to true
 
   const warmConnections = () => {
     if (preconnected) return;
@@ -163,6 +262,32 @@ function LiteYouTubeEmbedComponent(
           </>
         )}
       </>
+      {/* SEO: JSON-LD Structured Data for VideoObject */}
+      {props.seo && !props.playlist && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: generateVideoStructuredData(
+              props.id,
+              videoTitle,
+              posterUrl,
+              ytUrl,
+              props.seo
+            ),
+          }}
+        />
+      )}
+      {/* SEO: Noscript fallback for accessibility and crawlers */}
+      {includeNoscriptFallback && !props.playlist && (
+        <noscript>
+          <a
+            href={`https://www.youtube.com/watch?v=${props.id}`}
+            aria-label={`Watch ${videoTitle} on YouTube`}
+          >
+            Watch &quot;{videoTitle}&quot; on YouTube
+          </a>
+        </noscript>
+      )}
       <ContainerElement
         onPointerOver={warmConnections}
         onClick={addIframe}
