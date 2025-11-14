@@ -11,6 +11,7 @@ export interface LiteYouTubeProps {
   aspectHeight?: number;
   aspectWidth?: number;
   iframeClass?: string;
+  /** @deprecated Use cookie prop instead */
   noCookie?: boolean;
   cookie?: boolean;
   enableJsApi?: boolean;
@@ -68,10 +69,7 @@ function LiteYouTubeEmbedComponent(
     });
   }
 
-  let ytUrl = props.noCookie
-    ? "https://www.youtube-nocookie.com"
-    : "https://www.youtube.com";
-  ytUrl = props.cookie
+  const ytUrl = props.cookie
     ? "https://www.youtube.com"
     : "https://www.youtube-nocookie.com";
 
@@ -103,7 +101,10 @@ function LiteYouTubeEmbedComponent(
   const iframeClassImp = props.iframeClass || "";
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
-  const onIframeAdded = props.onIframeAdded || function () {};
+  const onIframeAdded = React.useCallback(
+    props.onIframeAdded || function () {},
+    [props.onIframeAdded]
+  );
   const rel = props.rel ? "prefetch" : "preload";
   const ContainerElement = props.containerElement || "article";
   const style = props.style || {};
@@ -122,7 +123,7 @@ function LiteYouTubeEmbedComponent(
     if (iframe) {
       onIframeAdded();
     }
-  }, [iframe]);
+  }, [iframe, onIframeAdded]);
 
   return (
     <>
@@ -169,7 +170,7 @@ function LiteYouTubeEmbedComponent(
             title={videoTitle}
             width="560"
             height="315"
-            frameBorder="0"
+            style={{ border: 0 }}
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
