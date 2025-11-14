@@ -5,6 +5,41 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.betaBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.versionBadge {
+  margin: 1rem 0 2rem 0;
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.versionBadge a {
+  color: #0070f3;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.versionBadge a:hover {
+  color: #0051cc;
+  text-decoration: underline;
 }
 
 .main {
