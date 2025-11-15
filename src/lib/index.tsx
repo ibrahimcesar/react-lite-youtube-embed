@@ -322,6 +322,7 @@ function LiteYouTubeEmbedComponent(
           aria-label={`${announceWatch} ${videoTitle}`}
           aria-hidden={iframe || undefined}
           tabIndex={iframe ? -1 : 0}
+          onClick={addIframe}
         >
           <span className="lty-visually-hidden">
             {announceWatch}
