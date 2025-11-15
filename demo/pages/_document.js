@@ -5,7 +5,6 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta name="description" content="React Lite YouTube Embed - A private by default, faster and cleaner YouTube embed component for React applications. Improve performance with lazy loading, WebP thumbnails, and privacy-enhanced mode." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

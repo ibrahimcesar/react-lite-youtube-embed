@@ -16,8 +16,9 @@ export default function Custom404() {
         <p className={styles.description}>
           The page you are looking for does not exist.
         </p>
-        <Link href="/">
-          <a style={{
+        <Link
+          href="/"
+          style={{
             marginTop: '2rem',
             padding: '0.75rem 1.5rem',
             minHeight: '48px',
@@ -31,17 +32,15 @@ export default function Custom404() {
             textDecoration: 'none',
             fontWeight: '600',
             transition: 'all 0.2s ease'
-          }}>
-            Go back home
-          </a>
+          }}
+        >
+          Go back home
         </Link>
       </main>
 
       <footer className={styles.footer}>
         <Link href="/">
-          <a>
-            Demo for <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}>📺</span> React Lite YouTube Embed
-          </a>
+          Demo for <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}>📺</span> React Lite YouTube Embed
         </Link>
       </footer>
     </div>
