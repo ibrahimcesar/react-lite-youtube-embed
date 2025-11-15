@@ -1,5 +1,5 @@
 /**
-* @ibrahimcesar/react-lite-youtube-embed v3.0.6
+* @ibrahimcesar/react-lite-youtube-embed v3.1.0
 *  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
@@ -21,10 +21,10 @@ const Q = {
 }, q = (e, a, u, s = "maxresdefault") => {
   const [t, m] = G("");
   return J(() => {
-    const l = `https://img.youtube.com/${a}/${e}/${s}.${u}`, r = `https://img.youtube.com/${a}/${e}/hqdefault.${u}`, i = Q[s], d = new Image();
+    const l = `https://img.youtube.com/${a}/${e}/${s}.${u}`, h = `https://img.youtube.com/${a}/${e}/hqdefault.${u}`, i = Q[s], d = new Image();
     d.onload = () => {
-      d.width < i ? m(r) : m(l);
-    }, d.onerror = () => m(r), d.src = l;
+      d.width < i ? m(h) : m(l);
+    }, d.onerror = () => m(h), d.src = l;
   }, [e, a, u, s]), t;
 };
 var z = /* @__PURE__ */ ((e) => (e[e.UNSTARTED = -1] = "UNSTARTED", e[e.ENDED = 0] = "ENDED", e[e.PLAYING = 1] = "PLAYING", e[e.PAUSED = 2] = "PAUSED", e[e.BUFFERING = 3] = "BUFFERING", e[e.CUED = 5] = "CUED", e))(z || {}), K = /* @__PURE__ */ ((e) => (e[e.INVALID_PARAM = 2] = "INVALID_PARAM", e[e.HTML5_ERROR = 5] = "HTML5_ERROR", e[e.VIDEO_NOT_FOUND = 100] = "VIDEO_NOT_FOUND", e[e.NOT_EMBEDDABLE = 101] = "NOT_EMBEDDABLE", e[e.NOT_EMBEDDABLE_DISGUISED = 150] = "NOT_EMBEDDABLE_DISGUISED", e))(K || {});
@@ -43,7 +43,7 @@ function X(e, a, u, s, t) {
   return JSON.stringify(m);
 }
 function Z(e, a) {
-  const [u, s] = o.useState(!1), [t, m] = o.useState(e.alwaysLoadIframe || !1), l = encodeURIComponent(e.id), r = typeof e.playlistCoverId == "string" ? encodeURIComponent(e.playlistCoverId) : null, i = e.title, d = e.poster || "hqdefault", R = e.announce || "Watch", U = e.alwaysLoadIframe ? e.autoplay && e.muted : !0, C = o.useMemo(() => {
+  const [u, s] = o.useState(!1), [t, m] = o.useState(e.alwaysLoadIframe || !1), l = encodeURIComponent(e.id), h = typeof e.playlistCoverId == "string" ? encodeURIComponent(e.playlistCoverId) : null, i = e.title, d = e.poster || "hqdefault", R = e.announce || "Watch", U = e.alwaysLoadIframe ? e.autoplay && e.muted : !0, C = o.useMemo(() => {
     const $ = new URLSearchParams({
       ...e.muted ? { mute: "1" } : {},
       ...U ? { autoplay: "1" } : {},
@@ -69,13 +69,13 @@ function Z(e, a) {
     () => e.playlist ? `${f}/embed/videoseries?${C.toString()}` : `${f}/embed/${l}?${C.toString()}`,
     [e.playlist, f, l, C]
   ), O = !e.thumbnail && !e.playlist && d === "maxresdefault", I = e.webp ? "webp" : "jpg", D = e.webp ? "vi_webp" : "vi", v = O ? q(e.id, D, I, d) : null, y = o.useMemo(
-    () => e.thumbnail || v || `https://i.ytimg.com/${D}/${e.playlist ? r : l}/${d}.${I}`,
+    () => e.thumbnail || v || `https://i.ytimg.com/${D}/${e.playlist ? h : l}/${d}.${I}`,
     [
       e.thumbnail,
       v,
       D,
       e.playlist,
-      r,
+      h,
       l,
       d,
       I
@@ -95,12 +95,12 @@ function Z(e, a) {
     if (!t || !e.enableJsApi || !(e.onReady || e.onStateChange || e.onError || e.onPlay || e.onPause || e.onEnd || e.onBuffering || e.onPlaybackRateChange || e.onPlaybackQualityChange))
       return;
     let N = !1;
-    const g = (h) => {
-      if (h.origin !== "https://www.youtube.com" && h.origin !== "https://www.youtube-nocookie.com")
+    const g = (r) => {
+      if (r.origin !== "https://www.youtube.com" && r.origin !== "https://www.youtube-nocookie.com")
         return;
       let n;
       try {
-        n = typeof h.data == "string" ? JSON.parse(h.data) : h.data;
+        n = typeof r.data == "string" ? JSON.parse(r.data) : r.data;
       } catch {
         return;
       }
@@ -152,16 +152,16 @@ function Z(e, a) {
       }
     };
     window.addEventListener("message", g);
-    const w = () => {
+    const w = [], V = () => {
       typeof a == "object" && a?.current?.contentWindow && a.current.contentWindow.postMessage(
         '{"event":"listening","id":"' + l + '"}',
         "*"
       );
     };
-    w();
-    const V = setTimeout(w, 100);
-    return () => {
-      window.removeEventListener("message", g), clearTimeout(V);
+    return [0, 100, 250, 500, 1e3].forEach((r) => {
+      w.push(setTimeout(V, r));
+    }), () => {
+      window.removeEventListener("message", g), w.forEach(clearTimeout);
     };
   }, [
     t,
@@ -278,12 +278,12 @@ function Z(e, a) {
     )
   ] });
 }
-const te = o.forwardRef(
+const ae = o.forwardRef(
   Z
 );
 export {
   K as PlayerError,
   z as PlayerState,
-  te as default
+  ae as default
 };
 //# sourceMappingURL=index.es.js.map
