@@ -578,9 +578,9 @@ function EventsExample() {
     <div id="events" className={styles.example}>
       <h2>Interactive Events Demo 🎉 <span style={{fontSize: '0.7em', background: '#0070f3', color: 'white', padding: '0.2em 0.6em', borderRadius: '4px', fontWeight: '600'}}>NEW in v3.0+</span></h2>
       <p className={styles.exampleDescription}>
-        <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code>.
+        <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code> and a <code>ref</code> prop.
+        For the best experience with events, also set <code>alwaysLoadIframe={'{'}true{'}'}</code> to load the YouTube player immediately.
         Play the video below and watch the live event log to see all available events in action.
-        The event log below only captures events from <strong>this specific video embed</strong>.
       </p>
 
       {/* Current State Display */}
@@ -625,6 +625,7 @@ function EventsExample() {
         id="HaEPXoXVf2k"
         title="Interactive Events Demo Video"
         enableJsApi={true}
+        alwaysLoadIframe={true}
         onIframeAdded={handleIframeAdded}
         onReady={handleReady}
         onStateChange={handleStateChange}
@@ -733,6 +734,7 @@ function EventsExample() {
         id="HaEPXoXVf2k"
         title="Interactive Events Demo"
         enableJsApi={true}  // ⚠️ REQUIRED for all events
+        alwaysLoadIframe={true}  // Load iframe immediately (recommended for events)
 
         // Lifecycle Events
         onIframeAdded={() => {
