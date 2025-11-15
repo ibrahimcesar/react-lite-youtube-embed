@@ -117,26 +117,6 @@ This document provides an overview of all GitHub Actions workflows configured fo
 
 ---
 
-### Link Checker (`links.yml`)
-
-**Trigger:**
-- PRs touching markdown/HTML files
-- Pushes to `main` with markdown/HTML changes
-- Weekly on Sundays at 9:00 AM UTC
-- Manual workflow dispatch
-
-**Purpose:** Ensure documentation links aren't broken
-
-**Features:**
-- Checks all `.md` and `.html` files
-- Retries failed links (3 attempts)
-- Creates report artifact
-- Comments on PRs if broken links found
-
-**Required:** Optional but helpful for documentation quality
-
----
-
 ## Automation
 
 ### Dependabot (`dependabot.yml`)
@@ -193,39 +173,6 @@ This document provides an overview of all GitHub Actions workflows configured fo
 **Features:**
 - Automatically removes stale label if updated
 - Friendly messages explaining the process
-
----
-
-## Performance
-
-### Lighthouse CI (`lighthouse.yml`)
-
-**Trigger:**
-- PRs touching source/demo files
-- Manual workflow dispatch
-
-**Purpose:** Track performance metrics for the demo page
-
-**Metrics tested:**
-- Performance score (min 90%)
-- Accessibility (min 90%)
-- Best Practices (min 90%)
-- SEO (min 90%)
-- Core Web Vitals:
-  - First Contentful Paint (< 2s)
-  - Largest Contentful Paint (< 2.5s)
-  - Cumulative Layout Shift (< 0.1)
-  - Total Blocking Time (< 300ms)
-  - Time to Interactive (< 3.5s)
-
-**Configuration:** `.github/lighthouse/lighthouserc.json`
-
-**Features:**
-- Runs 3 times and averages results
-- Uploads reports as artifacts
-- Desktop preset with moderate throttling
-
-**Required:** Optional but highly recommended for web components
 
 ---
 
@@ -451,16 +398,6 @@ npm run size
 3. Test failures due to behavior changes
 
 **Fix:** Review and update code to be compatible with new versions
-
-### Lighthouse Failures
-
-**Common issues:**
-1. Performance regression in code
-2. Accessibility issues added
-3. Missing alt text or ARIA labels
-4. Large bundle increases
-
-**Fix:** Review the Lighthouse report artifact for specific recommendations
 
 ---
 

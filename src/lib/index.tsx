@@ -306,7 +306,7 @@ function LiteYouTubeEmbedComponent(
             );
           }
         }
-      } catch (e) {
+      } catch {
         // Not JSON or invalid data, ignore
       }
     };
