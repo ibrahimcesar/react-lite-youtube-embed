@@ -176,39 +176,6 @@ This document provides an overview of all GitHub Actions workflows configured fo
 
 ---
 
-## Performance
-
-### Lighthouse CI (`lighthouse.yml`)
-
-**Trigger:**
-- PRs touching source/demo files
-- Manual workflow dispatch
-
-**Purpose:** Track performance metrics for the demo page
-
-**Metrics tested:**
-- Performance score (min 90%)
-- Accessibility (min 90%)
-- Best Practices (min 90%)
-- SEO (min 90%)
-- Core Web Vitals:
-  - First Contentful Paint (< 2s)
-  - Largest Contentful Paint (< 2.5s)
-  - Cumulative Layout Shift (< 0.1)
-  - Total Blocking Time (< 300ms)
-  - Time to Interactive (< 3.5s)
-
-**Configuration:** `.github/lighthouse/lighthouserc.json`
-
-**Features:**
-- Runs 3 times and averages results
-- Uploads reports as artifacts
-- Desktop preset with moderate throttling
-
-**Required:** Optional but highly recommended for web components
-
----
-
 ## Release & Deployment
 
 ### Automated Release (`auto-release.yml`)
@@ -431,16 +398,6 @@ npm run size
 3. Test failures due to behavior changes
 
 **Fix:** Review and update code to be compatible with new versions
-
-### Lighthouse Failures
-
-**Common issues:**
-1. Performance regression in code
-2. Accessibility issues added
-3. Missing alt text or ARIA labels
-4. Large bundle increases
-
-**Fix:** Review the Lighthouse report artifact for specific recommendations
 
 ---
 
