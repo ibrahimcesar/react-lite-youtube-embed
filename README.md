@@ -192,6 +192,55 @@ const App = () => (
 );
 ```
 
+## ⚡ Performance: Lazy Loading
+
+Improve Lighthouse scores and reduce bandwidth by enabling lazy loading for thumbnail images:
+
+```javascript
+<LiteYouTubeEmbed
+  id="L2vS_050c-M"
+  title="What's new in Material Design"
+  lazyLoad={true}
+/>
+```
+
+**How it works:**
+- **Default behavior** (`lazyLoad={false}`): Uses CSS `background-image` with preload link
+- **With lazy loading** (`lazyLoad={true}`): Uses `<img loading="lazy">` for native browser lazy loading
+
+**Benefits:**
+- ✅ Defers loading of offscreen images
+- ✅ Reduces initial page bandwidth (especially for pages with multiple videos)
+- ✅ Improves Lighthouse "defer offscreen images" score
+- ✅ Better mobile performance on slow connections
+- ✅ 97%+ browser support
+
+**When to use:**
+- Pages with multiple YouTube embeds
+- Videos placed below the fold
+- Mobile-first applications
+- Performance-critical pages
+
+**Example with multiple embeds:**
+
+```javascript
+const VideoGallery = () => (
+  <div>
+    <LiteYouTubeEmbed
+      id="dQw4w9WgXcQ"
+      title="Video 1"
+      lazyLoad
+    />
+    <LiteYouTubeEmbed
+      id="L2vS_050c-M"
+      title="Video 2"
+      lazyLoad
+    />
+    {/* Only loads visible thumbnails initially */}
+  </div>
+);
+```
+
 ## 🧰 Bring Your Own Styles
 
 React Lite YouTube Embed comes with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
@@ -411,6 +460,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | enableJsApi | boolean | `false` | If enabled, you can send messages to the iframe (via the `ref` prop) to control the player programmatically |
 | focusOnLoad | boolean | `false` | Automatically focus iframe when loaded (useful for keyboard navigation) |
 | iframeClass | string | `""` | Pass the string class for the iframe element itself |
+| lazyLoad | boolean | `false` | Enable native lazy loading for thumbnail images. Improves Lighthouse scores and reduces bandwidth for below-fold videos. Uses `<img loading="lazy">` instead of CSS background-image |
 | muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
 | noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
 | noscriptFallback | boolean | `true` | Include noscript tag with YouTube link for accessibility and SEO crawlers |

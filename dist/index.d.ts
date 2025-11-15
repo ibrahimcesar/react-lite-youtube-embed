@@ -36,6 +36,13 @@ export declare interface LiteYouTubeProps {
     focusOnLoad?: boolean;
     referrerPolicy?: React_2.HTMLAttributeReferrerPolicy;
     /**
+     * Enable lazy loading for thumbnail image.
+     * Uses native browser lazy loading to defer offscreen images.
+     * Improves Lighthouse scores and reduces bandwidth for below-fold videos.
+     * @default false
+     */
+    lazyLoad?: boolean;
+    /**
      * SEO metadata for search engines. Enables rich results and better discoverability.
      * Provides structured data following schema.org VideoObject specification.
      * @see https://developers.google.com/search/docs/appearance/structured-data/video
