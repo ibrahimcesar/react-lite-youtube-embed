@@ -510,7 +510,11 @@ function LiteYouTubeEmbedComponent(
               case PlayerState.ENDED:
                 props.onEnd?.();
                 // Stop video to return to thumbnail and prevent related videos
-                if (props.stopOnEnd && typeof ref === "object" && ref?.current?.contentWindow) {
+                if (
+                  props.stopOnEnd &&
+                  typeof ref === "object" &&
+                  ref?.current?.contentWindow
+                ) {
                   ref.current.contentWindow.postMessage(
                     '{"event":"command","func":"stopVideo","args":""}',
                     "*"

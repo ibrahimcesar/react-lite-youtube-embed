@@ -770,9 +770,7 @@ describe("LiteYouTubeEmbed", () => {
 
     test("calls onEnd when video ends", async () => {
       const onEnd = vi.fn();
-      render(
-        <LiteYouTubeEmbed {...defaultProps} enableJsApi onEnd={onEnd} />
-      );
+      render(<LiteYouTubeEmbed {...defaultProps} enableJsApi onEnd={onEnd} />);
 
       // Click to load iframe
       const playButton = screen.getByRole("button");
