@@ -312,7 +312,10 @@ export default function Home() {
           {/* Example 9: Player Control */}
           <PlayerControlExample />
 
-          {/* Example 10: Accessibility */}
+          {/* Example 10: Interactive Events Demo (NEW in v3.0+) */}
+          <EventsExample />
+
+          {/* Example 11: Accessibility */}
           <div className={styles.example}>
             <h2>Enhanced Accessibility</h2>
             <p className={styles.exampleDescription}>
@@ -437,6 +440,341 @@ function PlayerControlExample() {
           </code>
         </pre>
       </details>
+    </div>
+  );
+}
+
+// Separate component for Interactive Events Demo (NEW in v3.0+)
+function EventsExample() {
+  const [events, setEvents] = useState([]);
+  const [currentState, setCurrentState] = useState('Not Started');
+  const [playerInfo, setPlayerInfo] = useState({});
+
+  const addEvent = (eventName, data = null) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setEvents(prev => [{
+      name: eventName,
+      data: data,
+      timestamp: timestamp,
+      id: Date.now() + Math.random()
+    }, ...prev].slice(0, 12)); // Keep last 12 events
+  };
+
+  const clearEvents = () => {
+    setEvents([]);
+    setCurrentState('Not Started');
+    setPlayerInfo({});
+  };
+
+  const stateNames = {
+    '-1': 'Unstarted',
+    '0': 'Ended',
+    '1': 'Playing',
+    '2': 'Paused',
+    '3': 'Buffering',
+    '5': 'Cued'
+  };
+
+  return (
+    <div className={styles.example}>
+      <h2>Interactive Events Demo 🎉 <span style={{fontSize: '0.7em', background: '#0070f3', color: 'white', padding: '0.2em 0.6em', borderRadius: '4px', fontWeight: '600'}}>NEW in v3.0+</span></h2>
+      <p className={styles.exampleDescription}>
+        <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code>.
+        Play the video below and watch the live event log to see all available events in action.
+      </p>
+
+      {/* Current State Display */}
+      <div style={{
+        display: 'flex',
+        gap: '1rem',
+        marginBottom: '1rem',
+        flexWrap: 'wrap'
+      }}>
+        <div style={{
+          flex: '1',
+          minWidth: '200px',
+          padding: '1rem',
+          background: '#f0f9ff',
+          border: '2px solid #0070f3',
+          borderRadius: '8px'
+        }}>
+          <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem' }}>Player State</div>
+          <div style={{ fontSize: '1.25rem', fontWeight: '700', color: '#0070f3' }}>{currentState}</div>
+        </div>
+        {playerInfo.videoId && (
+          <div style={{
+            flex: '1',
+            minWidth: '200px',
+            padding: '1rem',
+            background: '#f0fdf4',
+            border: '2px solid #10b981',
+            borderRadius: '8px'
+          }}>
+            <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem' }}>Video Info</div>
+            <div style={{ fontSize: '0.9rem', fontFamily: 'monospace' }}>
+              ID: {playerInfo.videoId}
+              {playerInfo.duration && <><br/>Duration: {playerInfo.duration}s</>}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Video Player */}
+      <LiteYouTubeEmbed
+        id="HaEPXoXVf2k"
+        title="Interactive Events Demo Video"
+        enableJsApi={true}
+        onIframeAdded={() => addEvent('onIframeAdded')}
+        onReady={(e) => {
+          addEvent('onReady', e);
+          setPlayerInfo(e);
+        }}
+        onStateChange={(e) => {
+          addEvent('onStateChange', e);
+          setCurrentState(stateNames[e.state] || 'Unknown');
+        }}
+        onPlay={() => {
+          addEvent('onPlay');
+          setCurrentState('Playing');
+        }}
+        onPause={() => {
+          addEvent('onPause');
+          setCurrentState('Paused');
+        }}
+        onEnd={() => {
+          addEvent('onEnd');
+          setCurrentState('Ended');
+        }}
+        onBuffering={() => {
+          addEvent('onBuffering');
+          setCurrentState('Buffering');
+        }}
+        onError={(errorCode) => {
+          addEvent('onError', { errorCode });
+          setCurrentState('Error');
+        }}
+        onPlaybackRateChange={(rate) => {
+          addEvent('onPlaybackRateChange', { rate });
+        }}
+        onPlaybackQualityChange={(quality) => {
+          addEvent('onPlaybackQualityChange', { quality });
+        }}
+      />
+
+      {/* Event Log */}
+      <div style={{ marginTop: '1.5rem' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '0.75rem'
+        }}>
+          <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Live Event Log</h3>
+          <button
+            onClick={clearEvents}
+            style={{
+              padding: '0.5rem 1rem',
+              fontSize: '0.85rem',
+              background: '#dc2626',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: '600'
+            }}
+          >
+            Clear Log
+          </button>
+        </div>
+        <div style={{
+          maxHeight: '300px',
+          overflowY: 'auto',
+          background: '#1e1e1e',
+          padding: '1rem',
+          borderRadius: '8px',
+          fontFamily: 'monospace',
+          fontSize: '0.85rem'
+        }}>
+          {events.length === 0 ? (
+            <div style={{ color: '#888', textAlign: 'center', padding: '2rem' }}>
+              No events yet. Click play on the video to start seeing events!
+            </div>
+          ) : (
+            events.map((event) => (
+              <div
+                key={event.id}
+                style={{
+                  padding: '0.5rem',
+                  marginBottom: '0.5rem',
+                  background: '#2d2d2d',
+                  borderLeft: '3px solid #0070f3',
+                  borderRadius: '4px'
+                }}
+              >
+                <div style={{ color: '#10b981', fontWeight: '600' }}>
+                  {event.name}
+                  <span style={{ color: '#888', fontSize: '0.8em', marginLeft: '0.5rem' }}>
+                    {event.timestamp}
+                  </span>
+                </div>
+                {event.data && (
+                  <div style={{ color: '#60a5fa', marginTop: '0.25rem' }}>
+                    {JSON.stringify(event.data, null, 2)}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <details className={styles.codeToggle} style={{ marginTop: '1.5rem' }}>
+        <summary>View Code - All Event Handlers</summary>
+        <pre>
+          <code className="language-jsx">
+{`import { useState } from 'react';
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+function EventsExample() {
+  const [events, setEvents] = useState([]);
+  const [currentState, setCurrentState] = useState('Not Started');
+
+  const addEvent = (eventName, data = null) => {
+    setEvents(prev => [{
+      name: eventName,
+      data: data,
+      timestamp: new Date().toLocaleTimeString()
+    }, ...prev]);
+  };
+
+  return (
+    <>
+      {/* Current State: {currentState} */}
+
+      <LiteYouTubeEmbed
+        id="HaEPXoXVf2k"
+        title="Interactive Events Demo"
+        enableJsApi={true}  // ⚠️ REQUIRED for all events
+
+        // Lifecycle Events
+        onIframeAdded={() => {
+          addEvent('onIframeAdded');
+        }}
+        onReady={(event) => {
+          // event: { videoId: string, title: string }
+          addEvent('onReady', event);
+        }}
+
+        // State Change Events
+        onStateChange={(event) => {
+          // event: { state: number, currentTime?: number, duration?: number }
+          // States: -1=Unstarted, 0=Ended, 1=Playing, 2=Paused, 3=Buffering, 5=Cued
+          addEvent('onStateChange', event);
+          setCurrentState(event.state);
+        }}
+
+        // Convenience Events (shortcuts for onStateChange)
+        onPlay={() => {
+          addEvent('onPlay');
+        }}
+        onPause={() => {
+          addEvent('onPause');
+        }}
+        onEnd={() => {
+          addEvent('onEnd');
+        }}
+        onBuffering={() => {
+          addEvent('onBuffering');
+        }}
+
+        // Error Events
+        onError={(errorCode) => {
+          // Error codes: 2=Invalid param, 5=HTML5 error, 100=Not found,
+          // 101/150=Not embeddable
+          addEvent('onError', { errorCode });
+        }}
+
+        // Playback Events
+        onPlaybackRateChange={(rate) => {
+          // rate: 0.25, 0.5, 1, 1.5, 2
+          addEvent('onPlaybackRateChange', { rate });
+        }}
+        onPlaybackQualityChange={(quality) => {
+          // quality: "small", "medium", "large", "hd720", "hd1080"
+          addEvent('onPlaybackQualityChange', { quality });
+        }}
+      />
+
+      {/* Display event log */}
+      <div>
+        {events.map((event, i) => (
+          <div key={i}>
+            {event.name}: {JSON.stringify(event.data)}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}`}
+          </code>
+        </pre>
+      </details>
+
+      <details className={styles.codeToggle}>
+        <summary>View Code - Type Definitions</summary>
+        <pre>
+          <code className="language-typescript">
+{`// Player State enum
+enum PlayerState {
+  UNSTARTED = -1,
+  ENDED = 0,
+  PLAYING = 1,
+  PAUSED = 2,
+  BUFFERING = 3,
+  CUED = 5
+}
+
+// Error codes enum
+enum PlayerError {
+  INVALID_PARAM = 2,
+  HTML5_ERROR = 5,
+  VIDEO_NOT_FOUND = 100,
+  NOT_EMBEDDABLE = 101,
+  NOT_EMBEDDABLE_DISGUISED = 150
+}
+
+// Event type definitions
+interface PlayerReadyEvent {
+  videoId: string;
+  title: string;
+}
+
+interface PlayerStateChangeEvent {
+  state: PlayerState;
+  currentTime?: number;
+  duration?: number;
+}
+
+// Component props
+interface LiteYouTubeEmbedProps {
+  // ... other props
+
+  // Event handlers (all require enableJsApi={true})
+  onIframeAdded?: () => void;
+  onReady?: (event: PlayerReadyEvent) => void;
+  onStateChange?: (event: PlayerStateChangeEvent) => void;
+  onPlay?: () => void;
+  onPause?: () => void;
+  onEnd?: () => void;
+  onBuffering?: () => void;
+  onError?: (errorCode: PlayerError) => void;
+  onPlaybackRateChange?: (playbackRate: number) => void;
+  onPlaybackQualityChange?: (quality: string) => void;
+}`}
+          </code>
+        </pre>
+      </details>
+
     </div>
   );
 }
