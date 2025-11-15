@@ -3,7 +3,7 @@ import * as React_2 from 'react';
 declare const _default: React_2.ForwardRefExoticComponent<LiteYouTubeProps & React_2.RefAttributes<HTMLIFrameElement>>;
 export default _default;
 
-declare type imgResolution = "default" | "mqdefault" | "hqdefault" | "sddefault" | "maxresdefault";
+export declare type imgResolution = "default" | "mqdefault" | "hqdefault" | "sddefault" | "maxresdefault";
 
 export declare interface LiteYouTubeProps {
     announce?: string;
