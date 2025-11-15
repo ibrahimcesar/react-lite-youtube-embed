@@ -430,6 +430,263 @@ function VideoPlayer() {
 }
 ```
 
+## 🎬 Player Events (New in v3.0)
+
+Get real-time notifications when the YouTube player changes state, encounters errors, or when users interact with playback controls. All event handlers require `enableJsApi={true}` to work.
+
+### Quick Start
+
+```typescript
+import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-embed';
+
+function App() {
+  return (
+    <LiteYouTubeEmbed
+      id="dQw4w9WgXcQ"
+      title="Rick Astley - Never Gonna Give You Up"
+      enableJsApi
+
+      // Simple convenience handlers
+      onPlay={() => console.log('Video started playing')}
+      onPause={() => console.log('Video paused')}
+      onEnd={() => console.log('Video ended')}
+
+      // Advanced state change handler
+      onStateChange={(event) => {
+        console.log('State:', event.state);
+        console.log('Current time:', event.currentTime);
+      }}
+
+      // Error handling
+      onError={(errorCode) => {
+        if (errorCode === PlayerError.VIDEO_NOT_FOUND) {
+          alert('Video not available');
+        }
+      }}
+    />
+  );
+}
+```
+
+### Available Event Handlers
+
+#### Core Events
+
+**`onReady(event: PlayerReadyEvent)`**
+Fires when the player is loaded and ready to receive commands. This is the first event you'll receive.
+
+```typescript
+onReady={(event) => {
+  console.log(`Player ready for: ${event.videoId}`);
+  // Safe to call player methods now
+}}
+```
+
+**`onStateChange(event: PlayerStateChangeEvent)`**
+Fires whenever the player's state changes (playing, paused, ended, buffering, etc.). Use this for comprehensive state tracking.
+
+```typescript
+onStateChange={(event) => {
+  switch (event.state) {
+    case PlayerState.PLAYING:
+      console.log('Playing at', event.currentTime, 'seconds');
+      break;
+    case PlayerState.PAUSED:
+      console.log('Paused');
+      break;
+    case PlayerState.ENDED:
+      console.log('Video finished');
+      break;
+    case PlayerState.BUFFERING:
+      console.log('Buffering...');
+      break;
+  }
+}}
+```
+
+**Available PlayerState values:**
+- `PlayerState.UNSTARTED` (-1)
+- `PlayerState.ENDED` (0)
+- `PlayerState.PLAYING` (1)
+- `PlayerState.PAUSED` (2)
+- `PlayerState.BUFFERING` (3)
+- `PlayerState.CUED` (5)
+
+**`onError(errorCode: PlayerError)`**
+Fires when the player encounters an error. Use this for graceful error handling.
+
+```typescript
+onError={(code) => {
+  switch (code) {
+    case PlayerError.INVALID_PARAM:
+      console.error('Invalid video parameter');
+      break;
+    case PlayerError.VIDEO_NOT_FOUND:
+      console.error('Video not found or removed');
+      break;
+    case PlayerError.NOT_EMBEDDABLE:
+      console.error('Video cannot be embedded');
+      break;
+  }
+}}
+```
+
+**Available PlayerError codes:**
+- `PlayerError.INVALID_PARAM` (2) - Invalid parameter value
+- `PlayerError.HTML5_ERROR` (5) - HTML5 player error
+- `PlayerError.VIDEO_NOT_FOUND` (100) - Video not found or removed
+- `PlayerError.NOT_EMBEDDABLE` (101) - Video owner disabled embedding
+- `PlayerError.NOT_EMBEDDABLE_DISGUISED` (150) - Same as 101 (used in disguised mode)
+
+#### Convenience Events
+
+These are simple wrappers around `onStateChange` for common use cases. They don't receive any parameters.
+
+**`onPlay()`** - Video started playing
+**`onPause()`** - Video was paused
+**`onEnd()`** - Video finished playing
+**`onBuffering()`** - Video is buffering
+
+```typescript
+<LiteYouTubeEmbed
+  id="dQw4w9WgXcQ"
+  title="My Video"
+  enableJsApi
+  onPlay={() => analytics.track('video_play')}
+  onPause={() => analytics.track('video_pause')}
+  onEnd={() => loadNextVideo()}
+  onBuffering={() => showLoadingSpinner()}
+/>
+```
+
+#### Advanced Events
+
+**`onPlaybackRateChange(playbackRate: number)`**
+Fires when the user changes playback speed. Common values: `0.25`, `0.5`, `1`, `1.5`, `2`.
+
+```typescript
+onPlaybackRateChange={(rate) => {
+  console.log(`Playback speed: ${rate}x`);
+}}
+```
+
+**`onPlaybackQualityChange(quality: string)`**
+Fires when video quality changes. Values: `"small"` (240p), `"medium"` (360p), `"large"` (480p), `"hd720"`, `"hd1080"`, etc.
+
+```typescript
+onPlaybackQualityChange={(quality) => {
+  console.log(`Quality changed to: ${quality}`);
+  analytics.track('quality_change', { quality });
+}}
+```
+
+### Real-World Examples
+
+#### Analytics Tracking
+
+```typescript
+function VideoWithAnalytics() {
+  const [playStartTime, setPlayStartTime] = useState(null);
+
+  return (
+    <LiteYouTubeEmbed
+      id="dQw4w9WgXcQ"
+      title="My Video"
+      enableJsApi
+      onReady={() => {
+        analytics.track('video_ready');
+      }}
+      onPlay={() => {
+        setPlayStartTime(Date.now());
+        analytics.track('video_play');
+      }}
+      onPause={() => {
+        analytics.track('video_pause');
+      }}
+      onEnd={() => {
+        const watchTime = Date.now() - playStartTime;
+        analytics.track('video_complete', { watchTime });
+      }}
+      onError={(code) => {
+        analytics.track('video_error', { errorCode: code });
+      }}
+    />
+  );
+}
+```
+
+#### Video Playlist with Auto-Advance
+
+```typescript
+function VideoPlaylist() {
+  const videos = ['dQw4w9WgXcQ', 'abc123def', 'xyz789uvw'];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleVideoEnd = () => {
+    if (currentIndex < videos.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  return (
+    <LiteYouTubeEmbed
+      id={videos[currentIndex]}
+      title={`Video ${currentIndex + 1}`}
+      enableJsApi
+      onEnd={handleVideoEnd}
+      onError={(code) => {
+        console.error(`Error with video ${currentIndex}:`, code);
+        // Skip to next video on error
+        handleVideoEnd();
+      }}
+    />
+  );
+}
+```
+
+#### Custom Play/Pause UI
+
+```typescript
+function CustomControls() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  return (
+    <div>
+      <LiteYouTubeEmbed
+        id="dQw4w9WgXcQ"
+        title="My Video"
+        enableJsApi
+        alwaysLoadIframe  // Required for external controls
+        onReady={() => setIsReady(true)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnd={() => setIsPlaying(false)}
+      />
+
+      {isReady && (
+        <div className="custom-controls">
+          <span>{isPlaying ? '▶️ Playing' : '⏸️ Paused'}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### Important Notes
+
+⚠️ **Events require `enableJsApi={true}`** - All event handlers require this prop to be enabled.
+
+⚠️ **Lazy Loading Limitation** - By default, the iframe only loads after the user clicks the poster. This means:
+- Events won't fire until after user interaction
+- Use `onIframeAdded` callback to know when the iframe is ready
+- Or use `alwaysLoadIframe={true}` if you need events immediately (not recommended for privacy/performance)
+
+⚠️ **Origin Validation** - The component automatically validates that events come from YouTube domains (`youtube.com` or `youtube-nocookie.com`) for security.
+
+⚠️ **Cleanup** - Event listeners are automatically cleaned up when the component unmounts.
+
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
 
 To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead use now you have three options:
@@ -596,7 +853,16 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
 | noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
 | noscriptFallback | boolean | `true` | Include noscript tag with YouTube link for accessibility and SEO crawlers |
+| **onBuffering** | function | `undefined` | **[Event]** Fires when video is buffering. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onEnd** | function | `undefined` | **[Event]** Fires when video ends. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onError** | function | `undefined` | **[Event]** Fires on player errors with error code. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
 | onIframeAdded | function | `undefined` | Callback fired when iframe loads. **Use this to know when the `ref` becomes available** (ref is only populated after user clicks the poster). See [Using Refs](#-using-refs-with-lazy-loaded-iframes) section for examples |
+| **onPause** | function | `undefined` | **[Event]** Fires when video is paused. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onPlay** | function | `undefined` | **[Event]** Fires when video starts playing. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onPlaybackQualityChange** | function | `undefined` | **[Event]** Fires when video quality changes. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onPlaybackRateChange** | function | `undefined` | **[Event]** Fires when playback speed changes. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onReady** | function | `undefined` | **[Event]** Fires when player is ready. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
+| **onStateChange** | function | `undefined` | **[Event]** Fires on all state changes (play/pause/end/buffering). Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
 | params | string | `""` | Additional params to pass to the URL. Format: `start=1150&other=value`. Don't include `?` or leading `&`. Note: use `start` not `t` for time |
 | playerClass | string | `"lty-playbtn"` | Pass the string class for the player button to customize it |
 | playlist | boolean | `false` | Set to `true` when your id is from a playlist |

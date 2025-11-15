@@ -6,6 +6,66 @@ import { imgResolution } from "./useYoutubeThumbnail";
 export type { imgResolution };
 
 /**
+ * YouTube Player State constants
+ * @see https://developers.google.com/youtube/iframe_api_reference#onStateChange
+ */
+export enum PlayerState {
+  UNSTARTED = -1,
+  ENDED = 0,
+  PLAYING = 1,
+  PAUSED = 2,
+  BUFFERING = 3,
+  CUED = 5,
+}
+
+/**
+ * YouTube Player Error codes
+ * @see https://developers.google.com/youtube/iframe_api_reference#onError
+ */
+export enum PlayerError {
+  INVALID_PARAM = 2,
+  HTML5_ERROR = 5,
+  VIDEO_NOT_FOUND = 100,
+  NOT_EMBEDDABLE = 101,
+  NOT_EMBEDDABLE_DISGUISED = 150,
+}
+
+/**
+ * YouTube Player Event data structure
+ * Represents the data received from YouTube's postMessage API
+ */
+export interface YouTubeEvent {
+  info?: {
+    playerState?: PlayerState;
+    currentTime?: number;
+    duration?: number;
+    videoData?: {
+      video_id: string;
+      title: string;
+    };
+    playbackRate?: number;
+    playbackQuality?: string;
+  };
+}
+
+/**
+ * Event handler for player state changes
+ */
+export interface PlayerStateChangeEvent {
+  state: PlayerState;
+  currentTime?: number;
+  duration?: number;
+}
+
+/**
+ * Event handler for when player is ready
+ */
+export interface PlayerReadyEvent {
+  videoId: string;
+  title: string;
+}
+
+/**
  * SEO metadata for YouTube video following schema.org VideoObject structure.
  * See: https://developers.google.com/search/docs/appearance/structured-data/video
  *
@@ -113,6 +173,100 @@ export interface LiteYouTubeProps {
    * @default true
    */
   noscriptFallback?: boolean;
+
+  // ==================== Player Event Handlers ====================
+
+  /**
+   * Fires when the player is ready and API is available.
+   * This is the first event to fire and indicates it's safe to call player methods.
+   * @param event - Contains video ID and title
+   * @example
+   * onReady={(event) => console.log('Player ready for:', event.videoId)}
+   */
+  onReady?: (event: PlayerReadyEvent) => void;
+
+  /**
+   * Fires when the player's state changes.
+   * Use this for comprehensive state tracking (play, pause, end, buffering, etc.)
+   * @param event - Contains state, current time, and duration
+   * @example
+   * onStateChange={(event) => {
+   *   if (event.state === PlayerState.PLAYING) {
+   *     analytics.track('video_play');
+   *   }
+   * }}
+   */
+  onStateChange?: (event: PlayerStateChangeEvent) => void;
+
+  /**
+   * Fires when the player encounters an error.
+   * Use this for graceful error handling and user feedback.
+   * @param errorCode - YouTube error code (see PlayerError enum)
+   * @example
+   * onError={(code) => {
+   *   if (code === PlayerError.VIDEO_NOT_FOUND) {
+   *     showErrorMessage('Video not available');
+   *   }
+   * }}
+   */
+  onError?: (errorCode: PlayerError) => void;
+
+  // ==================== Convenience Event Handlers ====================
+
+  /**
+   * Fires when the video starts playing.
+   * Convenience wrapper for onStateChange with PlayerState.PLAYING.
+   * @example
+   * onPlay={() => analytics.track('video_play')}
+   */
+  onPlay?: () => void;
+
+  /**
+   * Fires when the video is paused.
+   * Convenience wrapper for onStateChange with PlayerState.PAUSED.
+   * @example
+   * onPause={() => analytics.track('video_pause')}
+   */
+  onPause?: () => void;
+
+  /**
+   * Fires when the video ends.
+   * Convenience wrapper for onStateChange with PlayerState.ENDED.
+   * Useful for loading next video in a playlist.
+   * @example
+   * onEnd={() => loadNextVideo()}
+   */
+  onEnd?: () => void;
+
+  /**
+   * Fires when the video is buffering.
+   * Convenience wrapper for onStateChange with PlayerState.BUFFERING.
+   * @example
+   * onBuffering={() => showLoadingSpinner()}
+   */
+  onBuffering?: () => void;
+
+  // ==================== Advanced Event Handlers ====================
+
+  /**
+   * Fires when the playback rate (speed) changes.
+   * Common values: 0.25, 0.5, 1, 1.5, 2
+   * @param playbackRate - The new playback rate
+   * @example
+   * onPlaybackRateChange={(rate) => console.log('Speed:', rate + 'x')}
+   */
+  onPlaybackRateChange?: (playbackRate: number) => void;
+
+  /**
+   * Fires when the video quality changes.
+   * Common values: "small" (240p), "medium" (360p), "large" (480p), "hd720", "hd1080"
+   * @param quality - The new quality level
+   * @example
+   * onPlaybackQualityChange={(quality) => {
+   *   analytics.track('quality_change', { quality });
+   * }}
+   */
+  onPlaybackQualityChange?: (quality: string) => void;
 }
 
 /**
@@ -270,6 +424,154 @@ function LiteYouTubeEmbedComponent(
       }
     }
   }, [iframe, onIframeAdded, props.focusOnLoad, ref]);
+
+  // Set up postMessage listener for YouTube player events
+  React.useEffect(() => {
+    // Only set up listener if iframe is loaded and we have event handlers
+    if (!iframe || !props.enableJsApi) {
+      return;
+    }
+
+    const hasEventHandlers =
+      props.onReady ||
+      props.onStateChange ||
+      props.onError ||
+      props.onPlay ||
+      props.onPause ||
+      props.onEnd ||
+      props.onBuffering ||
+      props.onPlaybackRateChange ||
+      props.onPlaybackQualityChange;
+
+    if (!hasEventHandlers) {
+      return;
+    }
+
+    let isReady = false;
+
+    const handleMessage = (event: MessageEvent) => {
+      // Verify origin is from YouTube
+      if (
+        event.origin !== "https://www.youtube.com" &&
+        event.origin !== "https://www.youtube-nocookie.com"
+      ) {
+        return;
+      }
+
+      let data: { event?: string; info?: YouTubeEvent["info"] };
+      try {
+        data =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      } catch {
+        return; // Invalid JSON, ignore
+      }
+
+      // Handle different YouTube events
+      switch (data.event) {
+        case "onReady":
+          if (!isReady) {
+            isReady = true;
+            if (props.onReady) {
+              props.onReady({
+                videoId: props.id,
+                title: videoTitle,
+              });
+            }
+          }
+          break;
+
+        case "onStateChange":
+          if (data.info?.playerState !== undefined) {
+            const state = data.info.playerState as PlayerState;
+
+            // Call main onStateChange handler
+            if (props.onStateChange) {
+              props.onStateChange({
+                state,
+                currentTime: data.info.currentTime,
+                duration: data.info.duration,
+              });
+            }
+
+            // Call convenience handlers
+            switch (state) {
+              case PlayerState.PLAYING:
+                props.onPlay?.();
+                break;
+              case PlayerState.PAUSED:
+                props.onPause?.();
+                break;
+              case PlayerState.ENDED:
+                props.onEnd?.();
+                break;
+              case PlayerState.BUFFERING:
+                props.onBuffering?.();
+                break;
+            }
+          }
+          break;
+
+        case "onError":
+          if (data.info && "errorCode" in data.info) {
+            const errorCode = (data.info as { errorCode: number }).errorCode;
+            if (props.onError) {
+              props.onError(errorCode as PlayerError);
+            }
+          }
+          break;
+
+        case "onPlaybackRateChange":
+          if (data.info?.playbackRate !== undefined) {
+            props.onPlaybackRateChange?.(data.info.playbackRate);
+          }
+          break;
+
+        case "onPlaybackQualityChange":
+          if (data.info?.playbackQuality !== undefined) {
+            props.onPlaybackQualityChange?.(data.info.playbackQuality);
+          }
+          break;
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    // Request iframe to send events by posting "listening" message
+    // This tells YouTube player to start sending events
+    const attemptListen = () => {
+      if (typeof ref === "object" && ref?.current?.contentWindow) {
+        ref.current.contentWindow.postMessage(
+          '{"event":"listening","id":"' + videoId + '"}',
+          "*"
+        );
+      }
+    };
+
+    // Try immediately and after a short delay to ensure iframe is ready
+    attemptListen();
+    const timeoutId = setTimeout(attemptListen, 100);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      clearTimeout(timeoutId);
+    };
+  }, [
+    iframe,
+    props.enableJsApi,
+    props.onReady,
+    props.onStateChange,
+    props.onError,
+    props.onPlay,
+    props.onPause,
+    props.onEnd,
+    props.onBuffering,
+    props.onPlaybackRateChange,
+    props.onPlaybackQualityChange,
+    props.id,
+    videoId,
+    videoTitle,
+    ref,
+  ]);
 
   return (
     <>
