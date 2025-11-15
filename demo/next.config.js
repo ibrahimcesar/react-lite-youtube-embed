@@ -10,5 +10,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Transpile the local package to ensure react/jsx-runtime imports work
+  transpilePackages: ['@ibrahimcesar/react-lite-youtube-embed'],
 }
 module.exports = nextConfig
