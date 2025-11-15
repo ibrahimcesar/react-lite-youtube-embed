@@ -35,6 +35,7 @@ jobs:
             chore
             revert
             a11y
+            security
           # Allow scopes (e.g., feat(button): ...)
           requireScope: false
           # Validate subject case (sentence case)
@@ -68,5 +69,5 @@ jobs:
                     '- `fix(thumbnail): resolve image loading issue`\n' +
                     '- `docs: update README with examples`\n\n' +
                     '**Allowed types:**\n' +
-                    '`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `a11y`'
+                    '`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `a11y`, `security`'
             })
