@@ -560,7 +560,7 @@ function LiteYouTubeEmbedComponent(
     const attemptListen = () => {
       if (typeof ref === "object" && ref?.current?.contentWindow) {
         ref.current.contentWindow.postMessage(
-          '{"event":"listening","id":"' + videoId + '"}',
+          '{"event":"listening","id":"' + props.id + '"}',
           "*"
         );
       }

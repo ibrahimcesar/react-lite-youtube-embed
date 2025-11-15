@@ -1,5 +1,5 @@
 /**
-* @ibrahimcesar/react-lite-youtube-embed v3.1.0
+* @ibrahimcesar/react-lite-youtube-embed v3.2.0
 *  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
@@ -154,7 +154,7 @@ function ee(e, t) {
     window.addEventListener("message", w);
     const L = [], N = () => {
       typeof t == "object" && t?.current?.contentWindow && t.current.contentWindow.postMessage(
-        '{"event":"listening","id":"' + l + '"}',
+        '{"event":"listening","id":"' + e.id + '"}',
         "*"
       );
     }, R = () => {
