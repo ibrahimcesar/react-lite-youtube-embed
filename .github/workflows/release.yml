@@ -22,6 +22,10 @@ jobs:
     name: Testing the lib
     runs-on: ubuntu-latest
     needs: tag
+    permissions:
+      contents: read
+      id-token: write  # Required for SLSA provenance
+      attestations: write  # Required for build attestations
 
     steps:
       - name: Checkout repository
@@ -42,6 +46,12 @@ jobs:
       - name: Run the test suite
         run: npm run test
 
+      - name: Generate build attestation
+        id: attest
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'dist/**/*'
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v5
         with:
@@ -53,6 +63,9 @@ jobs:
     name: Publish on NPM
     runs-on: ubuntu-latest
     needs: test
+    permissions:
+      contents: read
+      id-token: write  # Required for NPM provenance
 
     steps:
       - name: Checkout repository
@@ -71,7 +84,7 @@ jobs:
           path: dist/
 
       - name: Publish to NPM
-        run: npm publish --registry https://registry.npmjs.org --access public
+        run: npm publish --registry https://registry.npmjs.org --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -82,6 +95,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write  # Required for provenance
 
     steps:
       - name: Checkout repository
@@ -101,6 +115,6 @@ jobs:
           path: dist/
 
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
