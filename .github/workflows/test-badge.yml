@@ -75,7 +75,7 @@ jobs:
           cat > .github/badges/tests.json << EOF
           {
             "schemaVersion": 1,
-            "label": "tests",
+            "label": "Coverage",
             "message": "${{ steps.test.outputs.passed }} / ${{ steps.test.outputs.total }} tests",
             "color": "${{ steps.test.outputs.color }}"
           }
