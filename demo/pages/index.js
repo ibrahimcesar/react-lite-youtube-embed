@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import LiteYouTubeEmbed from "@ibrahimcesar/react-lite-youtube-embed"
+import LiteYouTubeEmbed from "react-lite-youtube-embed"
 import Prism from "prismjs"
 import packageInfo from "../package.json"
 
@@ -19,7 +19,7 @@ export default function Home() {
     }, []);
 
   // Get the component version from package.json
-  const componentVersion = packageInfo.dependencies['@ibrahimcesar/react-lite-youtube-embed'];
+  const componentVersion = packageInfo.dependencies['react-lite-youtube-embed'];
   const isBetaVersion = componentVersion?.includes('beta') || componentVersion?.includes('alpha') || componentVersion?.includes('rc');
 
   // Navigation link styles

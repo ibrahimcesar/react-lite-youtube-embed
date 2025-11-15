@@ -11,6 +11,6 @@ const nextConfig = {
     unoptimized: true,
   },
   // Transpile local package to ensure React imports work correctly
-  transpilePackages: ['@ibrahimcesar/react-lite-youtube-embed'],
+  transpilePackages: ['react-lite-youtube-embed'],
 }
 module.exports = nextConfig
