@@ -222,10 +222,10 @@ jobs:
         run: |
           TAG_NAME="${{ steps.bump_version.outputs.version }}"
 
-          # Delete existing release if it exists
+          # Delete existing release if it exists (but keep the tag - we handle that separately)
           if gh release view "$TAG_NAME" >/dev/null 2>&1; then
             echo "Release $TAG_NAME already exists, deleting it"
-            gh release delete "$TAG_NAME" --yes --cleanup-tag || true
+            gh release delete "$TAG_NAME" --yes || true
           fi
 
           # Create new release
@@ -233,13 +233,11 @@ jobs:
             gh release create "$TAG_NAME" \
               --title "Release $TAG_NAME (Beta)" \
               --notes-file CHANGELOG.md \
-              --verify-tag \
               --prerelease
           else
             gh release create "$TAG_NAME" \
               --title "Release $TAG_NAME" \
-              --notes-file CHANGELOG.md \
-              --verify-tag
+              --notes-file CHANGELOG.md
           fi
 
       - name: Publish to NPM
