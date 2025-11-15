@@ -1,0 +1,68 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'demo/**'
+      - 'package.json'
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Performance Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Install demo dependencies
+        working-directory: ./demo
+        run: npm ci
+
+      - name: Build demo
+        working-directory: ./demo
+        env:
+          NODE_ENV: production
+        run: npm run build
+
+      - name: Serve demo and run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          # Serve the built demo
+          temporaryPublicStorage: true
+          runs: 3
+          urls: |
+            http://localhost:3000
+          uploadArtifacts: true
+          configPath: './.github/lighthouse/lighthouserc.json'
+
+      - name: Create Lighthouse report summary
+        if: always()
+        run: |
+          echo "## ⚡ Lighthouse Performance Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Performance metrics for the demo page have been collected." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Metrics Tested:" >> $GITHUB_STEP_SUMMARY
+          echo "- Performance" >> $GITHUB_STEP_SUMMARY
+          echo "- Accessibility" >> $GITHUB_STEP_SUMMARY
+          echo "- Best Practices" >> $GITHUB_STEP_SUMMARY
+          echo "- SEO" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "See the detailed report in the artifacts section above." >> $GITHUB_STEP_SUMMARY

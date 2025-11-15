@@ -1,0 +1,84 @@
+name: Stale Issues & PRs
+
+on:
+  schedule:
+    # Run daily at 1:00 AM UTC
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: Mark Stale Issues/PRs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mark stale issues and PRs
+        uses: actions/stale@v9
+        with:
+          # Stale issues configuration
+          stale-issue-message: |
+            👋 This issue has been automatically marked as stale because it has been inactive for 60 days.
+
+            It will be closed in 14 days if no further activity occurs.
+
+            If this issue is still relevant, please:
+            - Add a comment explaining why it should remain open
+            - Provide additional context or updates
+
+            Thank you for your contributions! 🙏
+          close-issue-message: |
+            🔒 This issue has been automatically closed due to inactivity.
+
+            If you believe this issue is still relevant, please feel free to reopen it or create a new issue with updated information.
+
+            Thank you! 🙏
+          days-before-stale: 60
+          days-before-close: 14
+          stale-issue-label: 'stale'
+          exempt-issue-labels: 'pinned,security,bug,enhancement,good first issue'
+
+          # Stale PRs configuration
+          stale-pr-message: |
+            👋 This pull request has been automatically marked as stale because it has been inactive for 30 days.
+
+            It will be closed in 7 days if no further activity occurs.
+
+            If you're still working on this PR, please:
+            - Add a comment with your progress
+            - Update the PR with recent changes
+            - Rebase if needed
+
+            Thank you for your contribution! 🙏
+          close-pr-message: |
+            🔒 This pull request has been automatically closed due to inactivity.
+
+            If you'd like to continue working on this, please feel free to reopen it or create a new PR.
+
+            Thank you! 🙏
+          days-before-pr-stale: 30
+          days-before-pr-close: 7
+          stale-pr-label: 'stale'
+          exempt-pr-labels: 'work-in-progress,blocked,waiting-for-review'
+
+          # General configuration
+          operations-per-run: 100
+          remove-stale-when-updated: true
+          ascending: false
+          exempt-all-milestones: true
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## 🧹 Stale Issues & PRs Cleanup" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Completed:** Issue and PR staleness check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues marked stale after: 60 days" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues closed after: 14 additional days" >> $GITHUB_STEP_SUMMARY
+          echo "- PRs marked stale after: 30 days" >> $GITHUB_STEP_SUMMARY
+          echo "- PRs closed after: 7 additional days" >> $GITHUB_STEP_SUMMARY

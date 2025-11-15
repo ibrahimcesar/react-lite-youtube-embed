@@ -15,7 +15,10 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "ci": "npm run lint && npm run type-check && npm run test && npm run build",
+    "size": "size-limit"
   },
   "repository": {
     "type": "git",
@@ -52,6 +55,8 @@
     "react-dom": ">=18.2.0"
   },
   "devDependencies": {
+    "@size-limit/file": "^11.1.6",
+    "@size-limit/preset-small-lib": "^11.1.6",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -69,6 +74,7 @@
     "prettier": "^2.8.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "size-limit": "^11.1.6",
     "typescript": "^5.9.3",
     "vite": "^6.0.3",
     "vite-plugin-dts": "^4.3.0",
@@ -76,5 +82,25 @@
   },
   "volta": {
     "node": "20.10.0"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "ES Module",
+      "path": "dist/index.es.js",
+      "limit": "10 KB",
+      "gzip": true
+    },
+    {
+      "name": "CommonJS",
+      "path": "dist/index.js",
+      "limit": "10 KB",
+      "gzip": true
+    },
+    {
+      "name": "CSS",
+      "path": "dist/LiteYouTubeEmbed.css",
+      "limit": "2 KB",
+      "gzip": true
+    }
+  ]
 }
