@@ -240,18 +240,44 @@ jobs:
               --notes-file CHANGELOG.md
           fi
 
-      - name: Publish to NPM
+      - name: Publish to NPM (scoped package)
         run: |
           # Configure npm for public registry
           npm config set registry https://registry.npmjs.org
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 
-          # Publish with provenance for SLSA attestation
+          # Publish scoped package (@ibrahimcesar/react-lite-youtube-embed)
+          echo "Publishing scoped package: @ibrahimcesar/react-lite-youtube-embed"
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             npm publish --tag beta --provenance
           else
             npm publish --provenance
           fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to NPM (unscoped package)
+        run: |
+          # Configure npm for public registry
+          npm config set registry https://registry.npmjs.org
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+
+          # Backup original package.json
+          cp package.json package.json.backup
+
+          # Modify package.json to use unscoped name
+          node -e "const pkg = require('./package.json'); pkg.name = 'react-lite-youtube-embed'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
+
+          # Publish unscoped package (react-lite-youtube-embed)
+          echo "Publishing unscoped package: react-lite-youtube-embed"
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            npm publish --tag beta --provenance
+          else
+            npm publish --provenance
+          fi
+
+          # Restore original package.json
+          mv package.json.backup package.json
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -300,11 +326,17 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
           echo "- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**NPM Packages:**" >> $GITHUB_STEP_SUMMARY
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            echo "- [NPM Package (beta)](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+            echo "- [Scoped Package (beta)](https://www.npmjs.com/package/@ibrahimcesar/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }}) - \`@ibrahimcesar/react-lite-youtube-embed\`" >> $GITHUB_STEP_SUMMARY
+            echo "- [Unscoped Package (beta)](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }}) - \`react-lite-youtube-embed\`" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- [NPM Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+            echo "- [Scoped Package](https://www.npmjs.com/package/@ibrahimcesar/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }}) - \`@ibrahimcesar/react-lite-youtube-embed\`" >> $GITHUB_STEP_SUMMARY
+            echo "- [Unscoped Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }}) - \`react-lite-youtube-embed\`" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "- [GitHub Packages](https://github.com/${{ github.repository }}/pkgs/npm/react-lite-youtube-embed)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**GitHub Packages:**" >> $GITHUB_STEP_SUMMARY
+          echo "- [@ibrahimcesar/react-lite-youtube-embed](https://github.com/${{ github.repository }}/pkgs/npm/react-lite-youtube-embed)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY

@@ -83,14 +83,36 @@ jobs:
           name: dist
           path: dist/
 
-      - name: Publish to NPM
+      - name: Publish to NPM (scoped package)
         run: |
           # Configure npm for public registry
           npm config set registry https://registry.npmjs.org
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 
-          # Publish with provenance for SLSA attestation
+          # Publish scoped package (@ibrahimcesar/react-lite-youtube-embed)
+          echo "Publishing scoped package: @ibrahimcesar/react-lite-youtube-embed"
           npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to NPM (unscoped package)
+        run: |
+          # Configure npm for public registry
+          npm config set registry https://registry.npmjs.org
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+
+          # Backup original package.json
+          cp package.json package.json.backup
+
+          # Modify package.json to use unscoped name
+          node -e "const pkg = require('./package.json'); pkg.name = 'react-lite-youtube-embed'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
+
+          # Publish unscoped package (react-lite-youtube-embed)
+          echo "Publishing unscoped package: react-lite-youtube-embed"
+          npm publish --provenance
+
+          # Restore original package.json
+          mv package.json.backup package.json
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
