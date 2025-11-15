@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import LiteYouTubeEmbed from "react-lite-youtube-embed"
+import LiteYouTubeEmbed from "@ibrahimcesar/react-lite-youtube-embed"
 import Prism from "prismjs"
 import packageInfo from "../package.json"
 
