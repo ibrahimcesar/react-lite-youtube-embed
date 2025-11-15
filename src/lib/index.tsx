@@ -327,9 +327,7 @@ function LiteYouTubeEmbedComponent(
       ...(props.muted ? { mute: "1" } : {}),
       ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
       ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
-      ...(props.enableJsApi && typeof window !== "undefined"
-        ? { origin: window.location.origin }
-        : {}),
+      ...(props.enableJsApi && typeof window !== 'undefined' ? { origin: window.location.origin } : {}),
       ...(props.playlist ? { list: videoId } : {}),
     });
 
