@@ -7,6 +7,8 @@
 
 [![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed)&nbsp; &nbsp;&nbsp; &nbsp;![Total Downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed?color=%23FF0000&logo=npm)&nbsp; &nbsp;&nbsp; &nbsp;[![License](https://badgen.net/github/license/ibrahimcesar/react-lite-youtube-embed)](./LICENSE)&nbsp; &nbsp;  &nbsp;![GitHub issues by-label](https://img.shields.io/github/issues/ibrahimcesar/react-lite-youtube-embed/bug)
 
+[![Automated Release](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/auto-release.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/auto-release.yml)
+
 
 <p>Developed in 🇧🇷 <span role="img" aria-label="Flag for Brazil">Brazil</p>
 
