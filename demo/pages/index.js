@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import LiteYouTubeEmbed from "react-lite-youtube-embed"
 import Prism from "prismjs"
 import packageInfo from "../package.json"
@@ -493,13 +493,23 @@ function PlayerControlExample() {
   );
 }
 
+// Player state names for the Events Demo
+const PLAYER_STATE_NAMES = {
+  '-1': 'Unstarted',
+  '0': 'Ended',
+  '1': 'Playing',
+  '2': 'Paused',
+  '3': 'Buffering',
+  '5': 'Cued'
+};
+
 // Separate component for Interactive Events Demo (NEW in v3.0+)
 function EventsExample() {
   const [events, setEvents] = useState([]);
   const [currentState, setCurrentState] = useState('Not Started');
   const [playerInfo, setPlayerInfo] = useState({});
 
-  const addEvent = (eventName, data = null) => {
+  const addEvent = useCallback((eventName, data = null) => {
     const timestamp = new Date().toLocaleTimeString();
     setEvents(prev => [{
       name: eventName,
@@ -507,22 +517,61 @@ function EventsExample() {
       timestamp: timestamp,
       id: Date.now() + Math.random()
     }, ...prev].slice(0, 12)); // Keep last 12 events
-  };
+  }, []);
 
-  const clearEvents = () => {
+  const clearEvents = useCallback(() => {
     setEvents([]);
     setCurrentState('Not Started');
     setPlayerInfo({});
-  };
+  }, []);
 
-  const stateNames = {
-    '-1': 'Unstarted',
-    '0': 'Ended',
-    '1': 'Playing',
-    '2': 'Paused',
-    '3': 'Buffering',
-    '5': 'Cued'
-  };
+  // Memoize event handlers to prevent infinite loops
+  const handleIframeAdded = useCallback(() => {
+    addEvent('onIframeAdded');
+  }, [addEvent]);
+
+  const handleReady = useCallback((e) => {
+    addEvent('onReady', e);
+    setPlayerInfo(e);
+  }, [addEvent]);
+
+  const handleStateChange = useCallback((e) => {
+    addEvent('onStateChange', e);
+    setCurrentState(PLAYER_STATE_NAMES[e.state] || 'Unknown');
+  }, [addEvent]);
+
+  const handlePlay = useCallback(() => {
+    addEvent('onPlay');
+    setCurrentState('Playing');
+  }, [addEvent]);
+
+  const handlePause = useCallback(() => {
+    addEvent('onPause');
+    setCurrentState('Paused');
+  }, [addEvent]);
+
+  const handleEnd = useCallback(() => {
+    addEvent('onEnd');
+    setCurrentState('Ended');
+  }, [addEvent]);
+
+  const handleBuffering = useCallback(() => {
+    addEvent('onBuffering');
+    setCurrentState('Buffering');
+  }, [addEvent]);
+
+  const handleError = useCallback((errorCode) => {
+    addEvent('onError', { errorCode });
+    setCurrentState('Error');
+  }, [addEvent]);
+
+  const handlePlaybackRateChange = useCallback((rate) => {
+    addEvent('onPlaybackRateChange', { rate });
+  }, [addEvent]);
+
+  const handlePlaybackQualityChange = useCallback((quality) => {
+    addEvent('onPlaybackQualityChange', { quality });
+  }, [addEvent]);
 
   return (
     <div id="events" className={styles.example}>
@@ -530,6 +579,7 @@ function EventsExample() {
       <p className={styles.exampleDescription}>
         <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code>.
         Play the video below and watch the live event log to see all available events in action.
+        The event log below only captures events from <strong>this specific video embed</strong>.
       </p>
 
       {/* Current State Display */}
@@ -573,41 +623,16 @@ function EventsExample() {
         id="HaEPXoXVf2k"
         title="Interactive Events Demo Video"
         enableJsApi={true}
-        onIframeAdded={() => addEvent('onIframeAdded')}
-        onReady={(e) => {
-          addEvent('onReady', e);
-          setPlayerInfo(e);
-        }}
-        onStateChange={(e) => {
-          addEvent('onStateChange', e);
-          setCurrentState(stateNames[e.state] || 'Unknown');
-        }}
-        onPlay={() => {
-          addEvent('onPlay');
-          setCurrentState('Playing');
-        }}
-        onPause={() => {
-          addEvent('onPause');
-          setCurrentState('Paused');
-        }}
-        onEnd={() => {
-          addEvent('onEnd');
-          setCurrentState('Ended');
-        }}
-        onBuffering={() => {
-          addEvent('onBuffering');
-          setCurrentState('Buffering');
-        }}
-        onError={(errorCode) => {
-          addEvent('onError', { errorCode });
-          setCurrentState('Error');
-        }}
-        onPlaybackRateChange={(rate) => {
-          addEvent('onPlaybackRateChange', { rate });
-        }}
-        onPlaybackQualityChange={(quality) => {
-          addEvent('onPlaybackQualityChange', { quality });
-        }}
+        onIframeAdded={handleIframeAdded}
+        onReady={handleReady}
+        onStateChange={handleStateChange}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onEnd={handleEnd}
+        onBuffering={handleBuffering}
+        onError={handleError}
+        onPlaybackRateChange={handlePlaybackRateChange}
+        onPlaybackQualityChange={handlePlaybackQualityChange}
       />
 
       {/* Event Log */}

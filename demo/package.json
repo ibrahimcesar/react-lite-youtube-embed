@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
+    "@ibrahimcesar/react-lite-youtube-embed": "file:..",
     "babel-plugin-prismjs": "^2.1.0",
     "next": "14.2.33",
     "prismjs": "^1.27.0",
