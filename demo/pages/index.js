@@ -19,8 +19,8 @@ export default function Home() {
     }, []);
 
   // Get the component version from package.json
-  const componentVersion = packageInfo.dependencies['react-lite-youtube-embed'];
-  const isBetaVersion = componentVersion.includes('beta') || componentVersion.includes('alpha') || componentVersion.includes('rc');
+  const componentVersion = packageInfo.dependencies['@ibrahimcesar/react-lite-youtube-embed'];
+  const isBetaVersion = componentVersion?.includes('beta') || componentVersion?.includes('alpha') || componentVersion?.includes('rc');
 
   // Navigation link styles
   const navLinkStyle = {
