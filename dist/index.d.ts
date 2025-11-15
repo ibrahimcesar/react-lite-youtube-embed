@@ -30,11 +30,19 @@ export declare interface LiteYouTubeProps {
     muted?: boolean;
     autoplay?: boolean;
     thumbnail?: string;
+    /** @deprecated Use resourceHint prop instead. This prop name conflicts with YouTube's rel parameter. */
     rel?: string;
+    resourceHint?: "preload" | "prefetch";
     containerElement?: keyof React_2.JSX.IntrinsicElements;
     style?: React_2.CSSProperties;
     focusOnLoad?: boolean;
     referrerPolicy?: React_2.HTMLAttributeReferrerPolicy;
+    /**
+     * Automatically stop the video when it ends to prevent showing related videos.
+     * Returns the player to the thumbnail view. Requires enableJsApi={true}.
+     * @default false
+     */
+    stopOnEnd?: boolean;
     /**
      * Enable lazy loading for thumbnail image.
      * Uses native browser lazy loading to defer offscreen images.

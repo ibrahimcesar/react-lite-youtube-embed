@@ -89,11 +89,19 @@ export interface LiteYouTubeProps {
   muted?: boolean;
   autoplay?: boolean;
   thumbnail?: string;
+  /** @deprecated Use resourceHint prop instead. This prop name conflicts with YouTube's rel parameter. */
   rel?: string;
+  resourceHint?: "preload" | "prefetch";
   containerElement?: keyof React.JSX.IntrinsicElements;
   style?: React.CSSProperties;
   focusOnLoad?: boolean;
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  /**
+   * Automatically stop the video when it ends to prevent showing related videos.
+   * Returns the player to the thumbnail view. Requires enableJsApi={true}.
+   * @default false
+   */
+  stopOnEnd?: boolean;
   /**
    * Enable lazy loading for thumbnail image.
    * Uses native browser lazy loading to defer offscreen images.
@@ -246,7 +254,8 @@ function LiteYouTubeEmbedComponent(
     props.onIframeAdded || function () {},
     [props.onIframeAdded]
   );
-  const rel = props.rel ? "prefetch" : "preload";
+  // Support both old 'rel' prop (deprecated) and new 'resourceHint' prop
+  const resourceHint = props.resourceHint || (props.rel ? "prefetch" : "preload");
   const ContainerElement = props.containerElement || "article";
   const includeNoscriptFallback = props.noscriptFallback !== false; // Default to true
 
@@ -271,9 +280,44 @@ function LiteYouTubeEmbedComponent(
     }
   }, [iframe, onIframeAdded, props.focusOnLoad, ref]);
 
+  // Auto-stop video when it ends to prevent showing related videos
+  React.useEffect(() => {
+    if (!props.stopOnEnd || !iframe) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      // Verify the message is from YouTube
+      if (
+        event.origin !== 'https://www.youtube.com' &&
+        event.origin !== 'https://www.youtube-nocookie.com'
+      ) {
+        return;
+      }
+
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+
+        // Check if video ended (playerState 0)
+        if (data.info && data.info.playerState === 0) {
+          // Stop the video to return to thumbnail and prevent related videos
+          if (typeof ref === 'object' && ref?.current?.contentWindow) {
+            ref.current.contentWindow.postMessage(
+              '{"event":"command","func":"stopVideo","args":""}',
+              '*'
+            );
+          }
+        }
+      } catch (e) {
+        // Not JSON or invalid data, ignore
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [props.stopOnEnd, iframe, ref]);
+
   return (
     <>
-      {!props.lazyLoad && <link rel={rel} href={posterUrl} as="image" />}
+      {!props.lazyLoad && <link rel={resourceHint} href={posterUrl} as="image" />}
       <>
         {preconnected && (
           <>
