@@ -76,7 +76,7 @@ jobs:
           {
             "schemaVersion": 1,
             "label": "tests",
-            "message": "${{ steps.test.outputs.passed }}/${{ steps.test.outputs.total }} passing",
+            "message": "${{ steps.test.outputs.passed }} / ${{ steps.test.outputs.total }} tests",
             "color": "${{ steps.test.outputs.color }}"
           }
           EOF
