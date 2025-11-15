@@ -152,6 +152,12 @@ export default function Home() {
               Perfect for pages with multiple videos or videos below the fold. Improves Lighthouse scores
               and reduces initial bandwidth usage.
             </p>
+            <p className={styles.exampleDescription} style={{ fontSize: '0.9rem', fontStyle: 'italic', color: '#888' }}>
+              <strong>Note:</strong> With lazy loading enabled, the thumbnail image loads only when it's near the viewport.
+              On initial page load, you might notice a brief moment before the image appears - this is normal browser
+              behavior and is the performance tradeoff that makes lazy loading valuable. The aspect ratio container
+              ensures proper spacing is reserved.
+            </p>
             <LiteYouTubeEmbed
               id="HaEPXoXVf2k"
               title="Amazon DynamoDB Deep Dive"
