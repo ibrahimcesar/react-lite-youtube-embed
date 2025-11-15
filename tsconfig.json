@@ -11,7 +11,7 @@
         "es2018", "dom", "es6"
       ],
       "moduleResolution": "node",
-      "jsx": "react",
+      "jsx": "react-jsx",
       "forceConsistentCasingInFileNames": true,
       "noImplicitReturns": true,
       "noImplicitThis": true,
