@@ -188,7 +188,7 @@ const App = () => (
        poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
        title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
        cookie={false} // Default false, don't connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
-       ref={myRef} // Use this ref prop to programmatically access the underlying iframe element. It will only have a value after the user pressed the play button
+       ref={myRef} // Access the iframe element. Only available after user clicks the poster (use onIframeAdded callback to know when ready). See "Using Refs" section below for examples
     />
   </div>
 );
@@ -298,6 +298,136 @@ const App = () => (
 };
 );
 
+```
+
+## 🎯 Using Refs with Lazy-Loaded Iframes
+
+**Important**: The ref only becomes available **after** the user clicks the poster image, since the iframe is lazy-loaded for performance and privacy.
+
+### ❌ Common Mistake
+
+```javascript
+const videoRef = useRef(null);
+
+useEffect(() => {
+  // This will NEVER log - iframe doesn't exist on mount!
+  if (videoRef.current) {
+    console.log("iframe ref"); // Never runs
+  }
+}, []); // Empty deps - runs only once on mount, before iframe exists
+
+return <LiteYouTubeEmbed id="L2vS_050c-M" title="My Video" ref={videoRef} />;
+```
+
+**Why this doesn't work:** The iframe is only rendered after user interaction (clicking the poster). Your `useEffect` with empty dependencies runs once on mount, but the iframe doesn't exist yet.
+
+### ✅ Correct Approaches
+
+#### Option 1: Use the `onIframeAdded` Callback (Recommended)
+
+This is the cleanest way to know when the iframe is ready:
+
+```javascript
+const videoRef = useRef(null);
+
+const handleIframeAdded = () => {
+  console.log("Iframe loaded and ready!");
+
+  // Now you can safely access the ref
+  if (videoRef.current) {
+    console.log("Iframe element:", videoRef.current);
+
+    // Control the player via postMessage
+    videoRef.current.contentWindow?.postMessage(
+      '{"event":"command","func":"playVideo"}',
+      '*'
+    );
+  }
+};
+
+return (
+  <LiteYouTubeEmbed
+    id="L2vS_050c-M"
+    title="My Video"
+    ref={videoRef}
+    onIframeAdded={handleIframeAdded}
+    enableJsApi
+  />
+);
+```
+
+#### Option 2: Watch for Ref Changes
+
+Monitor when the ref becomes available:
+
+```javascript
+const videoRef = useRef(null);
+
+useEffect(() => {
+  if (videoRef.current) {
+    console.log("Iframe is now available!");
+    // Do something with videoRef.current
+  }
+}, [videoRef.current]); // Re-run when ref changes
+```
+
+#### Option 3: Always Load Iframe (Not Recommended)
+
+Force the iframe to load immediately, bypassing lazy-loading:
+
+```javascript
+// ⚠️ This defeats the performance and privacy benefits!
+<LiteYouTubeEmbed
+  id="L2vS_050c-M"
+  title="My Video"
+  ref={videoRef}
+  alwaysLoadIframe
+  enableJsApi
+/>
+```
+
+**Trade-off:** With `alwaysLoadIframe={true}`, the ref is available immediately, but you lose the performance benefits and load YouTube resources on page load.
+
+### Real-World Example
+
+Controlling the player after the user activates it:
+
+```javascript
+function VideoPlayer() {
+  const playerRef = useRef(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const handleIframeAdded = () => {
+    setIsReady(true);
+    console.log("Player is ready for commands");
+  };
+
+  const togglePlayPause = () => {
+    if (playerRef.current && isReady) {
+      playerRef.current.contentWindow?.postMessage(
+        '{"event":"command","func":"pauseVideo"}',
+        '*'
+      );
+    }
+  };
+
+  return (
+    <div>
+      <LiteYouTubeEmbed
+        id="L2vS_050c-M"
+        title="My Video"
+        ref={playerRef}
+        onIframeAdded={handleIframeAdded}
+        enableJsApi
+      />
+      {isReady && (
+        <button onClick={togglePlayPause}>
+          Pause Video
+        </button>
+      )}
+    </div>
+  );
+}
 ```
 
 ## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
@@ -466,7 +596,7 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
 | noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
 | noscriptFallback | boolean | `true` | Include noscript tag with YouTube link for accessibility and SEO crawlers |
-| onIframeAdded | function | `undefined` | Callback fired when iframe loads |
+| onIframeAdded | function | `undefined` | Callback fired when iframe loads. **Use this to know when the `ref` becomes available** (ref is only populated after user clicks the poster). See [Using Refs](#-using-refs-with-lazy-loaded-iframes) section for examples |
 | params | string | `""` | Additional params to pass to the URL. Format: `start=1150&other=value`. Don't include `?` or leading `&`. Note: use `start` not `t` for time |
 | playerClass | string | `"lty-playbtn"` | Pass the string class for the player button to customize it |
 | playlist | boolean | `false` | Set to `true` when your id is from a playlist |
