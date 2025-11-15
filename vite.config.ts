@@ -22,7 +22,9 @@ const banner = `/**
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+    }),
     dts({
       include: ['src/lib'],
       rollupTypes: true,
