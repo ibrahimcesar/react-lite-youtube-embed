@@ -8,7 +8,14 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
     useEffect(() => {
-      Prism.highlightAll();
+      if (typeof window !== 'undefined' && Prism) {
+        try {
+          Prism.highlightAll();
+        } catch (error) {
+          // Silently handle Prism errors
+          console.debug('Prism highlighting error:', error);
+        }
+      }
     }, []);
 
   // Get the component version from package.json
@@ -152,7 +159,7 @@ export default function Home() {
               Perfect for pages with multiple videos or videos below the fold. Improves Lighthouse scores
               and reduces initial bandwidth usage.
             </p>
-            <p className={styles.exampleDescription} style={{ fontSize: '0.9rem', fontStyle: 'italic', color: '#888' }}>
+            <p className={styles.exampleDescription} style={{ fontSize: '0.9rem', fontStyle: 'italic', color: '#555' }}>
               <strong>Note:</strong> With lazy loading enabled, the thumbnail image loads only when it's near the viewport.
               On initial page load, you might notice a brief moment before the image appears - this is normal browser
               behavior and is the performance tradeoff that makes lazy loading valuable. The aspect ratio container
@@ -373,6 +380,8 @@ function PlayerControlExample() {
           );
         }}
         style={{
+          minWidth: '120px',
+          minHeight: '48px',
           padding: '0.75rem 1.5rem',
           marginBottom: '1rem',
           fontSize: '1rem',
@@ -384,6 +393,7 @@ function PlayerControlExample() {
           cursor: 'pointer',
           transition: 'all 0.2s ease'
         }}
+        aria-label={isPlaying ? 'Pause video' : 'Play video'}
       >
         {isPlaying ? '⏸ Pause' : '▶ Play'}
       </button>
