@@ -134,7 +134,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle} open>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -159,7 +159,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -187,14 +187,14 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
   title="Amazon DynamoDB Deep Dive"
   poster="hqdefault"
   webp
-/>`}
+/}`}
                 </code>
               </pre>
             </details>
@@ -220,7 +220,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -248,7 +248,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="PL0vfts4VzfNigohKr5sPrkcPFpuZmTe2C"
@@ -280,7 +280,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="L2vS_050c-M"
@@ -313,7 +313,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -345,7 +345,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -380,7 +380,7 @@ export default function Home() {
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
-              <pre>
+              <pre suppressHydrationWarning={true}>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
   id="HaEPXoXVf2k"
@@ -457,7 +457,7 @@ function PlayerControlExample() {
       />
       <details className={styles.codeToggle}>
         <summary>View Code</summary>
-        <pre>
+        <pre suppressHydrationWarning={true}>
           <code className="language-jsx">
 {`function PlayerControlExample() {
   const ytRef = useRef(null);
@@ -888,7 +888,7 @@ function EventsExample() {
 
       <details className={styles.codeToggle} style={{ marginTop: '1.5rem' }}>
         <summary>View Code - All Event Handlers (with Console Debugging)</summary>
-        <pre>
+        <pre suppressHydrationWarning={true}>
           <code className="language-jsx">
 {`import { useState, useCallback } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
@@ -1048,7 +1048,7 @@ function EventsExample() {
           }}>
             <strong>💡 Pro Tip:</strong> The component uses <code>window.addEventListener("message", ...)</code>
             to listen for YouTube's postMessage API. You can manually test this by opening the console and typing:
-            <pre style={{ background: '#f0fdf4', padding: '0.5rem', borderRadius: '4px', marginTop: '0.5rem', fontSize: '0.85rem' }}>
+            <pre suppressHydrationWarning={true} style={{ background: '#f0fdf4', padding: '0.5rem', borderRadius: '4px', marginTop: '0.5rem', fontSize: '0.85rem' }}>
 {`window.addEventListener('message', (e) => {
   if (e.origin === 'https://www.youtube.com') {
     console.log('YouTube message:', e.data);
@@ -1062,7 +1062,7 @@ function EventsExample() {
 
       <details className={styles.codeToggle}>
         <summary>View Code - Type Definitions</summary>
-        <pre>
+        <pre suppressHydrationWarning={true}>
           <code className="language-typescript">
 {`// Player State enum
 enum PlayerState {
