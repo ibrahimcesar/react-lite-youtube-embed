@@ -10,64 +10,105 @@ Please note we have a code of conduct, please follow it in all your interactions
 ### Repository Structure
 
 This is a monorepo containing:
-- **Root** - The library package (`@ibrahimcesar/react-lite-youtube-embed`)
+- **Root** - The library package (`react-lite-youtube-embed`)
 - **demo/** - Next.js demo application showcasing the library
-
-### Local Development Workflow
-
-The demo application uses the **local library** via npm's `file:..` protocol instead of the published npm version. This allows you to test library changes immediately in the demo without publishing.
-
-```json
-// demo/package.json
-{
-  "dependencies": {
-    "@ibrahimcesar/react-lite-youtube-embed": "file:.."
-  }
-}
-```
 
 ### Getting Started
 
-1. **Install library dependencies:**
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ibrahimcesar/react-lite-youtube-embed.git
+   cd react-lite-youtube-embed
+   ```
+
+2. **Install library dependencies:**
    ```bash
    npm install
    ```
 
-2. **Build the library:**
+3. **Build the library:**
    ```bash
    npm run build
    ```
    This creates the `dist/` folder with the built library files.
 
-3. **Install demo dependencies:**
+4. **Run tests:**
+   ```bash
+   npm test
+   ```
+
+5. **Check coverage:**
+   ```bash
+   npm run coverage
+   ```
+
+### Running the Demo
+
+The demo application uses the **published npm package** by default:
+
+```json
+// demo/package.json
+{
+  "dependencies": {
+    "react-lite-youtube-embed": "*"
+  }
+}
+```
+
+To run the demo:
+
+```bash
+cd demo
+npm install
+npm run dev
+```
+
+The demo will be available at `http://localhost:3000`
+
+### Local Development Workflow
+
+When you need to test library changes in the demo **before publishing**, switch to local development mode:
+
+1. **Update demo/package.json:**
+   ```json
+   {
+     "dependencies": {
+       "react-lite-youtube-embed": "file:.."
+     }
+   }
+   ```
+
+2. **Reinstall demo dependencies:**
    ```bash
    cd demo
+   rm -rf node_modules package-lock.json
    npm install
    ```
-   This will install the local library from `file:..` automatically.
 
-4. **Run the demo:**
+3. **Make your changes** to the library source (`src/lib/**`)
+
+4. **Rebuild the library:**
    ```bash
-   npm run dev
-   ```
-   The demo will be available at `http://localhost:3000`
-
-### Making Changes
-
-When you modify the library source code (`src/lib/**`):
-
-1. **Rebuild the library:**
-   ```bash
+   cd ..
    npm run build
    ```
 
-2. **Restart the demo server:**
+5. **Restart the demo server:**
    ```bash
    cd demo
    npm run dev
    ```
 
-The demo will pick up the new changes automatically because it references the local build via `file:..`.
+The demo will now use your local library build. The `file:..` protocol creates a symlink to the parent directory, allowing you to test changes immediately.
+
+**Important:** Before committing, revert `demo/package.json` back to using the published package:
+```json
+{
+  "dependencies": {
+    "react-lite-youtube-embed": "*"
+  }
+}
+```
 
 ### Testing Your Changes
 
@@ -89,24 +130,23 @@ Before submitting a PR:
    npm run build
    ```
 
-4. **Test in the demo:**
-   ```bash
-   cd demo
-   npm run build
-   ```
-   Ensure the demo builds successfully.
-
-5. **Run linting:**
+4. **Run linting:**
    ```bash
    npm run lint
    ```
 
-### Important Notes
+5. **Test the demo builds:**
+   ```bash
+   cd demo
+   npm run build
+   ```
 
-- The demo always uses the **local library build** (from `dist/`), not the published npm version
-- After making library changes, you **must rebuild** (`npm run build`) for the demo to see them
-- The `file:..` dependency creates a symlink to the parent directory
-- This approach ensures you can test library changes before publishing
+### Development Tips
+
+- **Library changes** require rebuilding (`npm run build`) to take effect in the demo
+- **Always revert** `demo/package.json` to use the published package before committing
+- The demo showcases the **published version** that users actually install
+- Use `file:..` only temporarily for local testing during development
 
 ## Pull Request Guidelines
 
