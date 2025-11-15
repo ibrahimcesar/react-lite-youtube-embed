@@ -1,4 +1,4 @@
-name: Test suite status
+name: Coverage Tests
 
 on:
   push:
