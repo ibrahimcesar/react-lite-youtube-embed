@@ -9,77 +9,92 @@
 *
 *  Author site: https://ibrahimcesar.cloud
 */
-import { jsxs as h, Fragment as f, jsx as n } from "react/jsx-runtime";
-import * as d from "react";
+import { jsxs as b, Fragment as $, jsx as n } from "react/jsx-runtime";
+import * as i from "react";
 import { useState as z, useEffect as F } from "react";
-const R = {
+const J = {
   default: 120,
   mqdefault: 320,
   hqdefault: 480,
   sddefault: 640,
   maxresdefault: 1280
-}, H = (t, a, r, u = "maxresdefault") => {
-  const [e, o] = z("");
+}, R = (t, a, o, r = "maxresdefault") => {
+  const [e, u] = z("");
   return F(() => {
-    const c = `https://img.youtube.com/${a}/${t}/${u}.${r}`, m = `https://img.youtube.com/${a}/${t}/hqdefault.${r}`, l = R[u], i = new Image();
-    i.onload = () => {
-      i.width < l ? o(m) : o(c);
-    }, i.onerror = () => o(m), i.src = c;
-  }, [t, a, r, u]), e;
+    const c = `https://img.youtube.com/${a}/${t}/${r}.${o}`, m = `https://img.youtube.com/${a}/${t}/hqdefault.${o}`, l = J[r], d = new Image();
+    d.onload = () => {
+      d.width < l ? u(m) : u(c);
+    }, d.onerror = () => u(m), d.src = c;
+  }, [t, a, o, r]), e;
 };
-function J(t, a, r, u, e) {
-  const o = {
+function V(t, a, o, r, e) {
+  const u = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: (e == null ? void 0 : e.name) || a,
-    thumbnailUrl: [(e == null ? void 0 : e.thumbnailUrl) || r],
-    embedUrl: (e == null ? void 0 : e.embedUrl) || `${u}/embed/${t}`,
+    thumbnailUrl: [(e == null ? void 0 : e.thumbnailUrl) || o],
+    embedUrl: (e == null ? void 0 : e.embedUrl) || `${r}/embed/${t}`,
     contentUrl: (e == null ? void 0 : e.contentUrl) || `https://www.youtube.com/watch?v=${t}`,
     ...(e == null ? void 0 : e.description) && { description: e.description },
     ...(e == null ? void 0 : e.uploadDate) && { uploadDate: e.uploadDate },
     ...(e == null ? void 0 : e.duration) && { duration: e.duration }
   };
-  return JSON.stringify(o);
+  return JSON.stringify(u);
 }
 function _(t, a) {
-  const [r, u] = d.useState(!1), [e, o] = d.useState(t.alwaysLoadIframe || !1), c = encodeURIComponent(t.id), m = typeof t.playlistCoverId == "string" ? encodeURIComponent(t.playlistCoverId) : null, l = t.title, i = t.poster || "hqdefault", $ = t.announce || "Watch", I = t.alwaysLoadIframe ? t.autoplay && t.muted : !0, b = d.useMemo(() => {
-    const U = new URLSearchParams({
+  const [o, r] = i.useState(!1), [e, u] = i.useState(t.alwaysLoadIframe || !1), c = encodeURIComponent(t.id), m = typeof t.playlistCoverId == "string" ? encodeURIComponent(t.playlistCoverId) : null, l = t.title, d = t.poster || "hqdefault", v = t.announce || "Watch", U = t.alwaysLoadIframe ? t.autoplay && t.muted : !0, k = i.useMemo(() => {
+    const y = new URLSearchParams({
       ...t.muted ? { mute: "1" } : {},
-      ...I ? { autoplay: "1" } : {},
+      ...U ? { autoplay: "1" } : {},
       ...t.enableJsApi ? { enablejsapi: "1" } : {},
       ...t.playlist ? { list: c } : {}
     });
     return t.params && new URLSearchParams(
       t.params.startsWith("&") ? t.params.slice(1) : t.params
-    ).forEach((O, q) => {
-      U.append(q, O);
-    }), U;
-  }, [t.muted, I, t.enableJsApi, t.playlist, c, t.params]), s = d.useMemo(
+    ).forEach((g, f) => {
+      y.append(f, g);
+    }), y;
+  }, [t.muted, U, t.enableJsApi, t.playlist, c, t.params]), h = i.useMemo(
     () => t.cookie ? "https://www.youtube.com" : "https://www.youtube-nocookie.com",
     [t.cookie]
-  ), S = d.useMemo(
-    () => t.playlist ? `${s}/embed/videoseries?${b.toString()}` : `${s}/embed/${c}?${b.toString()}`,
-    [t.playlist, s, c, b]
-  ), x = !t.thumbnail && !t.playlist && i === "maxresdefault", w = t.webp ? "webp" : "jpg", g = t.webp ? "vi_webp" : "vi", k = x ? H(t.id, g, w, i) : null, y = d.useMemo(
-    () => t.thumbnail || k || `https://i.ytimg.com/${g}/${t.playlist ? m : c}/${i}.${w}`,
-    [t.thumbnail, k, g, t.playlist, m, c, i, w]
-  ), L = t.activatedClass || "lyt-activated", P = t.adNetwork || !1, T = t.aspectHeight || 9, N = t.aspectWidth || 16, W = t.iframeClass || "", j = t.playerClass || "lty-playbtn", A = t.wrapperClass || "yt-lite", C = d.useCallback(
+  ), E = i.useMemo(
+    () => t.playlist ? `${h}/embed/videoseries?${k.toString()}` : `${h}/embed/${c}?${k.toString()}`,
+    [t.playlist, h, c, k]
+  ), P = !t.thumbnail && !t.playlist && d === "maxresdefault", I = t.webp ? "webp" : "jpg", C = t.webp ? "vi_webp" : "vi", S = P ? R(t.id, C, I, d) : null, w = i.useMemo(
+    () => t.thumbnail || S || `https://i.ytimg.com/${C}/${t.playlist ? m : c}/${d}.${I}`,
+    [t.thumbnail, S, C, t.playlist, m, c, d, I]
+  ), W = t.activatedClass || "lyt-activated", N = t.adNetwork || !1, T = t.aspectHeight || 9, j = t.aspectWidth || 16, O = t.iframeClass || "", A = t.playerClass || "lty-playbtn", M = t.wrapperClass || "yt-lite", L = i.useCallback(
     t.onIframeAdded || function() {
     },
     [t.onIframeAdded]
-  ), D = t.rel ? "prefetch" : "preload", E = t.containerElement || "article", Y = t.noscriptFallback !== !1, M = () => {
-    r || u(!0);
-  }, v = () => {
-    e || o(!0);
+  ), D = t.resourceHint || (t.rel ? "prefetch" : "preload"), Y = t.containerElement || "article", H = t.noscriptFallback !== !1, q = () => {
+    o || r(!0);
+  }, x = () => {
+    e || u(!0);
   };
-  return d.useEffect(() => {
-    e && (C(), t.focusOnLoad && typeof a == "object" && (a != null && a.current) && a.current.focus());
-  }, [e, C, t.focusOnLoad, a]), /* @__PURE__ */ h(f, { children: [
-    !t.lazyLoad && /* @__PURE__ */ n("link", { rel: D, href: y, as: "image" }),
-    /* @__PURE__ */ n(f, { children: r && /* @__PURE__ */ h(f, { children: [
-      /* @__PURE__ */ n("link", { rel: "preconnect", href: s }),
+  return i.useEffect(() => {
+    e && (L(), t.focusOnLoad && typeof a == "object" && (a != null && a.current) && a.current.focus());
+  }, [e, L, t.focusOnLoad, a]), i.useEffect(() => {
+    if (!t.stopOnEnd || !e) return;
+    const y = (s) => {
+      var g;
+      if (!(s.origin !== "https://www.youtube.com" && s.origin !== "https://www.youtube-nocookie.com"))
+        try {
+          const f = typeof s.data == "string" ? JSON.parse(s.data) : s.data;
+          f.info && f.info.playerState === 0 && typeof a == "object" && (g = a == null ? void 0 : a.current) != null && g.contentWindow && a.current.contentWindow.postMessage(
+            '{"event":"command","func":"stopVideo","args":""}',
+            "*"
+          );
+        } catch {
+        }
+    };
+    return window.addEventListener("message", y), () => window.removeEventListener("message", y);
+  }, [t.stopOnEnd, e, a]), /* @__PURE__ */ b($, { children: [
+    !t.lazyLoad && /* @__PURE__ */ n("link", { rel: D, href: w, as: "image" }),
+    /* @__PURE__ */ n($, { children: o && /* @__PURE__ */ b($, { children: [
+      /* @__PURE__ */ n("link", { rel: "preconnect", href: h }),
       /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://www.google.com" }),
-      P && /* @__PURE__ */ h(f, { children: [
+      N && /* @__PURE__ */ b($, { children: [
         /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
         /* @__PURE__ */ n(
           "link",
@@ -95,17 +110,17 @@ function _(t, a) {
       {
         type: "application/ld+json",
         dangerouslySetInnerHTML: {
-          __html: J(
+          __html: V(
             t.id,
             l,
-            y,
-            s,
+            w,
+            h,
             t.seo
           )
         }
       }
     ),
-    Y && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ h(
+    H && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ b(
       "a",
       {
         href: `https://www.youtube.com/watch?v=${t.id}`,
@@ -117,25 +132,25 @@ function _(t, a) {
         ]
       }
     ) }),
-    /* @__PURE__ */ h(
-      E,
+    /* @__PURE__ */ b(
+      Y,
       {
-        onPointerOver: M,
-        onClick: v,
-        className: `${A} ${e ? L : ""}`,
+        onPointerOver: q,
+        onClick: x,
+        className: `${M} ${e ? W : ""}`,
         "data-title": l,
         role: e ? void 0 : "img",
         "aria-label": e ? void 0 : `${l} - YouTube video preview`,
         style: {
-          ...!t.lazyLoad && { backgroundImage: `url(${y})` },
-          "--aspect-ratio": `${T / N * 100}%`,
+          ...!t.lazyLoad && { backgroundImage: `url(${w})` },
+          "--aspect-ratio": `${T / j * 100}%`,
           ...t.style || {}
         },
         children: [
           t.lazyLoad && !e && /* @__PURE__ */ n(
             "img",
             {
-              src: y,
+              src: w,
               alt: `${l} - YouTube thumbnail`,
               className: "lty-thumbnail",
               loading: "lazy"
@@ -145,26 +160,26 @@ function _(t, a) {
             "button",
             {
               type: "button",
-              className: j,
-              "aria-label": `${$} ${l}`,
+              className: A,
+              "aria-label": `${v} ${l}`,
               "aria-hidden": e || void 0,
               tabIndex: e ? -1 : 0,
-              onClick: v,
-              children: /* @__PURE__ */ n("span", { className: "lty-visually-hidden", children: $ })
+              onClick: x,
+              children: /* @__PURE__ */ n("span", { className: "lty-visually-hidden", children: v })
             }
           ),
           e && /* @__PURE__ */ n(
             "iframe",
             {
               ref: a,
-              className: W,
+              className: O,
               title: l,
               width: "560",
               height: "315",
               style: { border: 0 },
               allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
               allowFullScreen: !0,
-              src: S,
+              src: E,
               referrerPolicy: t.referrerPolicy || "strict-origin-when-cross-origin"
             }
           )
@@ -173,7 +188,7 @@ function _(t, a) {
     )
   ] });
 }
-const K = d.forwardRef(
+const K = i.forwardRef(
   _
 );
 export {
