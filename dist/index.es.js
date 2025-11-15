@@ -1,5 +1,5 @@
 /**
-* react-lite-youtube-embed v2.5.7-beta.0
+* react-lite-youtube-embed v2.6.0
 *  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
@@ -43,7 +43,7 @@ function J(t, a, r, u, e) {
 }
 function _(t, a) {
   const [r, u] = d.useState(!1), [e, o] = d.useState(t.alwaysLoadIframe || !1), c = encodeURIComponent(t.id), m = typeof t.playlistCoverId == "string" ? encodeURIComponent(t.playlistCoverId) : null, l = t.title, i = t.poster || "hqdefault", $ = t.announce || "Watch", I = t.alwaysLoadIframe ? t.autoplay && t.muted : !0, b = d.useMemo(() => {
-    const v = new URLSearchParams({
+    const U = new URLSearchParams({
       ...t.muted ? { mute: "1" } : {},
       ...I ? { autoplay: "1" } : {},
       ...t.enableJsApi ? { enablejsapi: "1" } : {},
@@ -52,34 +52,34 @@ function _(t, a) {
     return t.params && new URLSearchParams(
       t.params.startsWith("&") ? t.params.slice(1) : t.params
     ).forEach((O, q) => {
-      v.append(q, O);
-    }), v;
+      U.append(q, O);
+    }), U;
   }, [t.muted, I, t.enableJsApi, t.playlist, c, t.params]), s = d.useMemo(
     () => t.cookie ? "https://www.youtube.com" : "https://www.youtube-nocookie.com",
     [t.cookie]
-  ), U = d.useMemo(
+  ), S = d.useMemo(
     () => t.playlist ? `${s}/embed/videoseries?${b.toString()}` : `${s}/embed/${c}?${b.toString()}`,
     [t.playlist, s, c, b]
-  ), S = !t.thumbnail && !t.playlist && i === "maxresdefault", w = t.webp ? "webp" : "jpg", g = t.webp ? "vi_webp" : "vi", k = S ? H(t.id, g, w, i) : null, y = d.useMemo(
+  ), x = !t.thumbnail && !t.playlist && i === "maxresdefault", w = t.webp ? "webp" : "jpg", g = t.webp ? "vi_webp" : "vi", k = x ? H(t.id, g, w, i) : null, y = d.useMemo(
     () => t.thumbnail || k || `https://i.ytimg.com/${g}/${t.playlist ? m : c}/${i}.${w}`,
     [t.thumbnail, k, g, t.playlist, m, c, i, w]
-  ), x = t.activatedClass || "lyt-activated", L = t.adNetwork || !1, P = t.aspectHeight || 9, T = t.aspectWidth || 16, N = t.iframeClass || "", W = t.playerClass || "lty-playbtn", j = t.wrapperClass || "yt-lite", C = d.useCallback(
+  ), L = t.activatedClass || "lyt-activated", P = t.adNetwork || !1, T = t.aspectHeight || 9, N = t.aspectWidth || 16, W = t.iframeClass || "", j = t.playerClass || "lty-playbtn", A = t.wrapperClass || "yt-lite", C = d.useCallback(
     t.onIframeAdded || function() {
     },
     [t.onIframeAdded]
-  ), A = t.rel ? "prefetch" : "preload", D = t.containerElement || "article", E = t.noscriptFallback !== !1, Y = () => {
+  ), D = t.rel ? "prefetch" : "preload", E = t.containerElement || "article", Y = t.noscriptFallback !== !1, M = () => {
     r || u(!0);
-  }, M = () => {
+  }, v = () => {
     e || o(!0);
   };
   return d.useEffect(() => {
     e && (C(), t.focusOnLoad && typeof a == "object" && (a != null && a.current) && a.current.focus());
   }, [e, C, t.focusOnLoad, a]), /* @__PURE__ */ h(f, { children: [
-    !t.lazyLoad && /* @__PURE__ */ n("link", { rel: A, href: y, as: "image" }),
+    !t.lazyLoad && /* @__PURE__ */ n("link", { rel: D, href: y, as: "image" }),
     /* @__PURE__ */ n(f, { children: r && /* @__PURE__ */ h(f, { children: [
       /* @__PURE__ */ n("link", { rel: "preconnect", href: s }),
       /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://www.google.com" }),
-      L && /* @__PURE__ */ h(f, { children: [
+      P && /* @__PURE__ */ h(f, { children: [
         /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
         /* @__PURE__ */ n(
           "link",
@@ -105,7 +105,7 @@ function _(t, a) {
         }
       }
     ),
-    E && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ h(
+    Y && !t.playlist && /* @__PURE__ */ n("noscript", { children: /* @__PURE__ */ h(
       "a",
       {
         href: `https://www.youtube.com/watch?v=${t.id}`,
@@ -118,17 +118,17 @@ function _(t, a) {
       }
     ) }),
     /* @__PURE__ */ h(
-      D,
+      E,
       {
-        onPointerOver: Y,
-        onClick: M,
-        className: `${j} ${e ? x : ""}`,
+        onPointerOver: M,
+        onClick: v,
+        className: `${A} ${e ? L : ""}`,
         "data-title": l,
         role: e ? void 0 : "img",
         "aria-label": e ? void 0 : `${l} - YouTube video preview`,
         style: {
           ...!t.lazyLoad && { backgroundImage: `url(${y})` },
-          "--aspect-ratio": `${P / T * 100}%`,
+          "--aspect-ratio": `${T / N * 100}%`,
           ...t.style || {}
         },
         children: [
@@ -145,10 +145,11 @@ function _(t, a) {
             "button",
             {
               type: "button",
-              className: W,
+              className: j,
               "aria-label": `${$} ${l}`,
               "aria-hidden": e || void 0,
               tabIndex: e ? -1 : 0,
+              onClick: v,
               children: /* @__PURE__ */ n("span", { className: "lty-visually-hidden", children: $ })
             }
           ),
@@ -156,14 +157,14 @@ function _(t, a) {
             "iframe",
             {
               ref: a,
-              className: N,
+              className: W,
               title: l,
               width: "560",
               height: "315",
               style: { border: 0 },
               allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
               allowFullScreen: !0,
-              src: U,
+              src: S,
               referrerPolicy: t.referrerPolicy || "strict-origin-when-cross-origin"
             }
           )
