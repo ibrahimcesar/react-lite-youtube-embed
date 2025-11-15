@@ -26,6 +26,8 @@ jobs:
       contents: write
       pull-requests: read
       packages: write
+      id-token: write  # Required for SLSA provenance
+      attestations: write  # Required for build attestations
 
     steps:
       - name: Checkout repository
@@ -61,6 +63,12 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Generate build attestation
+        id: attest
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'dist/**/*'
 
       - name: Bump version
         id: bump_version
@@ -194,11 +202,12 @@ jobs:
       - name: Publish to NPM
         run: |
           # Override the publishConfig registry to publish to NPM instead of GitHub Packages
+          # Include --provenance flag for SLSA attestation
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --registry https://registry.npmjs.org --access public
-            
+            npm publish --tag beta --registry https://registry.npmjs.org --access public --provenance
+
           else
-            npm publish --registry https://registry.npmjs.org --access public
+            npm publish --registry https://registry.npmjs.org --access public --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -213,10 +222,11 @@ jobs:
       - name: Publish to GitHub Packages
         run: |
           # The publishConfig in package.json already points to GitHub Packages
+          # Include --provenance flag (GitHub Packages uses attestations generated above)
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta
+            npm publish --tag beta --provenance
           else
-            npm publish
+            npm publish --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
