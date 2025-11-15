@@ -25,6 +25,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -192,25 +193,32 @@ jobs:
 
       - name: Publish to NPM
         run: |
+          # Override the publishConfig registry to publish to NPM instead of GitHub Packages
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            npm publish --tag beta --registry https://registry.npmjs.org
+          else
+            npm publish --registry https://registry.npmjs.org
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Setup Node for GitHub Packages
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@ibrahimcesar'
+
+      - name: Publish to GitHub Packages
+        run: |
+          # The publishConfig in package.json already points to GitHub Packages
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             npm publish --tag beta
           else
             npm publish
           fi
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish to GitHub Packages
-        run: |
-          # Reconfigure for GitHub Packages
-          npm config set registry https://npm.pkg.github.com
-          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-
-          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta
-          else
-            npm publish
-          fi
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create release summary
         run: |
