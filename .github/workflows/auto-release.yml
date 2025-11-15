@@ -8,6 +8,7 @@ on:
         required: true
         type: choice
         options:
+          - none
           - patch
           - minor
           - major
@@ -73,13 +74,21 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+          if [ "${{ github.event.inputs.version_bump }}" == "none" ]; then
+            # No version bump - use current version for republishing
+            CURRENT_VERSION=$(node -p "require('./package.json').version")
+            NEW_VERSION="v$CURRENT_VERSION"
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "Republishing current version: $NEW_VERSION"
+          elif [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             NEW_VERSION=$(npm version prerelease --preid=beta --no-git-tag-version)
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "New version: $NEW_VERSION"
           else
             NEW_VERSION=$(npm version ${{ github.event.inputs.version_bump }} --no-git-tag-version)
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "New version: $NEW_VERSION"
           fi
-          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "New version: $NEW_VERSION"
 
       - name: Get version without v prefix
         id: clean_version
@@ -173,8 +182,12 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add package.json package-lock.json
-          git commit -m "chore: bump version from ${{ steps.current_version.outputs.version }} to ${{ steps.clean_version.outputs.version }}"
+          if [ "${{ github.event.inputs.version_bump }}" != "none" ]; then
+            git add package.json package-lock.json
+            git commit -m "chore: bump version from ${{ steps.current_version.outputs.version }} to ${{ steps.clean_version.outputs.version }}"
+          else
+            echo "Skipping version bump commit (republishing current version)"
+          fi
 
       - name: Create and push tag
         run: |
@@ -196,7 +209,11 @@ jobs:
           git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
 
           # Push changes
-          git push origin main
+          if [ "${{ github.event.inputs.version_bump }}" != "none" ]; then
+            git push origin main
+          else
+            echo "Skipping push to main (no version bump)"
+          fi
           git push origin "$TAG_NAME"
 
       - name: Create GitHub Release
@@ -272,9 +289,13 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Package Information" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ steps.clean_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Previous Version**: ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.version_bump }}" != "none" ]; then
+            echo "- **Previous Version**: ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          fi
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             echo "- **Release Type**: Beta (prerelease)" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ github.event.inputs.version_bump }}" == "none" ]; then
+            echo "- **Release Type**: Republish (no version bump)" >> $GITHUB_STEP_SUMMARY
           else
             echo "- **Bump Type**: ${{ github.event.inputs.version_bump }}" >> $GITHUB_STEP_SUMMARY
           fi
