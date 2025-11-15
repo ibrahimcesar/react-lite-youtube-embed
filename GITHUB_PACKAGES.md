@@ -12,6 +12,16 @@ GitHub Packages is a package hosting service integrated with GitHub. It allows y
 - **Registry**: `https://npm.pkg.github.com`
 - **Scope**: `@ibrahimcesar`
 
+## Technical Note: Dual Registry Publishing
+
+This package uses a **dual-registry approach**:
+- The package name is scoped (`@ibrahimcesar/react-lite-youtube-embed`)
+- No `publishConfig` in `package.json` - each workflow configures its own registry
+- NPM workflow publishes to `registry.npmjs.org`
+- GitHub Packages workflow publishes to `npm.pkg.github.com`
+
+This ensures each registry gets the correct configuration during automated releases.
+
 ## For Maintainers: Publishing to GitHub Packages
 
 ### Automated Publishing (Recommended)
