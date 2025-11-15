@@ -1,76 +1,433 @@
- <div align="center">
+# React Lite YouTube Embed
 
-  <h1>📺  React Lite YouTube Embed</h1>
-  <blockquote>Private, performant YouTube embeds for React. Under 5KB gzipped.</blockquote>
+<div align="center">
 
-[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://www.typescriptlang.org/)
+**Private, performant YouTube embeds for React. Under 5KB gzipped.**
 
-[![Version](https://img.shields.io/npm/v/react-lite-youtube-embed?label=latest%20version)](https://www.npmjs.com/package/react-lite-youtube-embed)  ![Total Downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed?color=%23FF0000&logo=npm)  ![GitHub issues by-label](https://img.shields.io/github/issues/ibrahimcesar/react-lite-youtube-embed/bug)
+[![npm version](https://img.shields.io/npm/v/react-lite-youtube-embed)](https://www.npmjs.com/package/react-lite-youtube-embed)
+[![npm downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed)](https://www.npmjs.com/package/react-lite-youtube-embed)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 
-[![ES Module Size](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/size-es.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/size-badges.yml) [![CommonJS Size](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/size-cjs.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/size-badges.yml) [![CSS Size](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/size-css.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/size-badges.yml)
+[![ES Module Size](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/size-es.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/size-badges.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/coverage-tests.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/test-badge.yml)
+[![CodeQL](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml)
 
-[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/coverage-tests.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/test-badge.yml) [![Stale Issues & PRs](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/stale.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/stale.yml) [![CodeQL Security Scan](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml) [![Automated Release](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/auto-release.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/auto-release.yml) [![Deploy Demo to GitHub Pages](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/deploy-demo.yml)
+### [🚀 **Try the Live Demo** →](https://ibrahimcesar.github.io/react-lite-youtube-embed)
 
+> Interactive demo with all features and code examples • Updated with each release
 
-<p>Developed in 🇧🇷 <span role="img" aria-label="Flag for Brazil">Brazil</p>
-
-<strong>Port of Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) to a React Component. Provide videos with a supercharged focus on visual performance. The gain is not the same as the web component of the original implementation but saves some requests and gives you more control of the embed visual. An ["Adaptive Loading"](https://www.youtube.com/watch?v=puUPpVrIRkc) way to handle iframes for YouTube.</strong>
-
-[![iFrame example](_example_lite.gif)](https://ibrahimcesar.github.io/react-lite-youtube-embed)
-
-## ✨ [View Live Demo](https://ibrahimcesar.github.io/react-lite-youtube-embed)
-
-> **Live demo automatically updated with each release** - Try out all features and see code examples
+[![Demo Preview](_example_lite.gif)](https://ibrahimcesar.github.io/react-lite-youtube-embed)
 
 </div>
 
-## 🔒 Privacy by Default
+---
 
-The biggest change is, from 2.0.0 this component is private by default. Meaning that will not preconnect with the ad network from Google and connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com.
+## Why This Component?
 
-## 🚀 Install
+YouTube's standard iframe embed can add **over 500KB** to your page and make **dozens of network requests** before the user even clicks play. This component fixes that:
 
-Use your favorite package manager:
+- ✅ **Tiny** – Under 5KB gzipped total (JS + CSS)
+- ✅ **Fast** – Loads only a thumbnail until the user clicks
+- ✅ **Private** – No YouTube cookies or tracking by default
+- ✅ **SEO-Friendly** – Structured data for search engines
+- ✅ **Accessible** – Full keyboard navigation and screen reader support
+- ✅ **TypeScript** – Complete type definitions included
+
+**The result?** Faster page loads, better privacy, and a superior user experience.
+
+---
+
+## Quick Start
+
+### Install
+
+```bash
+npm install react-lite-youtube-embed
+```
+
+### Use
+
+```tsx
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+
+export default function App() {
+  return (
+    <LiteYouTubeEmbed
+      id="dQw4w9WgXcQ"
+      title="Rick Astley - Never Gonna Give You Up"
+    />
+  );
+}
+```
+
+That's it. You now have a performant, private YouTube embed.
+
+---
+
+## Core Features
+
+### 🔒 Privacy First
+
+**Privacy-Enhanced Mode is the default.** Videos load from `youtube-nocookie.com`, blocking YouTube cookies and tracking until the user explicitly clicks play.
+
+```tsx
+// Default: Privacy-Enhanced Mode (youtube-nocookie.com)
+<LiteYouTubeEmbed id="VIDEO_ID" title="Video Title" />
+
+// Opt into standard YouTube (with cookies)
+<LiteYouTubeEmbed id="VIDEO_ID" title="Video Title" cookie={true} />
+```
+
+### ⚡ Performance Optimization
+
+Enable lazy loading for images to defer offscreen thumbnails and boost Lighthouse scores:
+
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  lazyLoad={true}
+/>
+```
+
+**Impact:** Defers loading offscreen images, reduces bandwidth, improves mobile performance.
+
+### 🔍 SEO & Search Visibility
+
+Help search engines discover your videos with structured data:
+
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  seo={{
+    name: "Full Video Title",
+    description: "Video description for search engines",
+    uploadDate: "2024-01-15T08:00:00Z",
+    duration: "PT3M33S"
+  }}
+/>
+```
+
+**Includes:**
+- JSON-LD VideoObject structured data
+- Noscript fallback for non-JS users
+- Google Rich Results eligibility
+
+**Fetch metadata automatically:**
+```bash
+./scripts/fetch-youtube-metadata.sh VIDEO_ID --format react
+```
+
+[→ Full SEO Documentation](#-seo--search-engine-optimization)
+
+### 🎬 Player Events (New in v3)
+
+React to player state changes, playback controls, and errors:
+
+```tsx
+import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-embed';
+
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  enableJsApi
+
+  // Simple handlers
+  onPlay={() => console.log('Started')}
+  onPause={() => console.log('Paused')}
+  onEnd={() => console.log('Finished')}
+
+  // Advanced handlers
+  onStateChange={(e) => console.log('State:', e.state)}
+  onError={(code) => console.error('Error:', code)}
+  onPlaybackRateChange={(rate) => console.log('Speed:', rate)}
+/>
+```
+
+[→ Full Event Documentation](#-player-events-new-in-v30)
+
+### 🎮 Programmatic Control
+
+Control the player via YouTube's iframe API using refs:
+
+```tsx
+function VideoPlayer() {
+  const playerRef = useRef(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const handlePause = () => {
+    playerRef.current?.contentWindow?.postMessage(
+      '{"event":"command","func":"pauseVideo"}',
+      '*'
+    );
+  };
+
+  return (
+    <>
+      <LiteYouTubeEmbed
+        id="VIDEO_ID"
+        title="Video Title"
+        ref={playerRef}
+        enableJsApi
+        onIframeAdded={() => setIsReady(true)}
+      />
+      {isReady && <button onClick={handlePause}>Pause</button>}
+    </>
+  );
+}
+```
+
+[→ Full Control Documentation](#-controlling-the-player)
+
+---
+
+## Installation Options
+
+### NPM (Recommended)
+
+```bash
+npm install react-lite-youtube-embed
+```
+
+### Yarn
 
 ```bash
 yarn add react-lite-youtube-embed
 ```
 
-```bash
-npm install react-lite-youtube-embed -S
-```
-
-### Alternative: Install from GitHub Packages
-
-This package is also available on GitHub Packages:
+### GitHub Packages
 
 ```bash
 npm install @ibrahimcesar/react-lite-youtube-embed
 ```
 
-See [GITHUB_PACKAGES.md](GITHUB_PACKAGES.md) for detailed instructions on authentication and setup.
+See [GITHUB_PACKAGES.md](GITHUB_PACKAGES.md) for authentication details.
 
-## 🕹️ Basic Usage
+---
 
-```javascript
-import React from "react";
-import { render } from "react-dom";
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+## API Reference
+
+### Required Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| **id** | `string` | YouTube video or playlist ID |
+| **title** | `string` | Video title for iframe (accessibility requirement) |
+
+### Common Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| cookie | `boolean` | `false` | Use standard YouTube (true) or Privacy-Enhanced Mode (false) |
+| lazyLoad | `boolean` | `false` | Enable native lazy loading for thumbnails |
+| poster | `string` | `"hqdefault"` | Thumbnail quality: `"default"`, `"mqdefault"`, `"hqdefault"`, `"sddefault"`, `"maxresdefault"` |
+| params | `string` | `""` | Additional URL parameters (e.g., `"start=90&end=120"`) |
+| enableJsApi | `boolean` | `false` | Enable iframe API for programmatic control |
+| playlist | `boolean` | `false` | Set to true if ID is a playlist |
+
+### Event Props (require `enableJsApi={true}`)
+
+| Prop | Type | Description |
+|------|------|-------------|
+| onReady | `(event) => void` | Player is ready to receive commands |
+| onPlay | `() => void` | Video started playing |
+| onPause | `() => void` | Video was paused |
+| onEnd | `() => void` | Video finished playing |
+| onBuffering | `() => void` | Video is buffering |
+| onStateChange | `(event) => void` | Player state changed |
+| onError | `(code) => void` | Player encountered an error |
+| onPlaybackRateChange | `(rate) => void` | Playback speed changed |
+| onPlaybackQualityChange | `(quality) => void` | Video quality changed |
+
+### Advanced Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| adNetwork | `boolean` | `false` | Preconnect to Google's ad network |
+| alwaysLoadIframe | `boolean` | `false` | Load iframe immediately (not recommended) |
+| announce | `string` | `"Watch"` | Screen reader announcement text |
+| aspectHeight | `number` | `9` | Custom aspect ratio height |
+| aspectWidth | `number` | `16` | Custom aspect ratio width |
+| autoplay | `boolean` | `false` | Autoplay video (requires `muted={true}`) |
+| focusOnLoad | `boolean` | `false` | Focus iframe when loaded |
+| muted | `boolean` | `false` | Mute video audio |
+| noscriptFallback | `boolean` | `true` | Include noscript tag with YouTube link |
+| onIframeAdded | `() => void` | - | Callback when iframe loads (use for ref availability) |
+| playlistCoverId | `string` | - | Video ID for playlist cover image |
+| referrerPolicy | `string` | `"strict-origin-when-cross-origin"` | Iframe referrer policy |
+| seo | `VideoSEO` | - | SEO metadata object |
+| stopOnEnd | `boolean` | `false` | Stop video when it ends to prevent related videos |
+| style | `object` | `{}` | Custom container styles |
+| thumbnail | `string` | - | Custom thumbnail image URL |
+| webp | `boolean` | `false` | Use WebP format for thumbnails |
+
+### Styling Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| wrapperClass | `string` | `"yt-lite"` | Main wrapper class |
+| playerClass | `string` | `"lty-playbtn"` | Play button class |
+| iframeClass | `string` | `""` | Iframe element class |
+| activeClass | `string` | `"lyt-activated"` | Class when activated |
+| containerElement | `string` | `"article"` | HTML element for container |
+
+### Deprecated Props
+
+| Prop | Replacement | Note |
+|------|-------------|------|
+| noCookie | Use `cookie` prop | Inverted logic for clarity |
+| rel | Use `resourceHint` | Conflicted with YouTube's `rel` parameter |
+
+[→ See all props with examples in the demo](https://ibrahimcesar.github.io/react-lite-youtube-embed)
+
+---
+
+## Styling
+
+### Option 1: Import the CSS (Recommended)
+
+```tsx
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
-
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed
-        id="L2vS_050c-M"
-        title="What's new in Material Design for the web (Chrome Dev Summit 2019)"
-    />
-  </div>
-);
-
-render(<App />, document.getElementById("root"));
 ```
 
-And that's it.
+### Option 2: Copy to Global CSS
+
+For Next.js, Remix, or other frameworks, copy the CSS to your global stylesheet. [See CSS source](https://github.com/ibrahimcesar/react-lite-youtube-embed/blob/main/src/lib/LiteYouTubeEmbed.css)
+
+### Option 3: Custom Styles
+
+Use CSS-in-JS or pass custom class names:
+
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  wrapperClass="my-custom-wrapper"
+  playerClass="my-custom-button"
+  activeClass="video-playing"
+/>
+```
+
+---
+
+## Common Use Cases
+
+### Stop Video to Hide Related Videos
+
+Automatically return to thumbnail when the video ends:
+
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  enableJsApi
+  stopOnEnd={true}
+  params="rel=0"
+/>
+```
+
+### Video Gallery with Analytics
+
+```tsx
+function VideoGallery() {
+  return videos.map(video => (
+    <LiteYouTubeEmbed
+      key={video.id}
+      id={video.id}
+      title={video.title}
+      lazyLoad
+      onPlay={() => analytics.track('video_play', { id: video.id })}
+      onEnd={() => analytics.track('video_complete', { id: video.id })}
+    />
+  ));
+}
+```
+
+### Auto-Advancing Playlist
+
+```tsx
+function Playlist() {
+  const videos = ['video1', 'video2', 'video3'];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  return (
+    <LiteYouTubeEmbed
+      id={videos[currentIndex]}
+      title={`Video ${currentIndex + 1}`}
+      enableJsApi
+      onEnd={() => {
+        if (currentIndex < videos.length - 1) {
+          setCurrentIndex(currentIndex + 1);
+        }
+      }}
+    />
+  );
+}
+```
+
+### Custom Play/Pause Controls
+
+```tsx
+function CustomPlayer() {
+  const playerRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayPause = () => {
+    const command = isPlaying ? 'pauseVideo' : 'playVideo';
+    playerRef.current?.contentWindow?.postMessage(
+      `{"event":"command","func":"${command}"}`,
+      '*'
+    );
+  };
+
+  return (
+    <>
+      <LiteYouTubeEmbed
+        id="VIDEO_ID"
+        title="Video Title"
+        ref={playerRef}
+        enableJsApi
+        alwaysLoadIframe
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+      <button onClick={togglePlayPause}>
+        {isPlaying ? 'Pause' : 'Play'}
+      </button>
+    </>
+  );
+}
+```
+
+---
+
+## Framework Guides
+
+### Next.js / SSR Setup
+
+Using Next.js 13+ App Router or any server-side rendering framework? See the [SSR Guide](./SSR_GUIDE.md) for:
+- Setup instructions
+- Troubleshooting common issues
+- Best practices
+- TypeScript configuration
+
+### TypeScript
+
+Full TypeScript support is included. Import types as needed:
+
+```tsx
+import LiteYouTubeEmbed, {
+  PlayerState,
+  PlayerError,
+  VideoSEO,
+  PlayerReadyEvent,
+  PlayerStateChangeEvent
+} from 'react-lite-youtube-embed';
+```
+
+---
 
 ## 🔍 SEO & Search Engine Optimization
 
@@ -87,7 +444,7 @@ This component now supports **JSON-LD structured data** and **noscript fallbacks
 
 ### Basic SEO Setup
 
-```javascript
+```tsx
 <LiteYouTubeEmbed
   id="L2vS_050c-M"
   title="What's new in Material Design"
@@ -100,9 +457,9 @@ This component now supports **JSON-LD structured data** and **noscript fallbacks
 />
 ```
 
-This will generate:
+This generates:
 - ✅ **JSON-LD structured data** following [schema.org VideoObject](https://schema.org/VideoObject)
-- ✅ **Noscript fallback** with direct YouTube link (enabled by default)
+- ✅ **Noscript fallback** with direct YouTube link
 - ✅ **Google rich results** eligibility (video carousels, thumbnails in search)
 
 ### Fetching Video Metadata
@@ -122,37 +479,6 @@ chmod +x scripts/fetch-youtube-metadata.sh
 
 **Requirements:** `curl` and `jq` must be installed.
 
-The script uses YouTube's oEmbed API (no auth required) and provides:
-- Video title
-- Thumbnail URL
-- Template with TODO fields for description, upload date, and duration
-
-### Manual Metadata Collection
-
-For complete metadata, you can:
-
-1. **Visit the video page** and manually copy:
-   - Description
-   - Upload date (convert to ISO 8601: `YYYY-MM-DDTHH:MM:SSZ`)
-   - Duration (convert to ISO 8601: `PT#H#M#S`)
-
-2. **Use YouTube Data API v3** ([get free API key](https://console.cloud.google.com/apis/credentials)):
-   ```bash
-   curl "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=VIDEO_ID&key=YOUR_API_KEY"
-   ```
-
-3. **Browser DevTools approach**:
-   - Open video page → Inspect → Search for `"datePublished"` and `"duration"` in HTML
-
-### Duration Format Examples
-
-ISO 8601 duration format: `PT#H#M#S`
-
-- `"PT3M33S"` - 3 minutes 33 seconds
-- `"PT15M"` - 15 minutes
-- `"PT1H30M"` - 1 hour 30 minutes
-- `"PT2H15M30S"` - 2 hours 15 minutes 30 seconds
-
 ### SEO Prop Reference
 
 ```typescript
@@ -167,281 +493,22 @@ interface VideoSEO {
 }
 ```
 
-### Disabling Noscript Fallback
+### Duration Format Examples
 
-The noscript fallback is enabled by default. To disable:
+ISO 8601 duration format: `PT#H#M#S`
 
-```javascript
-<LiteYouTubeEmbed
-  id="L2vS_050c-M"
-  title="Video Title"
-  noscriptFallback={false}
-/>
-```
+- `"PT3M33S"` - 3 minutes 33 seconds
+- `"PT15M"` - 15 minutes
+- `"PT1H30M"` - 1 hour 30 minutes
+- `"PT2H15M30S"` - 2 hours 15 minutes 30 seconds
 
 ### Verify Your SEO Setup
 
-Test your structured data with Google's tools:
+Test your structured data:
 - [Rich Results Test](https://search.google.com/test/rich-results)
 - [Schema Markup Validator](https://validator.schema.org/)
 
-**Note:** Playlists do not support SEO structured data (only individual videos).
-
-## 💎 Pro Usage
-
-```javascript
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed
-       id="L2vS_050c-M" // Default none, id of the video or playlist
-       adNetwork={false} // Default false, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
-       params="" // any params you want to pass to the URL, assume we already had '&' and pass your parameters string
-       playlist={false} // Use true when your ID be from a playlist
-       playlistCoverId="L2vS_050c-M" // The ids for playlists did not bring the cover in a pattern to render so you'll need pick up a video from the playlist (or in fact, whatever id) and use to render the cover. There's a programmatic way to get the cover from YouTube API v3 but the aim of this component is do not make any another call and reduce requests and bandwidth usage as much as possibe
-       poster="hqdefault" // Defines the image size to call on first render as poster image. Possible values are "default","mqdefault",  "hqdefault", "sddefault" and "maxresdefault". Default value for this prop is "hqdefault". Please be aware that "sddefault" and "maxresdefault", high resolution images are not always avaialble for every video. See: https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
-       title="YouTube Embed" // a11y, always provide a title for iFrames: https://dequeuniversity.com/tips/provide-iframe-titles Help the web be accessible ;)
-       cookie={false} // Default false, don't connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com
-       ref={myRef} // Access the iframe element. Only available after user clicks the poster (use onIframeAdded callback to know when ready). See "Using Refs" section below for examples
-    />
-  </div>
-);
-```
-
-## ⚡ Performance: Lazy Loading
-
-Improve Lighthouse scores and reduce bandwidth by enabling lazy loading for thumbnail images:
-
-```javascript
-<LiteYouTubeEmbed
-  id="L2vS_050c-M"
-  title="What's new in Material Design"
-  lazyLoad={true}
-/>
-```
-
-**How it works:**
-- **Default behavior** (`lazyLoad={false}`): Uses CSS `background-image` with preload link
-- **With lazy loading** (`lazyLoad={true}`): Uses `<img loading="lazy">` for native browser lazy loading
-
-**Benefits:**
-- ✅ Defers loading of offscreen images
-- ✅ Reduces initial page bandwidth (especially for pages with multiple videos)
-- ✅ Improves Lighthouse "defer offscreen images" score
-- ✅ Better mobile performance on slow connections
-- ✅ 97%+ browser support
-
-**When to use:**
-- Pages with multiple YouTube embeds
-- Videos placed below the fold
-- Mobile-first applications
-- Performance-critical pages
-
-**Example with multiple embeds:**
-
-```javascript
-const VideoGallery = () => (
-  <div>
-    <LiteYouTubeEmbed
-      id="dQw4w9WgXcQ"
-      title="Video 1"
-      lazyLoad
-    />
-    <LiteYouTubeEmbed
-      id="L2vS_050c-M"
-      title="Video 2"
-      lazyLoad
-    />
-    {/* Only loads visible thumbnails initially */}
-  </div>
-);
-```
-
-## 🧰 Bring Your Own Styles
-
-React Lite YouTube Embed comes with all original styles from Paul Irish's [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed) but you can customize them as you wish passing as a props.
-
-```javascript
-const App = () => (
-  <div>
-    <LiteYouTubeEmbed
-       id="L2vS_050c-M"
-       activeClass="lyt-activated" // Default as "lyt-activated", gives control to wrapper once clicked
-       iframeClass="" // Default none, gives control to add a class to iframe element itself
-       playerClass="lty-playbtn" // Default as "lty-playbtn" to control player button styles
-       wrapperClass="yt-lite" // Default as "yt-lite" for the div wrapping the area, the most important class and needs extra attention, please refer to LiteYouTubeEmbed.css for a reference.
-    />
-  </div>
-);
-```
-
-## 🤖 Controlling the player
-
-You can programmatically control the YouTube player via [YouTubes IFrame Player API](https://developers.google.com/youtube/iframe_api_reference). However typically YouTube requires you to load an additional script from their servers (`https://www.youtube.com/iframe_api`), which is small but it will load another script. So this is neither performant nor very privacy-friendly. Instead, you can also send messages to the iframe via (`postMessage`)[https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage] using the ref prop. If you don't want to create the `postMessage()` calls yourself, there is also a little (wrapper library)[https://github.com/mich418/youtube-iframe-ctrl] for controlling the iframe with this method.
-
-> [!WARNING]  
-> This will only work if you set the `enableJsApi` prop to true. Also, the ref will only be defined, when the iframe has been loaded (which happens after clicking on the poster). So you can't start the player through this method. If you really want the player to always load the iframe right away (which is not good in terms of privacy), you can use the `alwaysLoadIframe` prop to do this.
-
-```jsx
-const App = () => (
-  const ytRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  return (
-    <div>
-      <button
-        onClick={() => {
-          setIsPlaying((oldState) => !oldState);
-          ytRef.current?.contentWindow?.postMessage(
-            `{"event": "command", "func": "${isPlaying ? "pauseVideo" : "playVideo"}"}`,
-            "*",
-          );
-        }}
-      >
-        External Play Button
-      </button>
-      <LiteYouTubeEmbed
-        title="My Video"
-        id="L2vS_050c-M"
-        ref={ytRef}
-        enableJsApi
-        alwaysLoadIframe
-      />
-    </div>
-  );
-};
-);
-
-```
-
-## 🎯 Using Refs with Lazy-Loaded Iframes
-
-**Important**: The ref only becomes available **after** the user clicks the poster image, since the iframe is lazy-loaded for performance and privacy.
-
-### ❌ Common Mistake
-
-```javascript
-const videoRef = useRef(null);
-
-useEffect(() => {
-  // This will NEVER log - iframe doesn't exist on mount!
-  if (videoRef.current) {
-    console.log("iframe ref"); // Never runs
-  }
-}, []); // Empty deps - runs only once on mount, before iframe exists
-
-return <LiteYouTubeEmbed id="L2vS_050c-M" title="My Video" ref={videoRef} />;
-```
-
-**Why this doesn't work:** The iframe is only rendered after user interaction (clicking the poster). Your `useEffect` with empty dependencies runs once on mount, but the iframe doesn't exist yet.
-
-### ✅ Correct Approaches
-
-#### Option 1: Use the `onIframeAdded` Callback (Recommended)
-
-This is the cleanest way to know when the iframe is ready:
-
-```javascript
-const videoRef = useRef(null);
-
-const handleIframeAdded = () => {
-  console.log("Iframe loaded and ready!");
-
-  // Now you can safely access the ref
-  if (videoRef.current) {
-    console.log("Iframe element:", videoRef.current);
-
-    // Control the player via postMessage
-    videoRef.current.contentWindow?.postMessage(
-      '{"event":"command","func":"playVideo"}',
-      '*'
-    );
-  }
-};
-
-return (
-  <LiteYouTubeEmbed
-    id="L2vS_050c-M"
-    title="My Video"
-    ref={videoRef}
-    onIframeAdded={handleIframeAdded}
-    enableJsApi
-  />
-);
-```
-
-#### Option 2: Watch for Ref Changes
-
-Monitor when the ref becomes available:
-
-```javascript
-const videoRef = useRef(null);
-
-useEffect(() => {
-  if (videoRef.current) {
-    console.log("Iframe is now available!");
-    // Do something with videoRef.current
-  }
-}, [videoRef.current]); // Re-run when ref changes
-```
-
-#### Option 3: Always Load Iframe (Not Recommended)
-
-Force the iframe to load immediately, bypassing lazy-loading:
-
-```javascript
-// ⚠️ This defeats the performance and privacy benefits!
-<LiteYouTubeEmbed
-  id="L2vS_050c-M"
-  title="My Video"
-  ref={videoRef}
-  alwaysLoadIframe
-  enableJsApi
-/>
-```
-
-**Trade-off:** With `alwaysLoadIframe={true}`, the ref is available immediately, but you lose the performance benefits and load YouTube resources on page load.
-
-### Real-World Example
-
-Controlling the player after the user activates it:
-
-```javascript
-function VideoPlayer() {
-  const playerRef = useRef(null);
-  const [isReady, setIsReady] = useState(false);
-
-  const handleIframeAdded = () => {
-    setIsReady(true);
-    console.log("Player is ready for commands");
-  };
-
-  const togglePlayPause = () => {
-    if (playerRef.current && isReady) {
-      playerRef.current.contentWindow?.postMessage(
-        '{"event":"command","func":"pauseVideo"}',
-        '*'
-      );
-    }
-  };
-
-  return (
-    <div>
-      <LiteYouTubeEmbed
-        id="L2vS_050c-M"
-        title="My Video"
-        ref={playerRef}
-        onIframeAdded={handleIframeAdded}
-        enableJsApi
-      />
-      {isReady && (
-        <button onClick={togglePlayPause}>
-          Pause Video
-        </button>
-      )}
-    </div>
-  );
-}
-```
+---
 
 ## 🎬 Player Events (New in v3.0)
 
@@ -449,7 +516,7 @@ Get real-time notifications when the YouTube player changes state, encounters er
 
 ### Quick Start
 
-```typescript
+```tsx
 import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-embed';
 
 function App() {
@@ -481,24 +548,23 @@ function App() {
 }
 ```
 
-### Available Event Handlers
-
-#### Core Events
+### Core Events
 
 **`onReady(event: PlayerReadyEvent)`**
-Fires when the player is loaded and ready to receive commands. This is the first event you'll receive.
 
-```typescript
+Fires when the player is loaded and ready to receive commands.
+
+```tsx
 onReady={(event) => {
   console.log(`Player ready for: ${event.videoId}`);
-  // Safe to call player methods now
 }}
 ```
 
 **`onStateChange(event: PlayerStateChangeEvent)`**
-Fires whenever the player's state changes (playing, paused, ended, buffering, etc.). Use this for comprehensive state tracking.
 
-```typescript
+Fires whenever the player's state changes.
+
+```tsx
 onStateChange={(event) => {
   switch (event.state) {
     case PlayerState.PLAYING:
@@ -510,14 +576,11 @@ onStateChange={(event) => {
     case PlayerState.ENDED:
       console.log('Video finished');
       break;
-    case PlayerState.BUFFERING:
-      console.log('Buffering...');
-      break;
   }
 }}
 ```
 
-**Available PlayerState values:**
+**PlayerState values:**
 - `PlayerState.UNSTARTED` (-1)
 - `PlayerState.ENDED` (0)
 - `PlayerState.PLAYING` (1)
@@ -526,9 +589,10 @@ onStateChange={(event) => {
 - `PlayerState.CUED` (5)
 
 **`onError(errorCode: PlayerError)`**
-Fires when the player encounters an error. Use this for graceful error handling.
 
-```typescript
+Fires when the player encounters an error.
+
+```tsx
 onError={(code) => {
   switch (code) {
     case PlayerError.INVALID_PARAM:
@@ -544,26 +608,21 @@ onError={(code) => {
 }}
 ```
 
-**Available PlayerError codes:**
-- `PlayerError.INVALID_PARAM` (2) - Invalid parameter value
-- `PlayerError.HTML5_ERROR` (5) - HTML5 player error
-- `PlayerError.VIDEO_NOT_FOUND` (100) - Video not found or removed
-- `PlayerError.NOT_EMBEDDABLE` (101) - Video owner disabled embedding
-- `PlayerError.NOT_EMBEDDABLE_DISGUISED` (150) - Same as 101 (used in disguised mode)
+**PlayerError codes:**
+- `PlayerError.INVALID_PARAM` (2)
+- `PlayerError.HTML5_ERROR` (5)
+- `PlayerError.VIDEO_NOT_FOUND` (100)
+- `PlayerError.NOT_EMBEDDABLE` (101)
+- `PlayerError.NOT_EMBEDDABLE_DISGUISED` (150)
 
-#### Convenience Events
+### Convenience Events
 
-These are simple wrappers around `onStateChange` for common use cases. They don't receive any parameters.
+Simple wrappers for common use cases:
 
-**`onPlay()`** - Video started playing
-**`onPause()`** - Video was paused
-**`onEnd()`** - Video finished playing
-**`onBuffering()`** - Video is buffering
-
-```typescript
+```tsx
 <LiteYouTubeEmbed
-  id="dQw4w9WgXcQ"
-  title="My Video"
+  id="VIDEO_ID"
+  title="Video Title"
   enableJsApi
   onPlay={() => analytics.track('video_play')}
   onPause={() => analytics.track('video_pause')}
@@ -572,24 +631,25 @@ These are simple wrappers around `onStateChange` for common use cases. They don'
 />
 ```
 
-#### Advanced Events
+### Advanced Events
 
 **`onPlaybackRateChange(playbackRate: number)`**
-Fires when the user changes playback speed. Common values: `0.25`, `0.5`, `1`, `1.5`, `2`.
 
-```typescript
+Fires when playback speed changes. Common values: `0.25`, `0.5`, `1`, `1.5`, `2`.
+
+```tsx
 onPlaybackRateChange={(rate) => {
   console.log(`Playback speed: ${rate}x`);
 }}
 ```
 
 **`onPlaybackQualityChange(quality: string)`**
+
 Fires when video quality changes. Values: `"small"` (240p), `"medium"` (360p), `"large"` (480p), `"hd720"`, `"hd1080"`, etc.
 
-```typescript
+```tsx
 onPlaybackQualityChange={(quality) => {
   console.log(`Quality changed to: ${quality}`);
-  analytics.track('quality_change', { quality });
 }}
 ```
 
@@ -597,7 +657,7 @@ onPlaybackQualityChange={(quality) => {
 
 #### Analytics Tracking
 
-```typescript
+```tsx
 function VideoWithAnalytics() {
   const [playStartTime, setPlayStartTime] = useState(null);
 
@@ -606,23 +666,16 @@ function VideoWithAnalytics() {
       id="dQw4w9WgXcQ"
       title="My Video"
       enableJsApi
-      onReady={() => {
-        analytics.track('video_ready');
-      }}
+      onReady={() => analytics.track('video_ready')}
       onPlay={() => {
         setPlayStartTime(Date.now());
         analytics.track('video_play');
-      }}
-      onPause={() => {
-        analytics.track('video_pause');
       }}
       onEnd={() => {
         const watchTime = Date.now() - playStartTime;
         analytics.track('video_complete', { watchTime });
       }}
-      onError={(code) => {
-        analytics.track('video_error', { errorCode: code });
-      }}
+      onError={(code) => analytics.track('video_error', { errorCode: code })}
     />
   );
 }
@@ -630,413 +683,265 @@ function VideoWithAnalytics() {
 
 #### Video Playlist with Auto-Advance
 
-```typescript
+```tsx
 function VideoPlaylist() {
   const videos = ['dQw4w9WgXcQ', 'abc123def', 'xyz789uvw'];
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleVideoEnd = () => {
-    if (currentIndex < videos.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
 
   return (
     <LiteYouTubeEmbed
       id={videos[currentIndex]}
       title={`Video ${currentIndex + 1}`}
       enableJsApi
-      onEnd={handleVideoEnd}
-      onError={(code) => {
-        console.error(`Error with video ${currentIndex}:`, code);
+      onEnd={() => {
+        if (currentIndex < videos.length - 1) {
+          setCurrentIndex(currentIndex + 1);
+        }
+      }}
+      onError={() => {
         // Skip to next video on error
-        handleVideoEnd();
+        if (currentIndex < videos.length - 1) {
+          setCurrentIndex(currentIndex + 1);
+        }
       }}
     />
   );
 }
 ```
 
-#### Custom Play/Pause UI
+### Important Notes
 
-```typescript
-function CustomControls() {
+⚠️ **Events require `enableJsApi={true}`**
+
+⚠️ **Lazy Loading Limitation** - By default, the iframe only loads after the user clicks. Events won't fire until after user interaction. Use `onIframeAdded` callback to know when ready, or use `alwaysLoadIframe={true}` (not recommended for privacy/performance).
+
+⚠️ **Origin Validation** - The component automatically validates events from YouTube domains for security.
+
+⚠️ **Cleanup** - Event listeners are automatically cleaned up on unmount.
+
+---
+
+## 🤖 Controlling the player
+
+You can programmatically control the YouTube player via [YouTube's IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) using refs and `postMessage`.
+
+> **⚠️ Important:** This requires `enableJsApi={true}`. The ref is only available after the user clicks the poster (use `onIframeAdded` callback to know when ready).
+
+```tsx
+function VideoPlayer() {
+  const ytRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isReady, setIsReady] = useState(false);
 
   return (
     <div>
+      <button
+        onClick={() => {
+          setIsPlaying((oldState) => !oldState);
+          ytRef.current?.contentWindow?.postMessage(
+            `{"event": "command", "func": "${isPlaying ? "pauseVideo" : "playVideo"}"}`,
+            "*",
+          );
+        }}
+      >
+        {isPlaying ? 'Pause' : 'Play'}
+      </button>
       <LiteYouTubeEmbed
-        id="dQw4w9WgXcQ"
         title="My Video"
+        id="L2vS_050c-M"
+        ref={ytRef}
         enableJsApi
-        alwaysLoadIframe  // Required for external controls
-        onReady={() => setIsReady(true)}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onEnd={() => setIsPlaying(false)}
+        alwaysLoadIframe
       />
-
-      {isReady && (
-        <div className="custom-controls">
-          <span>{isPlaying ? '▶️ Playing' : '⏸️ Paused'}</span>
-        </div>
-      )}
     </div>
   );
 }
 ```
 
-### Important Notes
+### Using Refs with Lazy-Loaded Iframes
 
-⚠️ **Events require `enableJsApi={true}`** - All event handlers require this prop to be enabled.
+**Important:** The ref only becomes available **after** the user clicks the poster.
 
-⚠️ **Lazy Loading Limitation** - By default, the iframe only loads after the user clicks the poster. This means:
-- Events won't fire until after user interaction
-- Use `onIframeAdded` callback to know when the iframe is ready
-- Or use `alwaysLoadIframe={true}` if you need events immediately (not recommended for privacy/performance)
+#### ✅ Correct: Use `onIframeAdded` Callback
 
-⚠️ **Origin Validation** - The component automatically validates that events come from YouTube domains (`youtube.com` or `youtube-nocookie.com`) for security.
+```tsx
+const videoRef = useRef(null);
 
-⚠️ **Cleanup** - Event listeners are automatically cleaned up when the component unmounts.
+const handleIframeAdded = () => {
+  console.log("Iframe loaded and ready!");
 
-## ⚠️ After version 1.0.0 - BREAKING CHANGES ⚠️
+  if (videoRef.current) {
+    videoRef.current.contentWindow?.postMessage(
+      '{"event":"command","func":"playVideo"}',
+      '*'
+    );
+  }
+};
 
-To play nice with new frameworks like [NextJS](https://nextjs.org/), we now don't import the `.css` necessary. Since version `2.0.9` you can pass custom aspect-ratio props, so be aware of any changes needed in the CSS options. Instead use now you have three options:
-
-> **📘 Using Next.js or SSR?** Check out the [SSR Guide](./SSR_GUIDE.md) for setup instructions, troubleshooting, and best practices.
-
-### Option 1
-
-Place the necessary CSS in your Global CSS file method of preference
-
-<details>
-
-<summary> Show me the code!</summary>
-
-```css
-.yt-lite {
-    background-color: #000;
-    position: relative;
-    display: block;
-    contain: content;
-    background-position: center center;
-    background-size: cover;
-    cursor: pointer;
-}
-
-/* gradient */
-.yt-lite::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    background-position: top;
-    background-repeat: repeat-x;
-    height: 60px;
-    padding-bottom: 50px;
-    width: 100%;
-    transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
-}
-
-/* responsive iframe with a 16:9 aspect ratio
-    thanks https://css-tricks.com/responsive-iframes/
-*/
-.yt-lite::after {
-    content: "";
-    display: block;
-    padding-bottom: calc(100% / (16 / 9));
-}
-.yt-lite > iframe {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* play button */
-.yt-lite > .lty-playbtn {
-    width: 65px;
-    height: 46px;
-    z-index: 1;
-    opacity: 0.8;
-    border: none;
-    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22YouTube_Icon%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%201024%20721%22%20enable-background%3D%22new%200%200%201024%20721%22%20xml%3Aspace%3D%22preserve%22%3E%3Cscript%20xmlns%3D%22%22%3E%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20Object.defineProperty(navigator%2C%20%22globalPrivacyControl%22%2C%20%7B%0A%20%20%20%20%20%20%20%20value%3A%20false%2C%0A%20%20%20%20%20%20%20%20configurable%3A%20false%2C%0A%20%20%20%20%20%20%20%20writable%3A%20false%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20document.currentScript.parentElement.removeChild(document.currentScript)%3B%0A%20%20%20%20%7D%20catch(e)%20%7B%7D%3B%0A%20%20%20%20%20%20%3C%2Fscript%3E%0A%3Cpath%20id%3D%22Triangle%22%20fill%3D%22%23FFFFFF%22%20d%3D%22M407%2C493l276-143L407%2C206V493z%22%2F%3E%0A%3Cpath%20id%3D%22The_Sharpness%22%20opacity%3D%220.12%22%20fill%3D%22%23420000%22%20d%3D%22M407%2C206l242%2C161.6l34-17.6L407%2C206z%22%2F%3E%0A%3Cg%20id%3D%22Lozenge%22%3E%0A%09%3Cg%3E%0A%09%09%0A%09%09%09%3ClinearGradient%20id%3D%22SVGID_1_%22%20gradientUnits%3D%22userSpaceOnUse%22%20x1%3D%22512.5%22%20y1%3D%22719.7%22%20x2%3D%22512.5%22%20y2%3D%221.2%22%20gradientTransform%3D%22matrix(1%200%200%20-1%200%20721)%22%3E%0A%09%09%09%3Cstop%20offset%3D%220%22%20style%3D%22stop-color%3A%23E52D27%22%2F%3E%0A%09%09%09%3Cstop%20offset%3D%221%22%20style%3D%22stop-color%3A%23BF171D%22%2F%3E%0A%09%09%3C%2FlinearGradient%3E%0A%09%09%3Cpath%20fill%3D%22url(%23SVGID_1_)%22%20d%3D%22M1013%2C156.3c0%2C0-10-70.4-40.6-101.4C933.6%2C14.2%2C890%2C14%2C870.1%2C11.6C727.1%2C1.3%2C512.7%2C1.3%2C512.7%2C1.3%20%20%20%20h-0.4c0%2C0-214.4%2C0-357.4%2C10.3C135%2C14%2C91.4%2C14.2%2C52.6%2C54.9C22%2C85.9%2C12%2C156.3%2C12%2C156.3S1.8%2C238.9%2C1.8%2C321.6v77.5%20%20%20%20C1.8%2C481.8%2C12%2C564.4%2C12%2C564.4s10%2C70.4%2C40.6%2C101.4c38.9%2C40.7%2C89.9%2C39.4%2C112.6%2C43.7c81.7%2C7.8%2C347.3%2C10.3%2C347.3%2C10.3%20%20%20%20s214.6-0.3%2C357.6-10.7c20-2.4%2C63.5-2.6%2C102.3-43.3c30.6-31%2C40.6-101.4%2C40.6-101.4s10.2-82.7%2C10.2-165.3v-77.5%20%20%20%20C1023.2%2C238.9%2C1013%2C156.3%2C1013%2C156.3z%20M407%2C493V206l276%2C144L407%2C493z%22%2F%3E%0A%09%3C%2Fg%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E");
-    transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
-}
-.yt-lite:hover > .lty-playbtn {
-    opacity: 1;
-}
-/* play button triangle */
-.yt-lite > .lty-playbtn:before {
-    content: '';
-    border-style: solid;
-    border-width: 11px 0 11px 19px;
-    border-color: transparent transparent transparent #fff;
-}
-
-.yt-lite > .lty-playbtn,
-.yt-lite > .lty-playbtn:before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-}
-
-/* Post-click styles */
-.yt-lite.lyt-activated {
-    cursor: unset;
-}
-.yt-lite.lyt-activated::before,
-.yt-lite.lyt-activated > .lty-playbtn {
-    opacity: 0;
-    pointer-events: none;
-}
+return (
+  <LiteYouTubeEmbed
+    id="VIDEO_ID"
+    title="My Video"
+    ref={videoRef}
+    onIframeAdded={handleIframeAdded}
+    enableJsApi
+  />
+);
 ```
 
-For example, for NextJS:
+#### ❌ Wrong: Accessing Ref on Mount
 
-```jsx
-<style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-
-        // CSS above
-
-`}</style>
-
+```tsx
+// This won't work - iframe doesn't exist yet!
+useEffect(() => {
+  if (videoRef.current) {
+    console.log("This never runs");
+  }
+}, []); // Empty deps - runs before iframe exists
 ```
 
-</details>
+---
 
-### Option 2
+## FAQ
 
-Using your CSS-In-JS tool of choice encapsulate this component and use the css provided as a guide.
+### Can I hide all related videos after my video ends?
 
-### Option 3
+**Short answer:** No, this is a YouTube platform limitation.
 
-Not work on every framework but you can import the css directly, check what works best with your bundler / framework.
+**What changed:** In September 2018, YouTube changed the `rel=0` parameter to only limit related videos to the same channel, not hide them completely.
 
-<details>
-<summary>Show me the code!</summary>
+**Best solution:** Use the built-in `stopOnEnd` prop:
 
-```ts
-import 'react-lite-youtube-embed/dist/index.css';
-```
-
-or in a *.css/scss etc:
-
-```css
-@import "~react-lite-youtube-embed/dist/index.css";
-```
-
-</details>
-
-## All our props belongs to you
-
-The most minimalist implementation requires two props: `id` from the YouTube you want to render and `title`, for the iFrame.
-
-| Prop   |      Type      |  Default | Description |
-|----------|:--------:|:--------:|------------|
-| **id** |  string | - | **Required**. ID of the video or playlist |
-| **title** |    string   | - | **Required**. Video title for the iFrame. Always provide a title for iFrames: [https://dequeuniversity.com/tips/provide-iframe-titles](https://dequeuniversity.com/tips/provide-iframe-titles) Help the web be accessible ;) #a11y |
-| activeClass | string | `"lyt-activated"` | Pass the string class for the active state |
-| adNetwork | boolean | `false` | To preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google) |
-| alwaysLoadIframe | boolean | `false` | If enabled, the original YouTube iframe will always be loaded right away (not recommended for privacy) |
-| announce |    string   | `"Watch"` | Text added to the button for screen readers as `Clickable {announce}, {title}, button`. Customize to match your language #a11y #i18n |
-| aspectHeight |    number   | `9` | Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using |
-| aspectWidth |    number   | `16` | Use this optional prop if you want a custom aspect-ratio. Please be aware of aspect height and width relation and also any custom CSS you are using |
-| autoplay | boolean | `false` | Enables autoplay videos. Important: only works with `muted={true}` and `alwaysLoadIframe={true}` |
-| containerElement | string | `"article"` | The HTML element to be used for the container |
-| cookie | boolean | `false` | Set to `true` to use https://www.youtube.com instead of Privacy-Enhanced Mode (https://www.youtube-nocookie.com) |
-| enableJsApi | boolean | `false` | If enabled, you can send messages to the iframe (via the `ref` prop) to control the player programmatically |
-| focusOnLoad | boolean | `false` | Automatically focus iframe when loaded (useful for keyboard navigation) |
-| iframeClass | string | `""` | Pass the string class for the iframe element itself |
-| lazyLoad | boolean | `false` | Enable native lazy loading for thumbnail images. Improves Lighthouse scores and reduces bandwidth for below-fold videos. Uses `<img loading="lazy">` instead of CSS background-image |
-| muted | boolean | `false` | If the video has sound or not. Required for `autoplay={true}` to work |
-| noCookie | boolean | `false` | **⚠️ DEPRECATED** - Use `cookie` prop instead |
-| noscriptFallback | boolean | `true` | Include noscript tag with YouTube link for accessibility and SEO crawlers |
-| **onBuffering** | function | `undefined` | **[Event]** Fires when video is buffering. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onEnd** | function | `undefined` | **[Event]** Fires when video ends. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onError** | function | `undefined` | **[Event]** Fires on player errors with error code. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| onIframeAdded | function | `undefined` | Callback fired when iframe loads. **Use this to know when the `ref` becomes available** (ref is only populated after user clicks the poster). See [Using Refs](#-using-refs-with-lazy-loaded-iframes) section for examples |
-| **onPause** | function | `undefined` | **[Event]** Fires when video is paused. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onPlay** | function | `undefined` | **[Event]** Fires when video starts playing. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onPlaybackQualityChange** | function | `undefined` | **[Event]** Fires when video quality changes. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onPlaybackRateChange** | function | `undefined` | **[Event]** Fires when playback speed changes. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onReady** | function | `undefined` | **[Event]** Fires when player is ready. Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| **onStateChange** | function | `undefined` | **[Event]** Fires on all state changes (play/pause/end/buffering). Requires `enableJsApi={true}`. See [Player Events](#-player-events-new-in-v30) |
-| params | string | `""` | Additional params to pass to the URL. Format: `start=1150&other=value`. Don't include `?` or leading `&`. Note: use `start` not `t` for time |
-| playerClass | string | `"lty-playbtn"` | Pass the string class for the player button to customize it |
-| playlist | boolean | `false` | Set to `true` when your id is from a playlist |
-| playlistCoverId | string | `undefined` | Video ID to use for playlist cover image. Playlists don't have a standard cover pattern |
-| poster | `"default"` \| `"mqdefault"` \| `"hqdefault"` \| `"sddefault"` \| `"maxresdefault"` | `"hqdefault"` | Defines the image size for the poster. Note: `sddefault` and `maxresdefault` aren't always available. See: [YouTube API docs](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
-| referrerPolicy | string | `"strict-origin-when-cross-origin"` | Sets the referrer policy for the iframe |
-| rel | string | `"preload"` | **⚠️ DEPRECATED** - Use `resourceHint` prop instead. This prop name conflicts with YouTube's `rel` parameter |
-| resourceHint | `"preload"` \| `"prefetch"` | `"preload"` | Controls resource hint for the poster image link tag. Use `"prefetch"` for lower priority or `"preload"` for higher priority loading |
-| seo | VideoSEO | `undefined` | SEO metadata for search engines. Generates JSON-LD structured data. See [SEO section](#-seo--search-engine-optimization) for details |
-| stopOnEnd | boolean | `false` | Automatically stop video when it ends to prevent showing related videos. Requires `enableJsApi={true}`. See [FAQ](#-frequently-asked-questions) for details |
-| style | object | `{}` | Style object for the container, overriding any root styles |
-| thumbnail | string | `undefined` | Pass an optional image url to override the default poster and set a custom poster image |
-| webp | boolean | `false` | When set, uses the WebP format for poster images |
-| wrapperClass | string | `"yt-lite"` | Pass the string class that wraps the iFrame. **Important**: This class needs extra attention, refer to LiteYouTubeEmbed.css |
-
-## ❓ Frequently Asked Questions
-
-### Can I completely hide suggested/related videos after my video ends?
-
-Unfortunately, **no** - this is a YouTube platform limitation that affects all embed implementations, not just this library.
-
-**What changed:**
-In September 2018, YouTube changed how the `rel=0` parameter works. It no longer hides all related videos—it only limits them to videos from the same channel.
-
-**Available options:**
-
-#### Option 1: Limit to same-channel videos (partial solution)
-
-Use the `params` prop to add `rel=0`:
-
-```jsx
+```tsx
 <LiteYouTubeEmbed
   id="VIDEO_ID"
   title="Video Title"
-  params="rel=0"
-/>
-```
-
-**Note:** This only shows videos from your channel. If your channel has many videos, related videos will still appear.
-
-#### Option 2: Use the built-in `stopOnEnd` prop (easiest solution)
-
-The **easiest way** to prevent related videos is to use the built-in `stopOnEnd` feature:
-
-```jsx
-<LiteYouTubeEmbed
-  id="VIDEO_ID"
-  title="Video Title"
-  enableJsApi={true}
+  enableJsApi
   stopOnEnd={true}
   params="rel=0"
 />
 ```
 
-**How it works:**
-- Automatically stops the video when it ends
-- Returns the player to the thumbnail view
-- Prevents related videos from showing
-- Requires `enableJsApi={true}` to work
+This automatically stops the video when it ends and returns to the thumbnail view, preventing related videos from showing.
 
-**Benefits:**
-- ✅ No manual event handling needed
-- ✅ Works out of the box
-- ✅ Cleaner code
+[→ See more solutions in the docs](#can-i-completely-hide-suggestedrelated-videos-after-my-video-ends)
 
-#### Option 3: Manual YouTube Player API control (advanced solution)
+### How do I use this with Next.js?
 
-For more control, you can manually handle the YouTube Player API events:
+See the [SSR Guide](./SSR_GUIDE.md) for detailed Next.js setup instructions and troubleshooting.
 
-```jsx
-import { useRef, useEffect } from 'react';
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+### Does this work with playlists?
 
-const App = () => {
-  const ytRef = useRef(null);
+Yes! Set `playlist={true}` and optionally provide a `playlistCoverId`:
 
-  useEffect(() => {
-    // Listen for messages from the YouTube iframe
-    const handleMessage = (event) => {
-      if (event.origin !== 'https://www.youtube.com' &&
-          event.origin !== 'https://www.youtube-nocookie.com') return;
-
-      try {
-        const data = JSON.parse(event.data);
-        // Check if video ended (state 0)
-        if (data.info?.playerState === 0) {
-          // Stop the video to return to thumbnail
-          ytRef.current?.contentWindow?.postMessage(
-            '{"event":"command","func":"stopVideo","args":""}',
-            '*'
-          );
-        }
-      } catch (e) {
-        // Not JSON, ignore
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  return (
-    <LiteYouTubeEmbed
-      id="VIDEO_ID"
-      title="Video Title"
-      ref={ytRef}
-      enableJsApi={true}
-      params="rel=0"
-    />
-  );
-};
+```tsx
+<LiteYouTubeEmbed
+  id="PLAYLIST_ID"
+  title="My Playlist"
+  playlist={true}
+  playlistCoverId="VIDEO_ID"
+/>
 ```
 
-**How it works:**
-1. Enable the YouTube IFrame API with `enableJsApi={true}`
-2. Listen for `playerState` changes via `postMessage`
-3. When the video ends (state `0`), send `stopVideo` command
-4. The player returns to the thumbnail, preventing related videos from showing
+### Can I customize the thumbnail?
 
-See the [🤖 Controlling the player](#-controlling-the-player) section for more details on using the YouTube IFrame API.
+Yes! Use the `thumbnail` prop to provide a custom image URL:
 
-**Related:** [Issue #94](https://github.com/ibrahimcesar/react-lite-youtube-embed/issues/94)
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  thumbnail="https://example.com/custom-thumbnail.jpg"
+/>
+```
 
-### Why doesn't `rel=0` hide all related videos anymore?
+Or choose a different YouTube thumbnail quality with `poster`:
 
-YouTube changed this behavior in September 2018 for business reasons. The embed API no longer provides any parameter to completely disable related videos.
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  poster="maxresdefault"
+/>
+```
 
-From [YouTube's official documentation](https://developers.google.com/youtube/player_parameters#rel):
+---
 
-> *"If the rel parameter is set to 0, related videos will come from the same channel as the video that was just played."*
+## Contributing
 
-This is a permanent platform change that affects all YouTube embeds, not just this library.
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## 🙇‍♂️ Thanks
+### Development
 
-- Paul Irish ([paulirish](https://github.com/paulirish)) for [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)
-- Addy Osmani ([addyosmani](https://github.com/addyosmani)) for the Adaptive Loading ideas
-- [All contributors](https://github.com/ibrahimcesar/react-lite-youtube-embed/graphs/contributors)
+```bash
+# Install dependencies
+npm install
 
-### 📝 Read more
+# Run tests
+npm test
 
-- [Why I made my open source React component private by default](https://ibrahimcesar.cloud/blog/why-i-made-my-open-source-react-component-private-by-default/)
+# Run tests in watch mode
+npm run test:watch
 
-## MIT License
+# Build
+npm run build
 
-Copyright (c) 2021 — 2025 [Ibrahim Cesar](https://ibrahimcesar.cloud)
+# Lint
+npm run lint
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+# Format
+npm run format
+```
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## Security
+
+This package includes:
+
+- ✅ **SLSA Build Level 3 Provenance** - Cryptographically signed build provenance
+- ✅ **CodeQL Analysis** - Automated security scanning
+- ✅ **Dependency Audits** - Regular security updates
+
+Verify package authenticity:
+
+```bash
+npm audit signatures
+```
+
+See [.github/SLSA.md](.github/SLSA.md) for more details.
+
+---
+
+## License
+
+MIT © [Ibrahim Cesar](https://ibrahimcesar.cloud)
+
+See [LICENSE](LICENSE) for full details.
+
+---
+
+## Credits
+
+- **Paul Irish** ([@paulirish](https://github.com/paulirish)) - Original [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)
+- **Addy Osmani** ([@addyosmani](https://github.com/addyosmani)) - Adaptive Loading concepts
+- **All contributors** - [View contributors](https://github.com/ibrahimcesar/react-lite-youtube-embed/graphs/contributors)
+
+---
+
+## Resources
+
+- [📖 Documentation](https://github.com/ibrahimcesar/react-lite-youtube-embed)
+- [🚀 Live Demo](https://ibrahimcesar.github.io/react-lite-youtube-embed)
+- [📦 npm Package](https://www.npmjs.com/package/react-lite-youtube-embed)
+- [🐛 Report Issues](https://github.com/ibrahimcesar/react-lite-youtube-embed/issues)
+- [📝 Changelog](https://github.com/ibrahimcesar/react-lite-youtube-embed/releases)
+
+---
+
+<div align="center">
+
+**[⬆ Back to Top](#react-lite-youtube-embed)**
+
+Made with 🧩 in Brazil 🇧🇷
+
+</div>
