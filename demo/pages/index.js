@@ -168,7 +168,6 @@ export default function Home() {
             <LiteYouTubeEmbed
               id="HaEPXoXVf2k"
               title="Amazon DynamoDB Deep Dive"
-              lazyLoad={true}
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
