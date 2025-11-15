@@ -2,6 +2,9 @@ import * as React from "react";
 import useYoutubeThumbnail from "./useYoutubeThumbnail";
 import { imgResolution } from "./useYoutubeThumbnail";
 
+// Re-export types for public API
+export type { imgResolution };
+
 /**
  * SEO metadata for YouTube video following schema.org VideoObject structure.
  * See: https://developers.google.com/search/docs/appearance/structured-data/video
