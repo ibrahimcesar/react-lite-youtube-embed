@@ -125,7 +125,7 @@ function generateVideoStructuredData(
   title: string,
   posterUrl: string,
   ytUrl: string,
-  seo?: VideoSEO,
+  seo?: VideoSEO
 ): string {
   const structuredData = {
     "@context": "https://schema.org",
@@ -144,7 +144,7 @@ function generateVideoStructuredData(
 
 function LiteYouTubeEmbedComponent(
   props: LiteYouTubeProps,
-  ref: React.Ref<HTMLIFrameElement>,
+  ref: React.Ref<HTMLIFrameElement>
 ) {
   const [preconnected, setPreconnected] = React.useState(false);
   const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
@@ -173,7 +173,7 @@ function LiteYouTubeEmbedComponent(
     // parse props.params into individual search parameters and append them to params
     if (props.params) {
       const additionalParams = new URLSearchParams(
-        props.params.startsWith("&") ? props.params.slice(1) : props.params,
+        props.params.startsWith("&") ? props.params.slice(1) : props.params
       );
       additionalParams.forEach((value, key) => {
         params.append(key, value);
@@ -181,19 +181,28 @@ function LiteYouTubeEmbedComponent(
     }
 
     return params;
-  }, [props.muted, shouldAddAutoplayParam, props.enableJsApi, props.playlist, videoId, props.params]);
+  }, [
+    props.muted,
+    shouldAddAutoplayParam,
+    props.enableJsApi,
+    props.playlist,
+    videoId,
+    props.params,
+  ]);
 
   const ytUrl = React.useMemo(
-    () => props.cookie
-      ? "https://www.youtube.com"
-      : "https://www.youtube-nocookie.com",
+    () =>
+      props.cookie
+        ? "https://www.youtube.com"
+        : "https://www.youtube-nocookie.com",
     [props.cookie]
   );
 
   const iframeSrc = React.useMemo(
-    () => !props.playlist
-      ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
-      : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`,
+    () =>
+      !props.playlist
+        ? `${ytUrl}/embed/${videoId}?${iframeParams.toString()}`
+        : `${ytUrl}/embed/videoseries?${iframeParams.toString()}`,
     [props.playlist, ytUrl, videoId, iframeParams]
   );
 
@@ -208,12 +217,22 @@ function LiteYouTubeEmbedComponent(
     : null;
 
   const posterUrl = React.useMemo(
-    () => props.thumbnail ||
+    () =>
+      props.thumbnail ||
       dynamicThumbnailUrl ||
       `https://i.ytimg.com/${vi}/${
         props.playlist ? videoPlaylistCoverId : videoId
       }/${posterImp}.${format}`,
-    [props.thumbnail, dynamicThumbnailUrl, vi, props.playlist, videoPlaylistCoverId, videoId, posterImp, format]
+    [
+      props.thumbnail,
+      dynamicThumbnailUrl,
+      vi,
+      props.playlist,
+      videoPlaylistCoverId,
+      videoId,
+      posterImp,
+      format,
+    ]
   );
 
   const activatedClassImp = props.activatedClass || "lyt-activated";
@@ -246,7 +265,7 @@ function LiteYouTubeEmbedComponent(
       onIframeAdded();
 
       // Focus iframe if focusOnLoad is enabled and ref is available
-      if (props.focusOnLoad && typeof ref === 'object' && ref?.current) {
+      if (props.focusOnLoad && typeof ref === "object" && ref?.current) {
         ref.current.focus();
       }
     }
@@ -304,12 +323,16 @@ function LiteYouTubeEmbedComponent(
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
         data-title={videoTitle}
         role={!iframe ? "img" : undefined}
-        aria-label={!iframe ? `${videoTitle} - YouTube video preview` : undefined}
-        style={{
-          ...(!props.lazyLoad && { backgroundImage: `url(${posterUrl})` }),
-          "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
-          ...(props.style || {}),
-        } as React.CSSProperties}
+        aria-label={
+          !iframe ? `${videoTitle} - YouTube video preview` : undefined
+        }
+        style={
+          {
+            ...(!props.lazyLoad && { backgroundImage: `url(${posterUrl})` }),
+            "--aspect-ratio": `${(aspectHeight / aspectWidth) * 100}%`,
+            ...(props.style || {}),
+          } as React.CSSProperties
+        }
       >
         {props.lazyLoad && !iframe && (
           <img
@@ -327,9 +350,7 @@ function LiteYouTubeEmbedComponent(
           tabIndex={iframe ? -1 : 0}
           onClick={addIframe}
         >
-          <span className="lty-visually-hidden">
-            {announceWatch}
-          </span>
+          <span className="lty-visually-hidden">{announceWatch}</span>
         </button>
         {iframe && (
           <iframe
@@ -342,7 +363,10 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
-            referrerPolicy={(props.referrerPolicy || "strict-origin-when-cross-origin") as React.HTMLAttributeReferrerPolicy}
+            referrerPolicy={
+              (props.referrerPolicy ||
+                "strict-origin-when-cross-origin") as React.HTMLAttributeReferrerPolicy
+            }
           ></iframe>
         )}
       </ContainerElement>
@@ -351,5 +375,5 @@ function LiteYouTubeEmbedComponent(
 }
 
 export default React.forwardRef<HTMLIFrameElement, LiteYouTubeProps>(
-  LiteYouTubeEmbedComponent,
+  LiteYouTubeEmbedComponent
 );

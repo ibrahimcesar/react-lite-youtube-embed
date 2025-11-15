@@ -448,7 +448,10 @@ describe("LiteYouTubeEmbed", () => {
 
       // Should use webp format
       const thumbnail = container.querySelector(".lty-thumbnail");
-      expect(thumbnail).toHaveAttribute("src", expect.stringContaining(".webp"));
+      expect(thumbnail).toHaveAttribute(
+        "src",
+        expect.stringContaining(".webp")
+      );
     });
 
     test("works with custom poster resolution and lazy loading", () => {
@@ -456,7 +459,9 @@ describe("LiteYouTubeEmbed", () => {
         <LiteYouTubeEmbed
           {...defaultProps}
           lazyLoad
-          poster="maxresdefault" as imgResolution
+          poster="maxresdefault"
+          as
+          imgResolution
         />
       );
 
@@ -475,7 +480,8 @@ describe("LiteYouTubeEmbed", () => {
         ...defaultProps,
         seo: {
           name: "Rick Astley - Never Gonna Give You Up (Official Video)",
-          description: "The official video for Rick Astley's 1987 hit Never Gonna Give You Up",
+          description:
+            "The official video for Rick Astley's 1987 hit Never Gonna Give You Up",
           uploadDate: "2009-10-25T00:00:00Z",
           duration: "PT3M33S",
         },
