@@ -162,6 +162,12 @@ export interface LiteYouTubeProps {
    */
   lazyLoad?: boolean;
   /**
+   * Stop video and return to thumbnail when playback ends.
+   * Prevents YouTube from showing related videos. Requires enableJsApi.
+   * @default false
+   */
+  stopOnEnd?: boolean;
+  /**
    * SEO metadata for search engines. Enables rich results and better discoverability.
    * Provides structured data following schema.org VideoObject specification.
    * @see https://developers.google.com/search/docs/appearance/structured-data/video
@@ -503,6 +509,13 @@ function LiteYouTubeEmbedComponent(
                 break;
               case PlayerState.ENDED:
                 props.onEnd?.();
+                // Stop video to return to thumbnail and prevent related videos
+                if (props.stopOnEnd && typeof ref === "object" && ref?.current?.contentWindow) {
+                  ref.current.contentWindow.postMessage(
+                    '{"event":"command","func":"stopVideo","args":""}',
+                    "*"
+                  );
+                }
                 break;
               case PlayerState.BUFFERING:
                 props.onBuffering?.();
@@ -567,6 +580,7 @@ function LiteYouTubeEmbedComponent(
     props.onBuffering,
     props.onPlaybackRateChange,
     props.onPlaybackQualityChange,
+    props.stopOnEnd,
     props.id,
     videoId,
     videoTitle,
