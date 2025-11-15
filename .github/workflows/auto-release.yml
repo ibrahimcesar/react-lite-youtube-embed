@@ -200,6 +200,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Publish to GitHub Packages
+        run: |
+          # Reconfigure for GitHub Packages
+          npm config set registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            npm publish --tag beta
+          else
+            npm publish
+          fi
+
       - name: Create release summary
         run: |
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
@@ -224,5 +236,6 @@ jobs:
           else
             echo "- [NPM Package](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
           fi
+          echo "- [GitHub Packages](https://github.com/${{ github.repository }}/pkgs/npm/react-lite-youtube-embed)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY

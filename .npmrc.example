@@ -1,0 +1,18 @@
+# GitHub Packages Configuration
+#
+# To publish to GitHub Packages, you need to authenticate with a GitHub Personal Access Token.
+#
+# Instructions:
+# 1. Copy this file to .npmrc (it's in .gitignore, so it won't be committed)
+# 2. Replace YOUR_GITHUB_TOKEN with your actual token
+# 3. Create a token at: https://github.com/settings/tokens/new
+#    Required scopes: write:packages, read:packages
+#
+# For local publishing:
+@ibrahimcesar:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+
+# For installation (consumers of your package):
+# Users installing your package need to add this to their .npmrc:
+# @ibrahimcesar:registry=https://npm.pkg.github.com
+# //npm.pkg.github.com/:_authToken=THEIR_GITHUB_TOKEN

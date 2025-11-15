@@ -37,6 +37,17 @@ yarn add react-lite-youtube-embed
 ```bash
 npm install react-lite-youtube-embed -S
 ```
+
+### Alternative: Install from GitHub Packages
+
+This package is also available on GitHub Packages:
+
+```bash
+npm install @ibrahimcesar/react-lite-youtube-embed
+```
+
+See [GITHUB_PACKAGES.md](GITHUB_PACKAGES.md) for detailed instructions on authentication and setup.
+
 ## 🕹️ Basic Usage
 
 ```javascript
