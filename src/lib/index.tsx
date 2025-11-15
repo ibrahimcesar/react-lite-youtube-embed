@@ -431,6 +431,48 @@ function LiteYouTubeEmbedComponent(
     }
   }, [iframe, onIframeAdded, props.focusOnLoad, ref]);
 
+  // Ref to track if we've sent the initial listening message
+  const hasInitializedListenerRef = React.useRef(false);
+
+  // Reset the listener flag when iframe state changes
+  React.useEffect(() => {
+    if (!iframe) {
+      hasInitializedListenerRef.current = false;
+    }
+  }, [iframe]);
+
+  // Callback when iframe loads - send listening message to YouTube
+  const handleIframeLoad = React.useCallback(() => {
+    if (!props.enableJsApi || hasInitializedListenerRef.current) {
+      return;
+    }
+
+    hasInitializedListenerRef.current = true;
+
+    const sendListeningMessage = () => {
+      if (typeof ref === "object" && ref?.current?.contentWindow) {
+        try {
+          ref.current.contentWindow.postMessage(
+            '{"event":"listening","id":"' + videoId + '"}',
+            "*"
+          );
+        } catch (error) {
+          console.error("Failed to send listening message to YouTube:", error);
+        }
+      }
+    };
+
+    // Send immediately when iframe loads
+    sendListeningMessage();
+
+    // Retry with increasing delays to ensure YouTube API is ready
+    // YouTube's player API needs time to initialize even after iframe loads
+    const delays = [100, 300, 600, 1200, 2400];
+    delays.forEach((delay) => {
+      setTimeout(sendListeningMessage, delay);
+    });
+  }, [props.enableJsApi, videoId, ref]);
+
   // Set up postMessage listener for YouTube player events
   React.useEffect(() => {
     // Only set up listener if iframe is loaded and we have event handlers
@@ -454,7 +496,6 @@ function LiteYouTubeEmbedComponent(
     }
 
     let isReady = false;
-    let iframeLoaded = false;
 
     const handleMessage = (event: MessageEvent) => {
       // Verify origin is from YouTube
@@ -554,60 +595,8 @@ function LiteYouTubeEmbedComponent(
 
     window.addEventListener("message", handleMessage);
 
-    // Request iframe to send events by posting "listening" message
-    // This tells YouTube player to start sending events
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
-    const attemptListen = () => {
-      if (typeof ref === "object" && ref?.current?.contentWindow) {
-        ref.current.contentWindow.postMessage(
-          '{"event":"listening","id":"' + videoId + '"}',
-          "*"
-        );
-      }
-    };
-
-    // Strategy: Wait for iframe load event, then send listening message
-    // This is more reliable than arbitrary delays
-    const handleIframeLoad = () => {
-      if (iframeLoaded) return;
-      iframeLoaded = true;
-
-      // Send initial listening message immediately when iframe loads
-      attemptListen();
-
-      // Also retry with delays as fallback for slower YouTube API initialization
-      // YouTube's player API needs additional time to initialize even after iframe loads
-      const delays = [100, 300, 600, 1200, 2400];
-      delays.forEach((delay) => {
-        timeouts.push(setTimeout(attemptListen, delay));
-      });
-    };
-
-    // Attach load event listener to iframe
-    if (typeof ref === "object" && ref?.current) {
-      ref.current.addEventListener("load", handleIframeLoad);
-
-      // If iframe is already loaded, trigger immediately
-      // This handles race condition where load event fired before listener attached
-      if (ref.current.contentDocument?.readyState === "complete") {
-        handleIframeLoad();
-      }
-    } else {
-      // Fallback: If ref not ready, use longer delays
-      const fallbackDelays = [200, 500, 1000, 2000, 3000];
-      fallbackDelays.forEach((delay) => {
-        timeouts.push(setTimeout(attemptListen, delay));
-      });
-    }
-
     return () => {
       window.removeEventListener("message", handleMessage);
-      timeouts.forEach(clearTimeout);
-
-      // Clean up iframe load listener
-      if (typeof ref === "object" && ref?.current) {
-        ref.current.removeEventListener("load", handleIframeLoad);
-      }
     };
   }, [
     iframe,
@@ -719,6 +708,7 @@ function LiteYouTubeEmbedComponent(
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             src={iframeSrc}
+            onLoad={handleIframeLoad}
             referrerPolicy={
               (props.referrerPolicy ||
                 "strict-origin-when-cross-origin") as React.HTMLAttributeReferrerPolicy
