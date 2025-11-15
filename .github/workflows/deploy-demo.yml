@@ -38,37 +38,33 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: demo/package-lock.json
 
       - name: Get version to deploy
         id: version
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            # Manual workflow dispatch with version
-            VERSION="${{ github.event.inputs.version }}"
-          elif [ "${{ github.event_name }}" == "release" ]; then
-            # Release event - use the tag name (remove 'v' prefix if present)
-            VERSION="${{ github.event.release.tag_name }}"
-            VERSION="${VERSION#v}"
-          else
-            # Fallback to package.json version
-            VERSION=$(node -p "require('./package.json').version")
-          fi
+          VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Deploying demo with version: $VERSION"
 
-      - name: Update demo package version
+      - name: Install library dependencies
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Update demo to use local library
         working-directory: ./demo
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          echo "Updating react-lite-youtube-embed to version $VERSION"
+          echo "Using local react-lite-youtube-embed build (v$VERSION)"
 
-          # Update package.json with new version
-          npm install react-lite-youtube-embed@$VERSION --save --package-lock-only
+          # Update package.json to use local build
+          npm install ../. --save --package-lock-only
 
-          # Show what version was installed
-          INSTALLED_VERSION=$(node -p "require('./package.json').dependencies['react-lite-youtube-embed']")
-          echo "Updated to version: $INSTALLED_VERSION"
+          # Show what was configured
+          echo "Demo package.json updated to use local build"
 
       - name: Install demo dependencies
         working-directory: ./demo
