@@ -1,0 +1,58 @@
+# Lychee Link Checker Configuration
+# https://lychee.cli.rs/#/usage/config
+
+# Maximum number of concurrent network requests
+max_concurrency = 10
+
+# Accept these HTTP status codes as valid
+# 200: OK
+# 204: No Content
+# 429: Too Many Requests (rate limited but valid)
+accept = [200, 204, 429]
+
+# Timeout for each request (seconds)
+timeout = 20
+
+# Number of retries for failed requests
+max_retries = 3
+
+# Wait time between retries (seconds)
+retry_wait_time = 10
+
+# Check links in these file types
+include = ["**/*.md", "**/*.html"]
+
+# Exclude checking links that match these patterns
+exclude = [
+    # Development URLs - only work when server is running locally
+    "http://localhost:*",
+    "https://localhost:*",
+
+    # npm registry - blocks automated checkers but works in browsers
+    "https://www.npmjs.com/package/*",
+    "https://www.npmjs.com/settings/*",
+
+    # YouTube nocookie - root returns 404, but embed URLs work
+    "https://www.youtube-nocookie.com/$",
+
+    # Documentation templates with placeholders
+    ".*\\[username\\].*",
+    ".*\\[your-.*",
+]
+
+# Skip links in these paths
+exclude_path = [
+    "node_modules",
+    "dist",
+    "build",
+    ".git",
+]
+
+# User agent for requests
+user_agent = "Mozilla/5.0 (compatible; lychee/link-checker)"
+
+# Don't fail on warnings, only on errors
+require_https = false
+
+# Include fragments in link checking (anchors like #section)
+include_fragments = true

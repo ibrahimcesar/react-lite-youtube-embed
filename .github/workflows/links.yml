@@ -30,12 +30,11 @@ jobs:
       - name: Check links in markdown files
         uses: lycheeverse/lychee-action@v2
         with:
-          # Check all markdown and html files
-          args: --verbose --no-progress --accept 200,204,429 --timeout 20 --retry-wait-time 10 --max-retries 3 './**/*.md' './**/*.html'
+          # Use lychee.toml config file (includes exclusions for false positives)
+          args: --verbose --no-progress './**/*.md' './**/*.html'
           # Fail on broken links
           fail: true
-          # Don't check private/internal links
-          # Format: json
+          # Format: markdown
           format: markdown
           # Output file
           output: lychee-report.md
