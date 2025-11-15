@@ -83,9 +83,6 @@
     "vite-plugin-dts": "^4.3.0",
     "vitest": "^3.2.4"
   },
-  "volta": {
-    "node": "20.10.0"
-  },
   "size-limit": [
     {
       "name": "ES Module",
