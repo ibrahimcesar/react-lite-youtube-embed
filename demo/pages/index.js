@@ -22,6 +22,20 @@ export default function Home() {
   const componentVersion = packageInfo.dependencies['react-lite-youtube-embed'];
   const isBetaVersion = componentVersion.includes('beta') || componentVersion.includes('alpha') || componentVersion.includes('rc');
 
+  // Navigation link styles
+  const navLinkStyle = {
+    display: 'block',
+    padding: '0.65rem 1rem',
+    background: 'rgba(255, 255, 255, 0.15)',
+    color: 'white',
+    textDecoration: 'none',
+    borderRadius: '6px',
+    fontSize: '0.9rem',
+    transition: 'all 0.2s ease',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    backdropFilter: 'blur(10px)'
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -70,9 +84,44 @@ export default function Home() {
           </a>
         </div>
 
+        {/* Quick Navigation */}
+        <nav style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          padding: '1.5rem',
+          borderRadius: '12px',
+          margin: '2rem 0',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h3 style={{
+            color: 'white',
+            margin: '0 0 1rem 0',
+            fontSize: '1.1rem',
+            fontWeight: '600'
+          }}>
+            Quick Navigation
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '0.75rem'
+          }}>
+            <a href="#basic" style={navLinkStyle}>1. Basic Usage</a>
+            <a href="#maxres" style={navLinkStyle}>2. Max Resolution</a>
+            <a href="#webp" style={navLinkStyle}>3. WebP Format</a>
+            <a href="#lazy" style={navLinkStyle}>4. Lazy Loading</a>
+            <a href="#playlist" style={navLinkStyle}>5. Playlist</a>
+            <a href="#start-time" style={navLinkStyle}>6. Start Time</a>
+            <a href="#seo" style={navLinkStyle}>7. SEO & Structured Data</a>
+            <a href="#aspect-ratio" style={navLinkStyle}>8. Custom Aspect Ratio</a>
+            <a href="#player-control" style={navLinkStyle}>9. Player Control</a>
+            <a href="#events" style={{...navLinkStyle, background: '#10b981', fontWeight: '600'}}>10. Events 🎉 NEW</a>
+            <a href="#accessibility" style={navLinkStyle}>11. Accessibility</a>
+          </div>
+        </nav>
+
         <div className={styles.grid}>
           {/* Example 1: Basic */}
-          <div className={styles.example}>
+          <div id="basic" className={styles.example}>
             <h2>Basic Usage</h2>
             <p className={styles.exampleDescription}>
               The simplest implementation requires only an <code>id</code> and <code>title</code>.
@@ -97,7 +146,7 @@ export default function Home() {
           </div>
 
           {/* Example 2: High Quality Thumbnail */}
-          <div className={styles.example}>
+          <div id="maxres" className={styles.example}>
             <h2>Maximum Resolution Thumbnail</h2>
             <p className={styles.exampleDescription}>
               Use <code>poster="maxresdefault"</code> for the highest quality thumbnail available.
@@ -123,7 +172,7 @@ export default function Home() {
           </div>
 
           {/* Example 3: WebP Format */}
-          <div className={styles.example}>
+          <div id="webp" className={styles.example}>
             <h2>WebP Image Format</h2>
             <p className={styles.exampleDescription}>
               Enable <code>webp={'{'}true{'}'}</code> to use WebP format for thumbnails.
@@ -152,7 +201,7 @@ export default function Home() {
           </div>
 
           {/* Example 4: Lazy Loading */}
-          <div className={styles.example}>
+          <div id="lazy" className={styles.example}>
             <h2>Lazy Loading for Better Performance</h2>
             <p className={styles.exampleDescription}>
               Enable <code>lazyLoad={'{'}true{'}'}</code> to defer loading of thumbnail images until they're visible.
@@ -184,7 +233,7 @@ export default function Home() {
           </div>
 
           {/* Example 5: Playlist */}
-          <div className={styles.example}>
+          <div id="playlist" className={styles.example}>
             <h2>YouTube Playlist</h2>
             <p className={styles.exampleDescription}>
               Embed an entire playlist using <code>playlist={'{'}true{'}'}</code>. Since playlists don't have
@@ -216,7 +265,7 @@ export default function Home() {
           <hr className={styles.sectionDivider} />
 
           {/* Example 6: Start Time */}
-          <div className={styles.example}>
+          <div id="start-time" className={styles.example}>
             <h2>Start at Specific Time</h2>
             <p className={styles.exampleDescription}>
               Use the <code>params</code> prop to pass URL parameters like start time.
@@ -245,7 +294,7 @@ export default function Home() {
           </div>
 
           {/* Example 7: SEO Optimized */}
-          <div className={styles.example}>
+          <div id="seo" className={styles.example}>
             <h2>SEO with Structured Data</h2>
             <p className={styles.exampleDescription}>
               Add <code>seo</code> prop to generate JSON-LD structured data for search engines.
@@ -282,7 +331,7 @@ export default function Home() {
           </div>
 
           {/* Example 8: Custom Aspect Ratio */}
-          <div className={styles.example}>
+          <div id="aspect-ratio" className={styles.example}>
             <h2>Custom Aspect Ratio</h2>
             <p className={styles.exampleDescription}>
               Change the aspect ratio from the default 16:9 using <code>aspectWidth</code> and <code>aspectHeight</code>.
@@ -316,7 +365,7 @@ export default function Home() {
           <EventsExample />
 
           {/* Example 11: Accessibility */}
-          <div className={styles.example}>
+          <div id="accessibility" className={styles.example}>
             <h2>Enhanced Accessibility</h2>
             <p className={styles.exampleDescription}>
               Use <code>announce</code> for internationalization and <code>focusOnLoad</code> to
@@ -366,7 +415,7 @@ function PlayerControlExample() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className={styles.example}>
+    <div id="player-control" className={styles.example}>
       <h2>Programmatic Player Control</h2>
       <p className={styles.exampleDescription}>
         Control the player programmatically using the iframe's postMessage API.
@@ -476,7 +525,7 @@ function EventsExample() {
   };
 
   return (
-    <div className={styles.example}>
+    <div id="events" className={styles.example}>
       <h2>Interactive Events Demo 🎉 <span style={{fontSize: '0.7em', background: '#0070f3', color: 'white', padding: '0.2em 0.6em', borderRadius: '4px', fontWeight: '600'}}>NEW in v3.0+</span></h2>
       <p className={styles.exampleDescription}>
         <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code>.
