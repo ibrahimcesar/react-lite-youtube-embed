@@ -555,6 +555,8 @@ function LiteYouTubeEmbedComponent(
 
     // Request iframe to send events by posting "listening" message
     // This tells YouTube player to start sending events
+    // Use retry logic with increasing delays to handle iframe load timing
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
     const attemptListen = () => {
       if (typeof ref === "object" && ref?.current?.contentWindow) {
         ref.current.contentWindow.postMessage(
@@ -564,13 +566,16 @@ function LiteYouTubeEmbedComponent(
       }
     };
 
-    // Try immediately and after a short delay to ensure iframe is ready
-    attemptListen();
-    const timeoutId = setTimeout(attemptListen, 100);
+    // Retry multiple times with increasing delays to ensure iframe is ready
+    // YouTube iframe may take variable time to initialize depending on network/browser
+    const delays = [0, 100, 250, 500, 1000];
+    delays.forEach((delay) => {
+      timeouts.push(setTimeout(attemptListen, delay));
+    });
 
     return () => {
       window.removeEventListener("message", handleMessage);
-      clearTimeout(timeoutId);
+      timeouts.forEach(clearTimeout);
     };
   }, [
     iframe,
