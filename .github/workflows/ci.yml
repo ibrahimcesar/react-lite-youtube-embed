@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node 20
         uses: actions/setup-node@v6
@@ -45,7 +45,7 @@ jobs:
         run: npm run build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./coverage/coverage-final.json
           flags: unittests
@@ -54,7 +54,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist/

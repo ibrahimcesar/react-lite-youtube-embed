@@ -9,19 +9,19 @@
 *
 *  Author site: https://ibrahimcesar.cloud
 */
-import { jsxs as b, Fragment as E, jsx as c } from "react/jsx-runtime";
+import { jsxs as b, Fragment as k, jsx as c } from "react/jsx-runtime";
 import * as o from "react";
-import { useState as J, useEffect as Q } from "react";
-const V = {
+import { useState as G, useEffect as J } from "react";
+const Q = {
   default: 120,
   mqdefault: 320,
   hqdefault: 480,
   sddefault: 640,
   maxresdefault: 1280
 }, q = (e, a, u, s = "maxresdefault") => {
-  const [t, m] = J("");
-  return Q(() => {
-    const l = `https://img.youtube.com/${a}/${e}/${s}.${u}`, r = `https://img.youtube.com/${a}/${e}/hqdefault.${u}`, i = V[s], d = new Image();
+  const [t, m] = G("");
+  return J(() => {
+    const l = `https://img.youtube.com/${a}/${e}/${s}.${u}`, r = `https://img.youtube.com/${a}/${e}/hqdefault.${u}`, i = Q[s], d = new Image();
     d.onload = () => {
       d.width < i ? m(r) : m(l);
     }, d.onerror = () => m(r), d.src = l;
@@ -80,7 +80,7 @@ function Z(e, a) {
       d,
       I
     ]
-  ), S = e.activatedClass || "lyt-activated", _ = e.adNetwork || !1, M = e.aspectHeight || 9, B = e.aspectWidth || 16, x = e.iframeClass || "", P = e.playerClass || "lty-playbtn", W = e.wrapperClass || "yt-lite", T = o.useCallback(
+  ), S = e.activatedClass || "lyt-activated", _ = e.adNetwork || !1, M = e.aspectHeight || 9, B = e.aspectWidth || 16, W = e.iframeClass || "", x = e.playerClass || "lty-playbtn", P = e.wrapperClass || "yt-lite", T = o.useCallback(
     e.onIframeAdded || function() {
     },
     [e.onIframeAdded]
@@ -113,12 +113,12 @@ function Z(e, a) {
           break;
         case "onStateChange":
           if (n.info?.playerState !== void 0) {
-            const k = n.info.playerState;
+            const E = n.info.playerState;
             switch (e.onStateChange && e.onStateChange({
-              state: k,
+              state: E,
               currentTime: n.info.currentTime,
               duration: n.info.duration
-            }), k) {
+            }), E) {
               case 1:
                 e.onPlay?.();
                 break;
@@ -126,7 +126,10 @@ function Z(e, a) {
                 e.onPause?.();
                 break;
               case 0:
-                e.onEnd?.();
+                e.onEnd?.(), e.stopOnEnd && typeof a == "object" && a?.current?.contentWindow && a.current.contentWindow.postMessage(
+                  '{"event":"command","func":"stopVideo","args":""}',
+                  "*"
+                );
                 break;
               case 3:
                 e.onBuffering?.();
@@ -136,8 +139,8 @@ function Z(e, a) {
           break;
         case "onError":
           if (n.info && "errorCode" in n.info) {
-            const k = n.info.errorCode;
-            e.onError && e.onError(k);
+            const E = n.info.errorCode;
+            e.onError && e.onError(E);
           }
           break;
         case "onPlaybackRateChange":
@@ -156,9 +159,9 @@ function Z(e, a) {
       );
     };
     w();
-    const G = setTimeout(w, 100);
+    const V = setTimeout(w, 100);
     return () => {
-      window.removeEventListener("message", g), clearTimeout(G);
+      window.removeEventListener("message", g), clearTimeout(V);
     };
   }, [
     t,
@@ -172,16 +175,17 @@ function Z(e, a) {
     e.onBuffering,
     e.onPlaybackRateChange,
     e.onPlaybackQualityChange,
+    e.stopOnEnd,
     e.id,
     l,
     i,
     a
-  ]), /* @__PURE__ */ b(E, { children: [
+  ]), /* @__PURE__ */ b(k, { children: [
     !e.lazyLoad && /* @__PURE__ */ c("link", { rel: F, href: y, as: "image" }),
-    /* @__PURE__ */ c(E, { children: u && /* @__PURE__ */ b(E, { children: [
+    /* @__PURE__ */ c(k, { children: u && /* @__PURE__ */ b(k, { children: [
       /* @__PURE__ */ c("link", { rel: "preconnect", href: f }),
       /* @__PURE__ */ c("link", { rel: "preconnect", href: "https://www.google.com" }),
-      _ && /* @__PURE__ */ b(E, { children: [
+      _ && /* @__PURE__ */ b(k, { children: [
         /* @__PURE__ */ c("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
         /* @__PURE__ */ c(
           "link",
@@ -224,7 +228,7 @@ function Z(e, a) {
       {
         onPointerOver: H,
         onClick: A,
-        className: `${W} ${t ? S : ""}`,
+        className: `${P} ${t ? S : ""}`,
         "data-title": i,
         role: t ? void 0 : "img",
         "aria-label": t ? void 0 : `${i} - YouTube video preview`,
@@ -247,7 +251,7 @@ function Z(e, a) {
             "button",
             {
               type: "button",
-              className: P,
+              className: x,
               "aria-label": `${R} ${i}`,
               "aria-hidden": t || void 0,
               tabIndex: t ? -1 : 0,
@@ -259,7 +263,7 @@ function Z(e, a) {
             "iframe",
             {
               ref: a,
-              className: x,
+              className: W,
               title: i,
               width: "560",
               height: "315",

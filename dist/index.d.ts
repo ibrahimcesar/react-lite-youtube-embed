@@ -43,6 +43,12 @@ export declare interface LiteYouTubeProps {
      */
     lazyLoad?: boolean;
     /**
+     * Stop video and return to thumbnail when playback ends.
+     * Prevents YouTube from showing related videos. Requires enableJsApi.
+     * @default false
+     */
+    stopOnEnd?: boolean;
+    /**
      * SEO metadata for search engines. Enables rich results and better discoverability.
      * Provides structured data following schema.org VideoObject specification.
      * @see https://developers.google.com/search/docs/appearance/structured-data/video

@@ -28,13 +28,17 @@
   background: #f5f5f5;
   border-radius: 20px;
   font-size: 0.9rem;
-  color: #666;
+  color: #555;
 }
 
 .versionBadge a {
   color: #0070f3;
   text-decoration: none;
   transition: color 0.2s ease;
+  padding: 0.5rem;
+  display: inline-block;
+  min-height: 44px;
+  line-height: 1.5;
 }
 
 .versionBadge a:hover {
@@ -68,6 +72,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 48px;
+  padding: 0.75rem 1rem;
 }
 
 .title a {
@@ -95,7 +101,7 @@
 .description {
   line-height: 1.5;
   font-size: 1.5rem;
-  color: #888;
+  color: #555;
 }
 
 .code {
@@ -169,7 +175,7 @@
 }
 
 .exampleDescription {
-  color: #666;
+  color: #555;
   font-size: 1rem;
   margin-bottom: 1rem;
   line-height: 1.6;
@@ -182,6 +188,7 @@
 .codeToggle summary {
   cursor: pointer;
   padding: 0.75rem 1rem;
+  min-height: 48px;
   background: #f5f5f5;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
@@ -190,6 +197,8 @@
   user-select: none;
   transition: background 0.2s ease;
   list-style: none;
+  display: flex;
+  align-items: center;
 }
 
 .codeToggle summary::-webkit-details-marker {

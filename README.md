@@ -869,12 +869,132 @@ The most minimalist implementation requires two props: `id` from the YouTube you
 | playlistCoverId | string | `undefined` | Video ID to use for playlist cover image. Playlists don't have a standard cover pattern |
 | poster | `"default"` \| `"mqdefault"` \| `"hqdefault"` \| `"sddefault"` \| `"maxresdefault"` | `"hqdefault"` | Defines the image size for the poster. Note: `sddefault` and `maxresdefault` aren't always available. See: [YouTube API docs](https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api) |
 | referrerPolicy | string | `"strict-origin-when-cross-origin"` | Sets the referrer policy for the iframe |
-| rel | string | `"preload"` | Allows for `prefetch` or `preload` of the link url |
+| rel | string | `"preload"` | **⚠️ DEPRECATED** - Use `resourceHint` prop instead. This prop name conflicts with YouTube's `rel` parameter |
+| resourceHint | `"preload"` \| `"prefetch"` | `"preload"` | Controls resource hint for the poster image link tag. Use `"prefetch"` for lower priority or `"preload"` for higher priority loading |
 | seo | VideoSEO | `undefined` | SEO metadata for search engines. Generates JSON-LD structured data. See [SEO section](#-seo--search-engine-optimization) for details |
+| stopOnEnd | boolean | `false` | Automatically stop video when it ends to prevent showing related videos. Requires `enableJsApi={true}`. See [FAQ](#-frequently-asked-questions) for details |
 | style | object | `{}` | Style object for the container, overriding any root styles |
 | thumbnail | string | `undefined` | Pass an optional image url to override the default poster and set a custom poster image |
 | webp | boolean | `false` | When set, uses the WebP format for poster images |
 | wrapperClass | string | `"yt-lite"` | Pass the string class that wraps the iFrame. **Important**: This class needs extra attention, refer to LiteYouTubeEmbed.css |
+
+## ❓ Frequently Asked Questions
+
+### Can I completely hide suggested/related videos after my video ends?
+
+Unfortunately, **no** - this is a YouTube platform limitation that affects all embed implementations, not just this library.
+
+**What changed:**
+In September 2018, YouTube changed how the `rel=0` parameter works. It no longer hides all related videos—it only limits them to videos from the same channel.
+
+**Available options:**
+
+#### Option 1: Limit to same-channel videos (partial solution)
+
+Use the `params` prop to add `rel=0`:
+
+```jsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  params="rel=0"
+/>
+```
+
+**Note:** This only shows videos from your channel. If your channel has many videos, related videos will still appear.
+
+#### Option 2: Use the built-in `stopOnEnd` prop (easiest solution)
+
+The **easiest way** to prevent related videos is to use the built-in `stopOnEnd` feature:
+
+```jsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video Title"
+  enableJsApi={true}
+  stopOnEnd={true}
+  params="rel=0"
+/>
+```
+
+**How it works:**
+- Automatically stops the video when it ends
+- Returns the player to the thumbnail view
+- Prevents related videos from showing
+- Requires `enableJsApi={true}` to work
+
+**Benefits:**
+- ✅ No manual event handling needed
+- ✅ Works out of the box
+- ✅ Cleaner code
+
+#### Option 3: Manual YouTube Player API control (advanced solution)
+
+For more control, you can manually handle the YouTube Player API events:
+
+```jsx
+import { useRef, useEffect } from 'react';
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+const App = () => {
+  const ytRef = useRef(null);
+
+  useEffect(() => {
+    // Listen for messages from the YouTube iframe
+    const handleMessage = (event) => {
+      if (event.origin !== 'https://www.youtube.com' &&
+          event.origin !== 'https://www.youtube-nocookie.com') return;
+
+      try {
+        const data = JSON.parse(event.data);
+        // Check if video ended (state 0)
+        if (data.info?.playerState === 0) {
+          // Stop the video to return to thumbnail
+          ytRef.current?.contentWindow?.postMessage(
+            '{"event":"command","func":"stopVideo","args":""}',
+            '*'
+          );
+        }
+      } catch (e) {
+        // Not JSON, ignore
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  return (
+    <LiteYouTubeEmbed
+      id="VIDEO_ID"
+      title="Video Title"
+      ref={ytRef}
+      enableJsApi={true}
+      params="rel=0"
+    />
+  );
+};
+```
+
+**How it works:**
+1. Enable the YouTube IFrame API with `enableJsApi={true}`
+2. Listen for `playerState` changes via `postMessage`
+3. When the video ends (state `0`), send `stopVideo` command
+4. The player returns to the thumbnail, preventing related videos from showing
+
+See the [🤖 Controlling the player](#-controlling-the-player) section for more details on using the YouTube IFrame API.
+
+**Related:** [Issue #94](https://github.com/ibrahimcesar/react-lite-youtube-embed/issues/94)
+
+### Why doesn't `rel=0` hide all related videos anymore?
+
+YouTube changed this behavior in September 2018 for business reasons. The embed API no longer provides any parameter to completely disable related videos.
+
+From [YouTube's official documentation](https://developers.google.com/youtube/player_parameters#rel):
+
+> *"If the rel parameter is set to 0, related videos will come from the same channel as the video that was just played."*
+
+This is a permanent platform change that affects all YouTube embeds, not just this library.
 
 ## 🙇‍♂️ Thanks
 

@@ -24,4 +24,5 @@ yarn-error.log*
 
 amplify
 .next
+out
 .vscode
