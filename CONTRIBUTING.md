@@ -84,22 +84,46 @@ When you need to test library changes in the demo **before publishing**, switch 
    rm -rf node_modules package-lock.json
    npm install
    ```
+   This will automatically link to your local package (in the parent directory).
 
-3. **Make your changes** to the library source (`src/lib/**`)
+3. **Testing Workflow - Method 1: Build and Test (Recommended for Final Testing)**
 
-4. **Rebuild the library:**
+   a. **Build the library** (from the root directory):
    ```bash
-   cd ..
    npm run build
    ```
 
-5. **Restart the demo server:**
+   b. **Start the demo app:**
    ```bash
    cd demo
    npm run dev
    ```
 
-The demo will now use your local library build. The `file:..` protocol creates a symlink to the parent directory, allowing you to test changes immediately.
+   c. **Make changes and rebuild:**
+   - Make your changes to the library source files in `src/`
+   - Run `npm run build` from the root directory
+   - Refresh your browser to see the changes
+
+4. **Testing Workflow - Method 2: Watch Mode (Recommended for Active Development)**
+
+   For a faster development cycle, you can use Vite's build watch mode:
+
+   a. **Start the build watcher** (from the root directory):
+   ```bash
+   npm run build -- --watch
+   ```
+   This rebuilds automatically whenever you save changes to source files.
+
+   b. **In a separate terminal, start the demo app:**
+   ```bash
+   cd demo
+   npm run dev
+   ```
+
+   c. **Develop with hot reload:**
+   - Edit files in `src/`
+   - Vite automatically rebuilds the library
+   - Next.js may require a manual browser refresh to pick up changes
 
 **Important:** Before committing, revert `demo/package.json` back to using the published package:
 ```json
@@ -110,20 +134,20 @@ The demo will now use your local library build. The `file:..` protocol creates a
 }
 ```
 
-### Testing Your Changes
+### Verifying Your Changes
 
-Before submitting a PR:
+After making changes, always verify:
 
 1. **Run tests:**
    ```bash
    npm test
    ```
 
-2. **Check coverage:**
+2. **Check test coverage:**
    ```bash
    npm run coverage
    ```
-   Coverage should be 100%.
+   Ensure coverage remains at 100%.
 
 3. **Build the library:**
    ```bash
@@ -135,11 +159,53 @@ Before submitting a PR:
    npm run lint
    ```
 
-5. **Test the demo builds:**
+5. **Check formatting:**
+   ```bash
+   npm run format:check
+   ```
+
+6. **Type check:**
+   ```bash
+   npm run type-check
+   ```
+
+7. **Run all checks at once:**
+   ```bash
+   npm run ci
+   ```
+   This runs linting, type checking, tests, and builds the project—ensuring your changes will pass CI checks.
+
+8. **Test the demo builds:**
    ```bash
    cd demo
    npm run build
    ```
+
+### Working with CSS
+
+If you modify styles in `src/lib/LiteYouTubeEmbed.css`:
+
+1. Rebuild the library: `npm run build`
+2. The CSS is automatically copied to `dist/LiteYouTubeEmbed.css`
+3. Refresh the demo app to see style changes
+
+### Troubleshooting
+
+**Changes not appearing in the demo?**
+- Ensure you switched to local development mode (`"file:.."` in demo/package.json)
+- Ensure you ran `npm run build` after making changes
+- Try clearing Next.js cache: `cd demo && rm -rf .next && npm run dev`
+- Hard refresh your browser (Ctrl+Shift+R or Cmd+Shift+R)
+
+**Demo app not starting?**
+- Ensure you ran `npm install` in the demo directory
+- Check that Node.js version is compatible (v20+ recommended)
+- Delete `demo/node_modules` and `demo/package-lock.json`, then run `npm install` again
+
+**Build errors?**
+- Ensure all dependencies are installed: `npm install`
+- Check TypeScript errors: `npm run type-check`
+- Clear dist folder: `rm -rf dist && npm run build`
 
 ### Development Tips
 
@@ -147,6 +213,7 @@ Before submitting a PR:
 - **Always revert** `demo/package.json` to use the published package before committing
 - The demo showcases the **published version** that users actually install
 - Use `file:..` only temporarily for local testing during development
+- Use watch mode (`npm run build -- --watch`) for faster iteration during active development
 
 ## Pull Request Guidelines
 

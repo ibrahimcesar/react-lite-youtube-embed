@@ -28,6 +28,16 @@ export default defineConfig({
     dts({
       include: ['src/lib'],
       rollupTypes: true,
+      rollupOptions: {
+        messageCallback: (message) => {
+          // Suppress console messages (like the TypeScript version warning)
+          // API Extractor uses TypeScript 5.8.2 which is older than our project's 5.9.3
+          // This is generally harmless as API Extractor only reads .d.ts files
+          if (message.messageId.startsWith('console-')) {
+            message.handled = true;
+          }
+        },
+      },
     }),
     {
       name: 'copy-files-and-add-banner',
