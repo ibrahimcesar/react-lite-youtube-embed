@@ -223,10 +223,11 @@ jobs:
         run: |
           # The publishConfig in package.json already points to GitHub Packages
           # Include --provenance flag (GitHub Packages uses attestations generated above)
+          # --access public is required when using --provenance
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --provenance
+            npm publish --tag beta --access public --provenance
           else
-            npm publish --provenance
+            npm publish --access public --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
