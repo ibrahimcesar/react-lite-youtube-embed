@@ -195,9 +195,10 @@ jobs:
         run: |
           # Override the publishConfig registry to publish to NPM instead of GitHub Packages
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --registry https://registry.npmjs.org
+            npm publish --tag beta --registry https://registry.npmjs.org --access public
+            
           else
-            npm publish --registry https://registry.npmjs.org
+            npm publish --registry https://registry.npmjs.org --access public
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
