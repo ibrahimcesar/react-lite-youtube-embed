@@ -2,5 +2,5 @@
   "schemaVersion": 1,
   "label": "Bundle Size",
   "message": "JS: ~4.5KB + CSS: ~1.2KB",
-  "color": "brightgreen"
+  "color": "red"
 }

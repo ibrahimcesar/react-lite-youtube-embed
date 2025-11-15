@@ -145,7 +145,7 @@ jobs:
             "schemaVersion": 1,
             "label": "CSS (gzip)",
             "message": "${{ steps.sizes.outputs.css_gzip }}",
-            "color": "${{ steps.sizes.outputs.css_color }}"
+            "color": "blue"
           }
           EOF
 
@@ -155,7 +155,7 @@ jobs:
             "schemaVersion": 1,
             "label": "JavaScript",
             "message": "${{ steps.sizes.outputs.es_raw }} / ${{ steps.sizes.outputs.es_gzip }} gzip",
-            "color": "${{ steps.sizes.outputs.es_color }}"
+            "color": "yellow"
           }
           EOF
 
@@ -165,7 +165,7 @@ jobs:
             "schemaVersion": 1,
             "label": "Bundle Size",
             "message": "JS: ${{ steps.sizes.outputs.es_gzip }} + CSS: ${{ steps.sizes.outputs.css_gzip }}",
-            "color": "${{ steps.sizes.outputs.es_color }}"
+            "color": "red"
           }
           EOF
 
