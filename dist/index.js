@@ -1,5 +1,5 @@
 /**
-* @ibrahimcesar/react-lite-youtube-embed v3.0.3
+* @ibrahimcesar/react-lite-youtube-embed v3.0.6
 *  git+https://github.com/ibrahimcesar/react-lite-youtube-embed.git
 *
 *  Copyright (c) Ibrahim Cesar <email@ibrahimcesar.com> and project contributors.
