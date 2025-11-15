@@ -129,16 +129,16 @@ export default function Home() {
               no ad network preconnect, and hqdefault thumbnail quality.
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="AWS re:Invent 2018: Amazon DynamoDB Deep Dive: Advanced Design Patterns for DynamoDB (DAT401)"
+              id="Y2b7FyaynC0"
+              title="The Echo Friendly: Same Mistakes (OFFICIAL VIDEO)"
             />
             <details className={styles.codeToggle} open>
               <summary>View Code</summary>
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Amazon DynamoDB Deep Dive"
+  id="Y2b7FyaynC0"
+  title="The Echo Friendly: Same Mistakes (OFFICIAL VIDEO)"
 />`}
                 </code>
               </pre>
@@ -153,8 +153,8 @@ export default function Home() {
               Note: maxresdefault isn't available for all videos. Falls back to lower quality if unavailable.
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="AWS re:Invent 2018: Amazon DynamoDB Deep Dive: Advanced Design Patterns for DynamoDB (DAT401)"
+              id="1RKqOmSkGgM"
+              title="Chappell Roan - Good Luck, Babe! (Official Lyric Video)"
               poster="maxresdefault"
             />
             <details className={styles.codeToggle}>
@@ -162,8 +162,8 @@ export default function Home() {
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Amazon DynamoDB Deep Dive"
+  id="1RKqOmSkGgM"
+  title="Chappell Roan - Good Luck, Babe! (Official Lyric Video)"
   poster="maxresdefault"
 />`}
                 </code>
@@ -180,8 +180,8 @@ export default function Home() {
               Supported by all modern browsers (97%+ coverage).
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="Amazon DynamoDB Deep Dive"
+              id="8AHCfZTRGiI"
+              title="Johnny Cash - Hurt"
               poster="hqdefault"
               webp
             />
@@ -190,8 +190,8 @@ export default function Home() {
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Amazon DynamoDB Deep Dive"
+  id="8AHCfZTRGiI"
+  title="Johnny Cash - Hurt"
   poster="hqdefault"
   webp
 />`}
@@ -215,16 +215,16 @@ export default function Home() {
               ensures proper spacing is reserved.
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="Amazon DynamoDB Deep Dive"
+              id="RB-RcX5DS5A"
+              title="Coldplay - The Scientist (Official 4K Video)"
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Amazon DynamoDB Deep Dive"
+  id="RB-RcX5DS5A"
+  title="Coldplay - The Scientist (Official 4K Video)"
   lazyLoad={true}
 />`}
                 </code>
@@ -240,21 +240,21 @@ export default function Home() {
               a standard cover image, use <code>playlistCoverId</code> to specify a video ID for the thumbnail.
             </p>
             <LiteYouTubeEmbed
-              id="PL0vfts4VzfNigohKr5sPrkcPFpuZmTe2C"
+              id="PLvFsG9gYFxY9zTBhcFmMcYa3zYfQz7P7F"
               playlist={true}
-              playlistCoverId="Qhaz36TZG5Y"
+              playlistCoverId="3HRkKznJoZA"
               poster="hqdefault"
-              title="Firebase YouTube Channel Playlist"
+              title="Science SONGS"
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="PL0vfts4VzfNigohKr5sPrkcPFpuZmTe2C"
-  title="Firebase YouTube Channel Playlist"
+  id="PLvFsG9gYFxY9zTBhcFmMcYa3zYfQz7P7F"
+  title="Science SONGS"
   playlist={true}
-  playlistCoverId="Qhaz36TZG5Y"
+  playlistCoverId="3HRkKznJoZA"
   poster="hqdefault"
 />`}
                 </code>
@@ -273,19 +273,19 @@ export default function Home() {
               You can pass any valid YouTube URL parameters this way.
             </p>
             <LiteYouTubeEmbed
-              id="L2vS_050c-M"
-              title="YouTube Embed starting at specific time"
+              id="VdQY7BusJNU"
+              title="Cyndi Lauper - Time After Time (Official HD Video)e"
               poster="maxresdefault"
-              params="start=1160"
+              params="start=114"
             />
             <details className={styles.codeToggle}>
               <summary>View Code</summary>
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="L2vS_050c-M"
-  title="YouTube Embed starting at specific time"
-  params="start=1160"
+  id="VdQY7BusJNU"
+  title="Cyndi Lauper - Time After Time (Official HD Video)"
+  params="start=114"
   poster="maxresdefault"
 />`}
                 </code>
@@ -302,11 +302,11 @@ export default function Home() {
               Includes automatic noscript fallback for crawlers.
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="DynamoDB Deep Dive"
+              id="CJ54eImz88w"
+              title="Talking Heads - Psycho Killer (Official Video)"
               seo={{
-                name: "Amazon DynamoDB Deep Dive: Advanced Design Patterns",
-                description: "Learn advanced design patterns for DynamoDB presented at AWS re:Invent 2018",
+                name: "Talking Heads - Psycho Killer",
+                description: "Talking Heads present a new music video for Psycho Killer starring Saoirse Ronan and directed by Mike Mills.",
                 uploadDate: "2018-12-05T08:00:00Z",
                 duration: "PT53M17S"
               }}
@@ -316,12 +316,12 @@ export default function Home() {
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="DynamoDB Deep Dive"
+  id="CJ54eImz88w"
+  title="Talking Heads - Psycho Killer (Official Video)"
   seo={{
-    name: "Amazon DynamoDB Deep Dive: Advanced Design Patterns",
-    description: "Learn advanced design patterns for DynamoDB",
-    uploadDate: "2018-12-05T08:00:00Z",
+    name: "Talking Heads - Psycho Killer (Official Video)",
+    description: "Talking Heads present a new music video for Psycho Killer starring Saoirse Ronan and directed by Mike Mills.",
+    uploadDate: "2025-06-05T08:00:00Z",
     duration: "PT53M17S"
   }}
 />`}
@@ -335,11 +335,11 @@ export default function Home() {
             <h2>Custom Aspect Ratio</h2>
             <p className={styles.exampleDescription}>
               Change the aspect ratio from the default 16:9 using <code>aspectWidth</code> and <code>aspectHeight</code>.
-              Useful for older videos in 4:3 format or custom video dimensions.
+              Useful for older videos in 4:3 format or custom video dimensions. This video has the 4:3 aspect ratio.
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="Video with 4:3 aspect ratio"
+              id="Fk-4lXLM34g"
+              title="Kate Bush - Wuthering Heights - Official Music Video - Version 2"
               aspectWidth={4}
               aspectHeight={3}
             />
@@ -348,8 +348,8 @@ export default function Home() {
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Video with 4:3 aspect ratio"
+  id="Fk-4lXLM34g"
+  title="Kate Bush - Wuthering Heights - Official Music Video - Version 2"
   aspectWidth={4}
   aspectHeight={3}
 />`}
@@ -373,8 +373,8 @@ export default function Home() {
               instead of the default "Watch".
             </p>
             <LiteYouTubeEmbed
-              id="HaEPXoXVf2k"
-              title="Vídeo acessível"
+              id="aXJ_Ub1xbhw"
+              title="Pitty - Admirável Chip Novo (Clipe Oficial)"
               announce="Assistir"
               focusOnLoad={true}
             />
@@ -383,8 +383,8 @@ export default function Home() {
               <pre>
                 <code className="language-jsx">
 {`<LiteYouTubeEmbed
-  id="HaEPXoXVf2k"
-  title="Vídeo acessível"
+  id="aXJ_Ub1xbhw"
+  title="Pitty - Admirável Chip Novo (Clipe Oficial)"
   announce="Assistir"  // Portuguese for "Watch"
   focusOnLoad={true}
 />`}
@@ -397,13 +397,50 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://github.com/ibrahimcesar/react-lite-youtube-embed"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Demo for  <span role="img" aria-label="TV" style={{marginLeft: "5px", marginRight: "5px"}}>‏‏‎ ‎‏‏‎  📺 ‏‏‎ ‎‏‏‎ </span> React Lite YouTube Embed
-        </a>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem' }}>Resources</h3>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <a
+              href="https://www.npmjs.com/package/react-lite-youtube-embed"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              📦 npm Package
+            </a>
+            <a
+              href="https://github.com/ibrahimcesar/react-lite-youtube-embed"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              📖 Documentation
+            </a>
+            <a
+              href="https://github.com/ibrahimcesar/react-lite-youtube-embed/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              🐛 Report Issues
+            </a>
+            <a
+              href="https://github.com/ibrahimcesar/react-lite-youtube-embed/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              📝 Changelog
+            </a>
+          </div>
+        </div>
+        <div style={{
+          borderTop: '1px solid #eaeaea',
+          paddingTop: '1rem',
+          marginTop: '1rem'
+        }}>
+          Made with 🧩 in Brazil 🇧🇷
+        </div>
       </footer>
     </div>
   )
@@ -449,8 +486,8 @@ function PlayerControlExample() {
         {isPlaying ? '⏸ Pause' : '▶ Play'}
       </button>
       <LiteYouTubeEmbed
-        id="HaEPXoXVf2k"
-        title="Controllable video"
+        id="K4dx42YzQCE"
+        title="The White Stripes - The Hardest Button To Button (Official Music Video)"
         ref={ytRef}
         enableJsApi={true}
         alwaysLoadIframe={true}
@@ -477,8 +514,8 @@ function PlayerControlExample() {
         {isPlaying ? 'Pause' : 'Play'}
       </button>
       <LiteYouTubeEmbed
-        id="HaEPXoXVf2k"
-        title="Controllable video"
+        id="K4dx42YzQCE"
+        title="The White Stripes - The Hardest Button To Button (Official Music Video)"
         ref={ytRef}
         enableJsApi={true}
         alwaysLoadIframe={true}
@@ -505,10 +542,25 @@ const PLAYER_STATE_NAMES = {
 
 // Separate component for Interactive Events Demo (NEW in v3.0+)
 function EventsExample() {
+  const ytEventRef = useRef(null);  // ⚠️ CRITICAL: ref is required for events to work!
   const [events, setEvents] = useState([]);
   const [currentState, setCurrentState] = useState('Not Started');
   const [playerInfo, setPlayerInfo] = useState({});
   const [debugMessages, setDebugMessages] = useState([]);
+
+  // Track which events have fired at least once
+  const [firedEvents, setFiredEvents] = useState({
+    onIframeAdded: false,
+    onReady: false,
+    onStateChange: false,
+    onPlay: false,
+    onPause: false,
+    onEnd: false,
+    onBuffering: false,
+    onError: false,
+    onPlaybackRateChange: false,
+    onPlaybackQualityChange: false,
+  });
 
   // Helper to add debug console logs
   const logDebug = useCallback((category, message, data = null) => {
@@ -535,6 +587,9 @@ function EventsExample() {
   const addEvent = useCallback((eventName, data = null) => {
     const timestamp = new Date().toLocaleTimeString();
     console.log(`✅ Event fired: ${eventName}`, data || '(no data)');
+
+    // Mark this event as fired
+    setFiredEvents(prev => ({ ...prev, [eventName]: true }));
 
     setEvents(prev => [{
       name: eventName,
@@ -663,7 +718,13 @@ function EventsExample() {
     <div id="events" className={styles.example}>
       <h2>Interactive Events Demo 🎉 <span style={{fontSize: '0.7em', background: '#0070f3', color: 'white', padding: '0.2em 0.6em', borderRadius: '4px', fontWeight: '600'}}>NEW in v3.0+</span></h2>
       <p className={styles.exampleDescription}>
-        <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require <code>enableJsApi={'{'}true{'}'}</code>.
+        <strong>Events are first-class citizens in v3.0+!</strong> All event handlers require:
+      </p>
+      <ol className={styles.exampleDescription} style={{ marginTop: '0.5rem', paddingLeft: '1.5rem' }}>
+        <li><code>enableJsApi={'{'}true{'}'}</code> - Enables YouTube's JavaScript API</li>
+        <li><code>ref={'{'}yourRef{'}'}</code> - A React ref is <strong>REQUIRED</strong> for events to work (the component uses it to communicate with YouTube's iframe)</li>
+      </ol>
+      <p className={styles.exampleDescription}>
         Play the video below and watch the live event log to see all available events in action.
         The event log below only captures events from <strong>this specific video embed</strong>.
       </p>
@@ -796,7 +857,7 @@ function EventsExample() {
             <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem' }}>Video Info</div>
             <div style={{ fontSize: '0.9rem', fontFamily: 'monospace' }}>
               ID: {playerInfo.videoId}
-              {playerInfo.duration && <><br/>Duration: {playerInfo.duration}s</>}
+              {playerInfo.title && <><br/>Title: {playerInfo.title}</>}
             </div>
           </div>
         )}
@@ -804,8 +865,9 @@ function EventsExample() {
 
       {/* Video Player */}
       <LiteYouTubeEmbed
-        id="HaEPXoXVf2k"
-        title="Interactive Events Demo Video"
+        id="eBG7P-K-r1Y"
+        title="Foo Fighters - Everlong (Official HD Video)"
+        ref={ytEventRef}
         enableJsApi={true}
         onIframeAdded={handleIframeAdded}
         onReady={handleReady}
@@ -818,6 +880,59 @@ function EventsExample() {
         onPlaybackRateChange={handlePlaybackRateChange}
         onPlaybackQualityChange={handlePlaybackQualityChange}
       />
+
+      {/* Event Status Tracker */}
+      <div style={{ marginTop: '1.5rem', padding: '1.25rem', background: '#f9fafb', border: '2px solid #e5e7eb', borderRadius: '8px' }}>
+        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#1f2937' }}>📋 Event Status Tracker</h3>
+        <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: '#6b7280' }}>
+          Interact with the video to fire different events. Green checkmarks ✅ indicate events that have fired at least once.
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '0.75rem'
+        }}>
+          {[
+            { name: 'onIframeAdded', label: 'Iframe Added', description: 'Fires when iframe is added to DOM' },
+            { name: 'onReady', label: 'Player Ready', description: 'Player initialized successfully' },
+            { name: 'onStateChange', label: 'State Change', description: 'Player state changed' },
+            { name: 'onPlay', label: 'Play', description: 'Video started playing' },
+            { name: 'onPause', label: 'Pause', description: 'Video was paused' },
+            { name: 'onEnd', label: 'End', description: 'Video finished playing' },
+            { name: 'onBuffering', label: 'Buffering', description: 'Video is buffering' },
+            { name: 'onError', label: 'Error', description: 'An error occurred' },
+            { name: 'onPlaybackRateChange', label: 'Playback Rate', description: 'Speed changed (use ⚙️ settings)' },
+            { name: 'onPlaybackQualityChange', label: 'Quality Change', description: 'Quality changed (use ⚙️ settings)' }
+          ].map(event => (
+            <div
+              key={event.name}
+              style={{
+                padding: '0.75rem',
+                background: firedEvents[event.name] ? '#d1fae5' : 'white',
+                border: `2px solid ${firedEvents[event.name] ? '#10b981' : '#d1d5db'}`,
+                borderRadius: '6px',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>
+                  {firedEvents[event.name] ? '✅' : '⏸️'}
+                </span>
+                <code style={{
+                  fontSize: '0.85rem',
+                  fontWeight: '600',
+                  color: firedEvents[event.name] ? '#059669' : '#6b7280'
+                }}>
+                  {event.label}
+                </code>
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#6b7280', paddingLeft: '1.7rem' }}>
+                {event.description}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Event Log */}
       <div style={{ marginTop: '1.5rem' }}>
@@ -890,10 +1005,11 @@ function EventsExample() {
         <summary>View Code - All Event Handlers (with Console Debugging)</summary>
         <pre>
           <code className="language-jsx">
-{`import { useState, useCallback } from 'react';
+{`import { useState, useCallback, useRef } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 function EventsExample() {
+  const ytRef = useRef(null);  // ⚠️ CRITICAL: ref is REQUIRED for events!
   const [events, setEvents] = useState([]);
   const [currentState, setCurrentState] = useState('Not Started');
 
@@ -913,9 +1029,10 @@ function EventsExample() {
       {/* Current State: {currentState} */}
 
       <LiteYouTubeEmbed
-        id="HaEPXoXVf2k"
-        title="Interactive Events Demo"
-        enableJsApi={true}  // ⚠️ REQUIRED for all events
+        id="eBG7P-K-r1Y"
+        title="Foo Fighters - Everlong (Official HD Video)"
+        ref={ytRef}             // ⚠️ CRITICAL: Must pass ref for events!
+        enableJsApi={true}      // ⚠️ REQUIRED for all events
 
         // Lifecycle Events
         onIframeAdded={() => {
@@ -998,6 +1115,7 @@ function EventsExample() {
         <div style={{ padding: '1rem', background: '#fef2f2', borderRadius: '6px', marginTop: '0.5rem' }}>
           <h4 style={{ margin: '0 0 0.75rem 0', color: '#991b1b' }}>Problem: Events are not firing at all</h4>
           <ul style={{ margin: '0', paddingLeft: '1.5rem', color: '#7f1d1d' }}>
+            <li><strong>🚨 MOST COMMON: Missing ref:</strong> You MUST pass a <code>ref</code> to the component! Without it, the component cannot communicate with YouTube. Example: <code>ref={'{'}useRef(null){'}'}</code></li>
             <li><strong>Forgot enableJsApi:</strong> Ensure <code>enableJsApi={'{'}true{'}'}</code> is set on the component</li>
             <li><strong>YouTube blocked:</strong> Check if ad blockers, firewalls, or network policies block YouTube</li>
             <li><strong>CORS/iframe restrictions:</strong> Some browsers block third-party iframes in certain contexts</li>

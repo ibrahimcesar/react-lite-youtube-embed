@@ -124,7 +124,7 @@ Help search engines discover your videos with structured data:
 
 ### 🎬 Player Events (New in v3)
 
-React to player state changes, playback controls, and errors:
+React to player state changes, playback controls, quality, and errors. **All core events are fully tested and verified working!**
 
 ```tsx
 import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-embed';
@@ -134,15 +134,16 @@ import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-e
   title="Video Title"
   enableJsApi
 
-  // Simple handlers
+  // Simple handlers (✅ All verified)
   onPlay={() => console.log('Started')}
   onPause={() => console.log('Paused')}
   onEnd={() => console.log('Finished')}
 
-  // Advanced handlers
+  // Advanced handlers (✅ All verified)
   onStateChange={(e) => console.log('State:', e.state)}
-  onError={(code) => console.error('Error:', code)}
   onPlaybackRateChange={(rate) => console.log('Speed:', rate)}
+  onPlaybackQualityChange={(quality) => console.log('Quality:', quality)}
+  onError={(code) => console.error('Error:', code)}
 />
 ```
 
@@ -464,7 +465,28 @@ This generates:
 
 ### Fetching Video Metadata
 
-Use the included helper script to quickly fetch video metadata:
+There are several ways to get complete video metadata for SEO:
+
+#### Method 1: Manual (Quick & Privacy-Friendly)
+
+The fastest way is to visit the YouTube video page and get the info directly:
+
+1. **Open the video:** Visit `https://www.youtube.com/watch?v=VIDEO_ID`
+2. **Get the duration:** Look at the video player (e.g., "4:23")
+3. **Convert duration to ISO 8601:**
+   - 4:23 → `PT4M23S` (4 minutes 23 seconds)
+   - 1:30:45 → `PT1H30M45S` (1 hour 30 minutes 45 seconds)
+   - 15:00 → `PT15M` (15 minutes)
+4. **Get upload date:** Shown below video title (e.g., "Dec 5, 2018")
+5. **Convert date to ISO 8601 UTC format:**
+   - Format: `YYYY-MM-DDTHH:MM:SSZ` (the `Z` indicates UTC timezone)
+   - Dec 5, 2018 → `2018-12-05T08:00:00Z`
+   - Jun 5, 2025 → `2025-06-05T08:00:00Z`
+   - **Note:** The specific time (08:00:00) is not critical for SEO - the date is what matters. You can use `00:00:00Z` or any time if you don't know the exact upload time.
+
+#### Method 2: Helper Script (Basic Metadata)
+
+Use the included script to fetch title and thumbnail:
 
 ```bash
 # Make the script executable (first time only)
@@ -477,7 +499,25 @@ chmod +x scripts/fetch-youtube-metadata.sh
 ./scripts/fetch-youtube-metadata.sh dQw4w9WgXcQ --format react
 ```
 
+**Note:** This script uses YouTube's oEmbed API which only provides basic info (title, author, thumbnail). You'll need to add `uploadDate` and `duration` manually.
+
 **Requirements:** `curl` and `jq` must be installed.
+
+#### Method 3: YouTube Data API v3 (Complete Metadata)
+
+For complete automation, use YouTube's official API:
+
+1. **Get a free API key:** https://console.cloud.google.com/apis/credentials
+2. **Make API request:**
+   ```bash
+   curl "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=VIDEO_ID&key=YOUR_API_KEY"
+   ```
+3. **Extract values from response:**
+   - `snippet.publishedAt` → uploadDate
+   - `contentDetails.duration` → duration (already in ISO 8601 format!)
+   - `snippet.description` → description
+
+**API Limits:** Free tier provides 10,000 quota units/day (sufficient for most use cases)
 
 ### SEO Prop Reference
 
@@ -512,19 +552,58 @@ Test your structured data:
 
 ## 🎬 Player Events (New in v3.0)
 
-Get real-time notifications when the YouTube player changes state, encounters errors, or when users interact with playback controls. All event handlers require `enableJsApi={true}` to work.
+Get real-time notifications when the YouTube player changes state, encounters errors, or when users interact with playback controls.
+
+### ⚠️ Requirements
+
+**CRITICAL:** Events require **both** of these:
+1. `enableJsApi={true}` - Enables YouTube's JavaScript API
+2. `ref={yourRef}` - A React ref **MUST** be passed to the component (used to communicate with YouTube's iframe)
+
+Without a ref, events will **NOT** work!
+
+### ⚠️ Important Notice About YouTube's API
+
+**This event system relies on YouTube's internal postMessage API**, which is not officially documented by Google and may change at any time without prior notice. While we strive to keep the implementation up-to-date, YouTube could modify their iframe communication protocol in future updates, potentially breaking event functionality.
+
+**Recommendations:**
+- Test events thoroughly in your production environment
+- Have fallback behavior if events stop working
+- Monitor for breaking changes when updating YouTube embed URLs
+- Consider this when building critical features that depend on events
+
+### Event Compatibility Status
+
+| Event | Status | Notes |
+|-------|--------|-------|
+| `onIframeAdded` | ✅ **Verified Working** | Fires when iframe is added to DOM |
+| `onReady` | ✅ **Verified Working** | Fires when YouTube player initializes |
+| `onStateChange` | ✅ **Verified Working** | Fires on all state changes |
+| `onPlay` | ✅ **Verified Working** | Convenience wrapper for PLAYING state |
+| `onPause` | ✅ **Verified Working** | Convenience wrapper for PAUSED state |
+| `onEnd` | ✅ **Verified Working** | Convenience wrapper for ENDED state |
+| `onBuffering` | ✅ **Verified Working** | Convenience wrapper for BUFFERING state |
+| `onPlaybackRateChange` | ✅ **Verified Working** | Fires when speed changes (use ⚙️ settings) |
+| `onPlaybackQualityChange` | ✅ **Verified Working** | Fires when quality changes (use ⚙️ settings) |
+| `onError` | ⚠️ **Untested** | Should work but not confirmed with invalid video |
+
+**Technical Note:** YouTube sends state changes, playback rate, and quality changes via `infoDelivery` postMessage events. This library handles this automatically.
 
 ### Quick Start
 
 ```tsx
+import { useRef } from 'react';
 import LiteYouTubeEmbed, { PlayerState, PlayerError } from 'react-lite-youtube-embed';
 
 function App() {
+  const ytRef = useRef(null);  // ⚠️ REQUIRED for events to work!
+
   return (
     <LiteYouTubeEmbed
       id="dQw4w9WgXcQ"
       title="Rick Astley - Never Gonna Give You Up"
-      enableJsApi
+      ref={ytRef}       // ⚠️ CRITICAL: Must pass ref
+      enableJsApi       // ⚠️ REQUIRED for events
 
       // Simple convenience handlers
       onPlay={() => console.log('Video started playing')}
@@ -536,6 +615,10 @@ function App() {
         console.log('State:', event.state);
         console.log('Current time:', event.currentTime);
       }}
+
+      // Advanced playback handlers
+      onPlaybackRateChange={(rate) => console.log('Speed:', rate)}
+      onPlaybackQualityChange={(quality) => console.log('Quality:', quality)}
 
       // Error handling
       onError={(errorCode) => {
@@ -635,23 +718,53 @@ Simple wrappers for common use cases:
 
 **`onPlaybackRateChange(playbackRate: number)`**
 
-Fires when playback speed changes. Common values: `0.25`, `0.5`, `1`, `1.5`, `2`.
+Fires when playback speed changes. To test this event, click the ⚙️ settings button in the YouTube player and change the playback speed.
+
+Common values: `0.25`, `0.5`, `1`, `1.5`, `2`.
 
 ```tsx
 onPlaybackRateChange={(rate) => {
   console.log(`Playback speed: ${rate}x`);
+  // Example: Save user's preferred playback speed
+  localStorage.setItem('preferredSpeed', rate.toString());
 }}
 ```
 
 **`onPlaybackQualityChange(quality: string)`**
 
-Fires when video quality changes. Values: `"small"` (240p), `"medium"` (360p), `"large"` (480p), `"hd720"`, `"hd1080"`, etc.
+Fires when video quality changes (either automatically or manually). To test this event manually, click the ⚙️ settings button in the YouTube player and change the video quality.
+
+Common values: `"small"` (240p), `"medium"` (360p), `"large"` (480p), `"hd720"`, `"hd1080"`, `"hd1440"`, `"hd2160"` (4K).
 
 ```tsx
 onPlaybackQualityChange={(quality) => {
   console.log(`Quality changed to: ${quality}`);
+  // Example: Track quality changes for analytics
+  analytics.track('video_quality_change', {
+    quality,
+    timestamp: Date.now()
+  });
 }}
 ```
+
+### Event Status Tracker Demo
+
+The [live demo](https://ibrahimcesar.github.io/react-lite-youtube-embed) includes an **Event Status Tracker** that visually shows which events have fired during your interaction with the video. Each event displays:
+
+- ⏸️ **Gray background** - Event has not fired yet
+- ✅ **Green background** - Event has fired at least once
+
+This interactive tracker helps you:
+- Understand when different events fire
+- Test your event handlers
+- Learn about YouTube's event system
+- Verify events are working correctly
+
+**Try it yourself:**
+1. Visit the [live demo](https://ibrahimcesar.github.io/react-lite-youtube-embed)
+2. Scroll to the Events section
+3. Play the video and watch events light up
+4. Change playback speed and quality via the ⚙️ settings button
 
 ### Real-World Examples
 

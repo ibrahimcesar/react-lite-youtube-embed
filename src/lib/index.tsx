@@ -327,6 +327,7 @@ function LiteYouTubeEmbedComponent(
       ...(props.muted ? { mute: "1" } : {}),
       ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
       ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
+      ...(props.enableJsApi && typeof window !== 'undefined' ? { origin: window.location.origin } : {}),
       ...(props.playlist ? { list: videoId } : {}),
     });
 
@@ -487,7 +488,63 @@ function LiteYouTubeEmbedComponent(
           }
           break;
 
+        case "infoDelivery":
+          // YouTube's postMessage API sends state changes via infoDelivery events
+          // This is the primary mechanism for receiving state change notifications
+          if (data.info?.playerState !== undefined) {
+            const state = data.info.playerState as PlayerState;
+
+            // Call main onStateChange handler
+            if (props.onStateChange) {
+              props.onStateChange({
+                state,
+                currentTime: data.info.currentTime,
+                duration: data.info.duration,
+              });
+            }
+
+            // Call convenience handlers
+            switch (state) {
+              case PlayerState.PLAYING:
+                props.onPlay?.();
+                break;
+              case PlayerState.PAUSED:
+                props.onPause?.();
+                break;
+              case PlayerState.ENDED:
+                props.onEnd?.();
+                // Stop video to return to thumbnail and prevent related videos
+                if (
+                  props.stopOnEnd &&
+                  typeof ref === "object" &&
+                  ref?.current?.contentWindow
+                ) {
+                  ref.current.contentWindow.postMessage(
+                    '{"event":"command","func":"stopVideo","args":""}',
+                    "*"
+                  );
+                }
+                break;
+              case PlayerState.BUFFERING:
+                props.onBuffering?.();
+                break;
+            }
+          }
+
+          // Handle playback rate changes
+          if (data.info?.playbackRate !== undefined) {
+            props.onPlaybackRateChange?.(data.info.playbackRate);
+          }
+
+          // Handle playback quality changes
+          if (data.info?.playbackQuality !== undefined) {
+            props.onPlaybackQualityChange?.(data.info.playbackQuality);
+          }
+          break;
+
         case "onStateChange":
+          // Fallback: YouTube may send dedicated onStateChange events in some cases
+          // However, infoDelivery (above) is the primary mechanism observed
           if (data.info?.playerState !== undefined) {
             const state = data.info.playerState as PlayerState;
 
@@ -569,7 +626,9 @@ function LiteYouTubeEmbedComponent(
     // Strategy: Wait for iframe load event, then send listening message
     // This is more reliable than arbitrary delays
     const handleIframeLoad = () => {
-      if (iframeLoaded) return;
+      if (iframeLoaded) {
+        return;
+      }
       iframeLoaded = true;
 
       // Send initial listening message immediately when iframe loads
