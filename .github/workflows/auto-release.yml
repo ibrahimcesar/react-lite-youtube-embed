@@ -178,23 +178,49 @@ jobs:
 
       - name: Create and push tag
         run: |
-          git tag -a ${{ steps.bump_version.outputs.version }} -m "Release ${{ steps.bump_version.outputs.version }}"
+          TAG_NAME="${{ steps.bump_version.outputs.version }}"
+
+          # Check if tag already exists locally
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists locally, deleting it"
+            git tag -d "$TAG_NAME"
+          fi
+
+          # Check if tag exists on remote
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG_NAME"; then
+            echo "Tag $TAG_NAME already exists on remote, deleting it"
+            git push --delete origin "$TAG_NAME" || true
+          fi
+
+          # Create new tag
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+
+          # Push changes
           git push origin main
-          git push origin ${{ steps.bump_version.outputs.version }}
+          git push origin "$TAG_NAME"
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          TAG_NAME="${{ steps.bump_version.outputs.version }}"
+
+          # Delete existing release if it exists
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists, deleting it"
+            gh release delete "$TAG_NAME" --yes --cleanup-tag || true
+          fi
+
+          # Create new release
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            gh release create ${{ steps.bump_version.outputs.version }} \
-              --title "Release ${{ steps.bump_version.outputs.version }} (Beta)" \
+            gh release create "$TAG_NAME" \
+              --title "Release $TAG_NAME (Beta)" \
               --notes-file CHANGELOG.md \
               --verify-tag \
               --prerelease
           else
-            gh release create ${{ steps.bump_version.outputs.version }} \
-              --title "Release ${{ steps.bump_version.outputs.version }}" \
+            gh release create "$TAG_NAME" \
+              --title "Release $TAG_NAME" \
               --notes-file CHANGELOG.md \
               --verify-tag
           fi
