@@ -43,7 +43,7 @@ function J(t, a, r, u, e) {
 }
 function _(t, a) {
   const [r, u] = d.useState(!1), [e, o] = d.useState(t.alwaysLoadIframe || !1), c = encodeURIComponent(t.id), m = typeof t.playlistCoverId == "string" ? encodeURIComponent(t.playlistCoverId) : null, l = t.title, i = t.poster || "hqdefault", $ = t.announce || "Watch", I = t.alwaysLoadIframe ? t.autoplay && t.muted : !0, b = d.useMemo(() => {
-    const U = new URLSearchParams({
+    const x = new URLSearchParams({
       ...t.muted ? { mute: "1" } : {},
       ...I ? { autoplay: "1" } : {},
       ...t.enableJsApi ? { enablejsapi: "1" } : {},
@@ -52,34 +52,34 @@ function _(t, a) {
     return t.params && new URLSearchParams(
       t.params.startsWith("&") ? t.params.slice(1) : t.params
     ).forEach((O, q) => {
-      U.append(q, O);
-    }), U;
+      x.append(q, O);
+    }), x;
   }, [t.muted, I, t.enableJsApi, t.playlist, c, t.params]), s = d.useMemo(
     () => t.cookie ? "https://www.youtube.com" : "https://www.youtube-nocookie.com",
     [t.cookie]
-  ), S = d.useMemo(
+  ), L = d.useMemo(
     () => t.playlist ? `${s}/embed/videoseries?${b.toString()}` : `${s}/embed/${c}?${b.toString()}`,
     [t.playlist, s, c, b]
-  ), x = !t.thumbnail && !t.playlist && i === "maxresdefault", w = t.webp ? "webp" : "jpg", g = t.webp ? "vi_webp" : "vi", k = x ? H(t.id, g, w, i) : null, y = d.useMemo(
+  ), P = !t.thumbnail && !t.playlist && i === "maxresdefault", w = t.webp ? "webp" : "jpg", g = t.webp ? "vi_webp" : "vi", k = P ? H(t.id, g, w, i) : null, y = d.useMemo(
     () => t.thumbnail || k || `https://i.ytimg.com/${g}/${t.playlist ? m : c}/${i}.${w}`,
     [t.thumbnail, k, g, t.playlist, m, c, i, w]
-  ), L = t.activatedClass || "lyt-activated", P = t.adNetwork || !1, T = t.aspectHeight || 9, N = t.aspectWidth || 16, W = t.iframeClass || "", j = t.playerClass || "lty-playbtn", A = t.wrapperClass || "yt-lite", C = d.useCallback(
+  ), T = t.activatedClass || "lyt-activated", N = t.adNetwork || !1, C = t.aspectHeight || 9, v = t.aspectWidth || 16, W = t.iframeClass || "", j = t.playerClass || "lty-playbtn", A = t.wrapperClass || "yt-lite", U = d.useCallback(
     t.onIframeAdded || function() {
     },
     [t.onIframeAdded]
   ), D = t.rel ? "prefetch" : "preload", E = t.containerElement || "article", Y = t.noscriptFallback !== !1, M = () => {
     r || u(!0);
-  }, v = () => {
+  }, S = () => {
     e || o(!0);
   };
   return d.useEffect(() => {
-    e && (C(), t.focusOnLoad && typeof a == "object" && (a != null && a.current) && a.current.focus());
-  }, [e, C, t.focusOnLoad, a]), /* @__PURE__ */ h(f, { children: [
+    e && (U(), t.focusOnLoad && typeof a == "object" && (a != null && a.current) && a.current.focus());
+  }, [e, U, t.focusOnLoad, a]), /* @__PURE__ */ h(f, { children: [
     !t.lazyLoad && /* @__PURE__ */ n("link", { rel: D, href: y, as: "image" }),
     /* @__PURE__ */ n(f, { children: r && /* @__PURE__ */ h(f, { children: [
       /* @__PURE__ */ n("link", { rel: "preconnect", href: s }),
       /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://www.google.com" }),
-      P && /* @__PURE__ */ h(f, { children: [
+      N && /* @__PURE__ */ h(f, { children: [
         /* @__PURE__ */ n("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
         /* @__PURE__ */ n(
           "link",
@@ -121,14 +121,14 @@ function _(t, a) {
       E,
       {
         onPointerOver: M,
-        onClick: v,
-        className: `${A} ${e ? L : ""}`,
+        onClick: S,
+        className: `${A} ${e ? T : ""}`,
         "data-title": l,
         role: e ? void 0 : "img",
         "aria-label": e ? void 0 : `${l} - YouTube video preview`,
         style: {
           ...!t.lazyLoad && { backgroundImage: `url(${y})` },
-          "--aspect-ratio": `${T / N * 100}%`,
+          "--aspect-ratio": `${C / v * 100}%`,
           ...t.style || {}
         },
         children: [
@@ -138,7 +138,9 @@ function _(t, a) {
               src: y,
               alt: `${l} - YouTube thumbnail`,
               className: "lty-thumbnail",
-              loading: "lazy"
+              loading: "lazy",
+              width: v * 100,
+              height: C * 100
             }
           ),
           /* @__PURE__ */ n(
@@ -149,7 +151,7 @@ function _(t, a) {
               "aria-label": `${$} ${l}`,
               "aria-hidden": e || void 0,
               tabIndex: e ? -1 : 0,
-              onClick: v,
+              onClick: S,
               children: /* @__PURE__ */ n("span", { className: "lty-visually-hidden", children: $ })
             }
           ),
@@ -164,7 +166,7 @@ function _(t, a) {
               style: { border: 0 },
               allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
               allowFullScreen: !0,
-              src: S,
+              src: L,
               referrerPolicy: t.referrerPolicy || "strict-origin-when-cross-origin"
             }
           )

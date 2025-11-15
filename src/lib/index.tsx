@@ -314,6 +314,8 @@ function LiteYouTubeEmbedComponent(
             alt={`${videoTitle} - YouTube thumbnail`}
             className="lty-thumbnail"
             loading="lazy"
+            width={aspectWidth * 100}
+            height={aspectHeight * 100}
           />
         )}
         <button
