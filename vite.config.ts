@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
-import { copyFileSync, mkdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
+import { copyFileSync, mkdirSync, existsSync, openSync, closeSync, fstatSync, readSync, ftruncateSync, writeSync } from 'fs';
 import packageJson from './package.json';
 
 const { version, name, license, repository, author } = packageJson;
@@ -42,9 +42,36 @@ export default defineConfig({
         // Add banner to output files
         const files = ['dist/index.es.js', 'dist/index.js'];
         files.forEach((file) => {
-          if (existsSync(file)) {
-            const content = readFileSync(file, 'utf-8');
-            writeFileSync(file, banner + content);
+          let fd;
+          try {
+            // Open file for reading and writing - throws if doesn't exist
+            // Using file descriptor eliminates TOCTOU race condition
+            fd = openSync(file, 'r+');
+
+            // Get file size
+            const stats = fstatSync(fd);
+
+            // Read entire content using file descriptor
+            const buffer = Buffer.alloc(stats.size);
+            readSync(fd, buffer, 0, stats.size, 0);
+            const content = buffer.toString('utf-8');
+
+            // Truncate file to 0 bytes
+            ftruncateSync(fd, 0);
+
+            // Write banner + content from position 0
+            writeSync(fd, banner + content, 0, 'utf-8');
+          } catch (e) {
+            // File doesn't exist or can't be accessed, skip
+          } finally {
+            // Always close the file descriptor
+            if (fd !== undefined) {
+              try {
+                closeSync(fd);
+              } catch (e) {
+                // Ignore close errors
+              }
+            }
           }
         });
       },
