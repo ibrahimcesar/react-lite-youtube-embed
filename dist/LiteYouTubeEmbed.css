@@ -2,7 +2,7 @@
   background-color: #000;
   position: relative;
   display: block;
-  contain: content;
+  contain: layout style;
   background-position: 50%;
   background-size: cover;
   cursor: pointer;
@@ -33,6 +33,12 @@
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 .yt-lite > .lty-thumbnail {
   position: absolute;

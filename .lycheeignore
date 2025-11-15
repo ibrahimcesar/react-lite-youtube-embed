@@ -1,0 +1,21 @@
+# Link checker ignore patterns
+# These URLs are known to produce false positives
+
+# Development URLs (only work when server is running locally)
+http://localhost:*
+https://localhost:*
+
+# npm registry blocks automated checkers with 403
+# These links work fine in browsers for real users
+https://www.npmjs.com/package/*
+https://www.npmjs.com/settings/*
+
+# YouTube nocookie domain returns 404 at root
+# The actual embed URLs work fine: /embed/{videoId}
+https://www.youtube-nocookie.com/
+https://www.youtube-nocookie.com
+
+# Template/placeholder URLs in documentation
+*[username]*
+*[your-*
+*{*}*

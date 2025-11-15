@@ -1,8 +1,8 @@
 import * as React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
-import LiteYouTubeEmbed from "./index";
+import LiteYouTubeEmbed, { PlayerState, PlayerError } from "./index";
 import { imgResolution } from "./useYoutubeThumbnail";
 
 describe("LiteYouTubeEmbed", () => {
@@ -660,6 +660,396 @@ describe("LiteYouTubeEmbed", () => {
 
       expect(jsonLdScript).toBeInTheDocument();
       expect(noscript).toBeInTheDocument();
+    });
+  });
+
+  describe("Player Events", () => {
+    // Helper function to simulate postMessage events from YouTube
+    const simulateYouTubeEvent = (
+      eventName: string,
+      info?: Record<string, unknown>,
+      origin = "https://www.youtube.com"
+    ) => {
+      const event = new MessageEvent("message", {
+        data: JSON.stringify({ event: eventName, info }),
+        origin,
+      });
+      window.dispatchEvent(event);
+    };
+
+    test("calls onReady when player is ready", async () => {
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate YouTube onReady event
+      await waitFor(() => {
+        simulateYouTubeEvent("onReady");
+      });
+
+      expect(onReady).toHaveBeenCalledWith({
+        videoId: defaultProps.id,
+        title: defaultProps.title,
+      });
+    });
+
+    test("calls onStateChange when player state changes", async () => {
+      const onStateChange = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onStateChange={onStateChange}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to PLAYING
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+          currentTime: 10.5,
+          duration: 213,
+        });
+      });
+
+      expect(onStateChange).toHaveBeenCalledWith({
+        state: PlayerState.PLAYING,
+        currentTime: 10.5,
+        duration: 213,
+      });
+    });
+
+    test("calls onPlay when video starts playing", async () => {
+      const onPlay = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onPlay={onPlay} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to PLAYING
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+        });
+      });
+
+      expect(onPlay).toHaveBeenCalled();
+    });
+
+    test("calls onPause when video is paused", async () => {
+      const onPause = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onPause={onPause} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to PAUSED
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PAUSED,
+        });
+      });
+
+      expect(onPause).toHaveBeenCalled();
+    });
+
+    test("calls onEnd when video ends", async () => {
+      const onEnd = vi.fn();
+      render(<LiteYouTubeEmbed {...defaultProps} enableJsApi onEnd={onEnd} />);
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to ENDED
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.ENDED,
+        });
+      });
+
+      expect(onEnd).toHaveBeenCalled();
+    });
+
+    test("calls onBuffering when video is buffering", async () => {
+      const onBuffering = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onBuffering={onBuffering}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to BUFFERING
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.BUFFERING,
+        });
+      });
+
+      expect(onBuffering).toHaveBeenCalled();
+    });
+
+    test("calls onError when player encounters an error", async () => {
+      const onError = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onError={onError} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate error event
+      await waitFor(() => {
+        simulateYouTubeEvent("onError", {
+          errorCode: PlayerError.VIDEO_NOT_FOUND,
+        });
+      });
+
+      expect(onError).toHaveBeenCalledWith(PlayerError.VIDEO_NOT_FOUND);
+    });
+
+    test("calls onPlaybackRateChange when playback speed changes", async () => {
+      const onPlaybackRateChange = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onPlaybackRateChange={onPlaybackRateChange}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate playback rate change
+      await waitFor(() => {
+        simulateYouTubeEvent("onPlaybackRateChange", {
+          playbackRate: 1.5,
+        });
+      });
+
+      expect(onPlaybackRateChange).toHaveBeenCalledWith(1.5);
+    });
+
+    test("calls onPlaybackQualityChange when video quality changes", async () => {
+      const onPlaybackQualityChange = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onPlaybackQualityChange={onPlaybackQualityChange}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate quality change
+      await waitFor(() => {
+        simulateYouTubeEvent("onPlaybackQualityChange", {
+          playbackQuality: "hd1080",
+        });
+      });
+
+      expect(onPlaybackQualityChange).toHaveBeenCalledWith("hd1080");
+    });
+
+    test("does not call event handlers when enableJsApi is false", async () => {
+      const onPlay = vi.fn();
+      render(<LiteYouTubeEmbed {...defaultProps} onPlay={onPlay} />);
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+        });
+      });
+
+      // Handler should not be called without enableJsApi
+      expect(onPlay).not.toHaveBeenCalled();
+    });
+
+    test("does not call event handlers before iframe is loaded", async () => {
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      // Don't click to load iframe - it's not loaded yet
+      // Simulate event anyway
+      await waitFor(() => {
+        simulateYouTubeEvent("onReady");
+      });
+
+      // Handler should not be called before iframe is loaded
+      expect(onReady).not.toHaveBeenCalled();
+    });
+
+    test("ignores events from non-YouTube origins", async () => {
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate event from wrong origin
+      await waitFor(() => {
+        simulateYouTubeEvent("onReady", undefined, "https://evil.com");
+      });
+
+      // Handler should not be called for non-YouTube origins
+      expect(onReady).not.toHaveBeenCalled();
+    });
+
+    test("accepts events from youtube-nocookie.com origin", async () => {
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate event from youtube-nocookie origin
+      await waitFor(() => {
+        simulateYouTubeEvent(
+          "onReady",
+          undefined,
+          "https://www.youtube-nocookie.com"
+        );
+      });
+
+      // Handler should be called for youtube-nocookie.com
+      expect(onReady).toHaveBeenCalled();
+    });
+
+    test("calls both onStateChange and convenience handlers", async () => {
+      const onStateChange = vi.fn();
+      const onPlay = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onStateChange={onStateChange}
+          onPlay={onPlay}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate state change to PLAYING
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+        });
+      });
+
+      // Both handlers should be called
+      expect(onStateChange).toHaveBeenCalled();
+      expect(onPlay).toHaveBeenCalled();
+    });
+
+    test("handles multiple state changes correctly", async () => {
+      const onPlay = vi.fn();
+      const onPause = vi.fn();
+      const onEnd = vi.fn();
+      render(
+        <LiteYouTubeEmbed
+          {...defaultProps}
+          enableJsApi
+          onPlay={onPlay}
+          onPause={onPause}
+          onEnd={onEnd}
+        />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate multiple state changes
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+        });
+      });
+      expect(onPlay).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PAUSED,
+        });
+      });
+      expect(onPause).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.PLAYING,
+        });
+      });
+      expect(onPlay).toHaveBeenCalledTimes(2);
+
+      await waitFor(() => {
+        simulateYouTubeEvent("onStateChange", {
+          playerState: PlayerState.ENDED,
+        });
+      });
+      expect(onEnd).toHaveBeenCalledTimes(1);
+    });
+
+    test("onReady is only called once even if event is received multiple times", async () => {
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Simulate onReady event multiple times
+      await waitFor(() => {
+        simulateYouTubeEvent("onReady");
+        simulateYouTubeEvent("onReady");
+        simulateYouTubeEvent("onReady");
+      });
+
+      // Handler should only be called once
+      expect(onReady).toHaveBeenCalledTimes(1);
     });
   });
 });
