@@ -505,6 +505,7 @@ const PLAYER_STATE_NAMES = {
 
 // Separate component for Interactive Events Demo (NEW in v3.0+)
 function EventsExample() {
+  const ytRef = useRef(null);
   const [events, setEvents] = useState([]);
   const [currentState, setCurrentState] = useState('Not Started');
   const [playerInfo, setPlayerInfo] = useState({});
@@ -620,6 +621,7 @@ function EventsExample() {
 
       {/* Video Player */}
       <LiteYouTubeEmbed
+        ref={ytRef}
         id="HaEPXoXVf2k"
         title="Interactive Events Demo Video"
         enableJsApi={true}
@@ -706,10 +708,11 @@ function EventsExample() {
         <summary>View Code - All Event Handlers</summary>
         <pre>
           <code className="language-jsx">
-{`import { useState } from 'react';
+{`import { useState, useRef } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 function EventsExample() {
+  const ytRef = useRef(null);  // ⚠️ REQUIRED for events to work
   const [events, setEvents] = useState([]);
   const [currentState, setCurrentState] = useState('Not Started');
 
@@ -726,6 +729,7 @@ function EventsExample() {
       {/* Current State: {currentState} */}
 
       <LiteYouTubeEmbed
+        ref={ytRef}  // ⚠️ REQUIRED for events to work
         id="HaEPXoXVf2k"
         title="Interactive Events Demo"
         enableJsApi={true}  // ⚠️ REQUIRED for all events
