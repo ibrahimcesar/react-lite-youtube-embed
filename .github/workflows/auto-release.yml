@@ -201,13 +201,15 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          # Override the publishConfig registry to publish to NPM instead of GitHub Packages
-          # Include --provenance flag for SLSA attestation
-          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --registry https://registry.npmjs.org --access public --provenance
+          # Configure npm for public registry
+          npm config set registry https://registry.npmjs.org
+          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 
+          # Publish with provenance for SLSA attestation
+          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
+            npm publish --tag beta --provenance
           else
-            npm publish --registry https://registry.npmjs.org --access public --provenance
+            npm publish --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -221,13 +223,15 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: |
-          # The publishConfig in package.json already points to GitHub Packages
-          # Include --provenance flag (GitHub Packages uses attestations generated above)
-          # --access public is required when using --provenance
+          # Configure npm for GitHub Packages registry
+          npm config set registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
+
+          # Publish with provenance (uses attestations generated above)
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --access public --provenance
+            npm publish --tag beta --provenance
           else
-            npm publish --access public --provenance
+            npm publish --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
