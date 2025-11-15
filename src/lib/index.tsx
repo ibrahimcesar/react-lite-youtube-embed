@@ -454,6 +454,7 @@ function LiteYouTubeEmbedComponent(
     }
 
     let isReady = false;
+    let iframeLoaded = false;
 
     const handleMessage = (event: MessageEvent) => {
       // Verify origin is from YouTube
@@ -555,7 +556,6 @@ function LiteYouTubeEmbedComponent(
 
     // Request iframe to send events by posting "listening" message
     // This tells YouTube player to start sending events
-    // Use retry logic with increasing delays to handle iframe load timing
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const attemptListen = () => {
       if (typeof ref === "object" && ref?.current?.contentWindow) {
@@ -566,16 +566,48 @@ function LiteYouTubeEmbedComponent(
       }
     };
 
-    // Retry multiple times with increasing delays to ensure iframe is ready
-    // YouTube iframe may take variable time to initialize depending on network/browser
-    const delays = [0, 100, 250, 500, 1000];
-    delays.forEach((delay) => {
-      timeouts.push(setTimeout(attemptListen, delay));
-    });
+    // Strategy: Wait for iframe load event, then send listening message
+    // This is more reliable than arbitrary delays
+    const handleIframeLoad = () => {
+      if (iframeLoaded) return;
+      iframeLoaded = true;
+
+      // Send initial listening message immediately when iframe loads
+      attemptListen();
+
+      // Also retry with delays as fallback for slower YouTube API initialization
+      // YouTube's player API needs additional time to initialize even after iframe loads
+      const delays = [100, 300, 600, 1200, 2400];
+      delays.forEach((delay) => {
+        timeouts.push(setTimeout(attemptListen, delay));
+      });
+    };
+
+    // Attach load event listener to iframe
+    if (typeof ref === "object" && ref?.current) {
+      ref.current.addEventListener("load", handleIframeLoad);
+
+      // If iframe is already loaded, trigger immediately
+      // This handles race condition where load event fired before listener attached
+      if (ref.current.contentDocument?.readyState === "complete") {
+        handleIframeLoad();
+      }
+    } else {
+      // Fallback: If ref not ready, use longer delays
+      const fallbackDelays = [200, 500, 1000, 2000, 3000];
+      fallbackDelays.forEach((delay) => {
+        timeouts.push(setTimeout(attemptListen, delay));
+      });
+    }
 
     return () => {
       window.removeEventListener("message", handleMessage);
       timeouts.forEach(clearTimeout);
+
+      // Clean up iframe load listener
+      if (typeof ref === "object" && ref?.current) {
+        ref.current.removeEventListener("load", handleIframeLoad);
+      }
     };
   }, [
     iframe,
