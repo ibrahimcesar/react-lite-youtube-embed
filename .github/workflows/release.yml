@@ -115,6 +115,6 @@ jobs:
           path: dist/
 
       - name: Publish to GitHub Packages
-        run: npm publish --provenance
+        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
