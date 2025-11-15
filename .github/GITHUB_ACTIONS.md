@@ -117,26 +117,6 @@ This document provides an overview of all GitHub Actions workflows configured fo
 
 ---
 
-### Link Checker (`links.yml`)
-
-**Trigger:**
-- PRs touching markdown/HTML files
-- Pushes to `main` with markdown/HTML changes
-- Weekly on Sundays at 9:00 AM UTC
-- Manual workflow dispatch
-
-**Purpose:** Ensure documentation links aren't broken
-
-**Features:**
-- Checks all `.md` and `.html` files
-- Retries failed links (3 attempts)
-- Creates report artifact
-- Comments on PRs if broken links found
-
-**Required:** Optional but helpful for documentation quality
-
----
-
 ## Automation
 
 ### Dependabot (`dependabot.yml`)
