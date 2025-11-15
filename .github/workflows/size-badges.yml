@@ -1,0 +1,193 @@
+name: Bundle Size Badges
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  size-badges:
+    name: Generate Size Badges
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Calculate file sizes
+        id: sizes
+        run: |
+          # Function to format bytes to human readable
+          format_bytes() {
+            local bytes=$1
+            if [ $bytes -lt 1024 ]; then
+              echo "${bytes}B"
+            elif [ $bytes -lt 1048576 ]; then
+              echo "$(awk "BEGIN {printf \"%.1f\", $bytes/1024}")KB"
+            else
+              echo "$(awk "BEGIN {printf \"%.2f\", $bytes/1048576}")MB"
+            fi
+          }
+
+          # Function to get gzipped size
+          get_gzip_size() {
+            gzip -c "$1" | wc -c
+          }
+
+          # Function to determine color based on size and limit
+          get_color() {
+            local size=$1
+            local limit=$2
+            local percent=$(awk "BEGIN {printf \"%.0f\", ($size/$limit)*100}")
+
+            if [ $percent -le 70 ]; then
+              echo "brightgreen"
+            elif [ $percent -le 85 ]; then
+              echo "green"
+            elif [ $percent -le 95 ]; then
+              echo "yellow"
+            elif [ $percent -le 100 ]; then
+              echo "orange"
+            else
+              echo "red"
+            fi
+          }
+
+          # ES Module
+          ES_RAW=$(stat -f%z dist/index.es.js 2>/dev/null || stat -c%s dist/index.es.js)
+          ES_GZIP=$(get_gzip_size dist/index.es.js)
+          ES_RAW_FMT=$(format_bytes $ES_RAW)
+          ES_GZIP_FMT=$(format_bytes $ES_GZIP)
+          ES_COLOR=$(get_color $ES_GZIP 10240)  # 10KB limit
+
+          # CommonJS
+          CJS_RAW=$(stat -f%z dist/index.js 2>/dev/null || stat -c%s dist/index.js)
+          CJS_GZIP=$(get_gzip_size dist/index.js)
+          CJS_RAW_FMT=$(format_bytes $CJS_RAW)
+          CJS_GZIP_FMT=$(format_bytes $CJS_GZIP)
+          CJS_COLOR=$(get_color $CJS_GZIP 10240)  # 10KB limit
+
+          # CSS
+          CSS_RAW=$(stat -f%z dist/LiteYouTubeEmbed.css 2>/dev/null || stat -c%s dist/LiteYouTubeEmbed.css)
+          CSS_GZIP=$(get_gzip_size dist/LiteYouTubeEmbed.css)
+          CSS_RAW_FMT=$(format_bytes $CSS_RAW)
+          CSS_GZIP_FMT=$(format_bytes $CSS_GZIP)
+          CSS_COLOR=$(get_color $CSS_GZIP 2048)  # 2KB limit
+
+          # Output all sizes
+          echo "es_raw=$ES_RAW_FMT" >> $GITHUB_OUTPUT
+          echo "es_gzip=$ES_GZIP_FMT" >> $GITHUB_OUTPUT
+          echo "es_color=$ES_COLOR" >> $GITHUB_OUTPUT
+
+          echo "cjs_raw=$CJS_RAW_FMT" >> $GITHUB_OUTPUT
+          echo "cjs_gzip=$CJS_GZIP_FMT" >> $GITHUB_OUTPUT
+          echo "cjs_color=$CJS_COLOR" >> $GITHUB_OUTPUT
+
+          echo "css_raw=$CSS_RAW_FMT" >> $GITHUB_OUTPUT
+          echo "css_gzip=$CSS_GZIP_FMT" >> $GITHUB_OUTPUT
+          echo "css_color=$CSS_COLOR" >> $GITHUB_OUTPUT
+
+          # Create summary
+          echo "### 📦 Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Raw Size | Gzipped | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----------|---------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **ES Module** | $ES_RAW_FMT | $ES_GZIP_FMT | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| **CommonJS** | $CJS_RAW_FMT | $CJS_GZIP_FMT | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| **CSS** | $CSS_RAW_FMT | $CSS_GZIP_FMT | ✅ |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Generate badge data
+        run: |
+          mkdir -p .github/badges
+
+          # ES Module Badge (gzipped)
+          cat > .github/badges/size-es.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "ES Module (gzip)",
+            "message": "${{ steps.sizes.outputs.es_gzip }}",
+            "color": "${{ steps.sizes.outputs.es_color }}"
+          }
+          EOF
+
+          # CommonJS Badge (gzipped)
+          cat > .github/badges/size-cjs.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "CommonJS (gzip)",
+            "message": "${{ steps.sizes.outputs.cjs_gzip }}",
+            "color": "${{ steps.sizes.outputs.cjs_color }}"
+          }
+          EOF
+
+          # CSS Badge (gzipped)
+          cat > .github/badges/size-css.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "CSS (gzip)",
+            "message": "${{ steps.sizes.outputs.css_gzip }}",
+            "color": "${{ steps.sizes.outputs.css_color }}"
+          }
+          EOF
+
+          # Combined JS Badge (ES Module as it's the modern standard)
+          cat > .github/badges/size-js.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "JavaScript",
+            "message": "${{ steps.sizes.outputs.es_raw }} / ${{ steps.sizes.outputs.es_gzip }} gzip",
+            "color": "${{ steps.sizes.outputs.es_color }}"
+          }
+          EOF
+
+          # Combined Total Badge
+          cat > .github/badges/size-total.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "Bundle Size",
+            "message": "JS: ${{ steps.sizes.outputs.es_gzip }} + CSS: ${{ steps.sizes.outputs.css_gzip }}",
+            "color": "${{ steps.sizes.outputs.es_color }}"
+          }
+          EOF
+
+          echo "### 📊 Generated Badges" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ES Module (gzip): ${{ steps.sizes.outputs.es_gzip }}" >> $GITHUB_STEP_SUMMARY
+          echo "- CommonJS (gzip): ${{ steps.sizes.outputs.cjs_gzip }}" >> $GITHUB_STEP_SUMMARY
+          echo "- CSS (gzip): ${{ steps.sizes.outputs.css_gzip }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Commit badge data
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .github/badges/*.json
+          git diff --staged --quiet || git commit -m "Update size badges [skip ci]"
+          git push
+
+      - name: Upload badge artifacts
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: size-badges
+          path: .github/badges/size-*.json
+          retention-days: 30
