@@ -22,7 +22,7 @@
 
 </div>
 
-## 🔒 Up 2.0.0 Privacy by Default
+## 🔒 Privacy by Default
 
 The biggest change is, from 2.0.0 this component is private by default. Meaning that will not preconnect with the ad network from Google and connect to YouTube via the Privacy-Enhanced Mode using https://www.youtube-nocookie.com.
 
