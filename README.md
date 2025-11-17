@@ -1037,7 +1037,15 @@ See [LICENSE](LICENSE) for full details.
 
 - **Paul Irish** ([@paulirish](https://github.com/paulirish)) - Original [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)
 - **Addy Osmani** ([@addyosmani](https://github.com/addyosmani)) - Adaptive Loading concepts
-- **All contributors** - [View contributors](https://github.com/ibrahimcesar/react-lite-youtube-embed/graphs/contributors)
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ---
 
