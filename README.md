@@ -13,7 +13,7 @@
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/coverage-tests.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/test-badge.yml)
 [![CodeQL](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/codeql.yml)
 
-### [📚 **Full Documentation** →](https://ibrahimcesar.github.io/react-lite-youtube-embed)
+### [📚 **Full Documentation & demos ** →](https://ibrahimcesar.github.io/react-lite-youtube-embed)
 
 > Complete guides, live examples, and API reference
 
