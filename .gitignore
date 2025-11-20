@@ -27,3 +27,6 @@ amplify
 .next
 out
 .vscode
+
+# Backup files
+*.backup
