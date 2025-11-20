@@ -32,3 +32,6 @@ out
 docs/.docusaurus
 docs/build
 docs/node_modules
+
+.claude
+CLAUDE.md

@@ -4,27 +4,27 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/* YouTube Red color scheme */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #ff0000;
+  --ifm-color-primary-dark: #e60000;
+  --ifm-color-primary-darker: #d90000;
+  --ifm-color-primary-darkest: #b30000;
+  --ifm-color-primary-light: #ff1a1a;
+  --ifm-color-primary-lighter: #ff2626;
+  --ifm-color-primary-lightest: #ff4d4d;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* YouTube Red for dark mode with better contrast */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #ff3333;
+  --ifm-color-primary-dark: #ff1a1a;
+  --ifm-color-primary-darker: #ff0d0d;
+  --ifm-color-primary-darkest: #cc0000;
+  --ifm-color-primary-light: #ff4d4d;
+  --ifm-color-primary-lighter: #ff5959;
+  --ifm-color-primary-lightest: #ff8080;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }

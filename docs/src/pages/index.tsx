@@ -4,8 +4,9 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import CodeBlock from '@theme/CodeBlock';
+import LiteYouTubeEmbed from '@ibrahimcesar/react-lite-youtube-embed';
+import '@ibrahimcesar/react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 import styles from './index.module.css';
 
@@ -140,14 +141,14 @@ function QuickStartSection() {
         </Heading>
         <div className={styles.codeExample}>
           <h3>1. Install</h3>
-          <pre className={styles.codeBlock}>
-            <code>npm install react-lite-youtube-embed</code>
-          </pre>
+          <CodeBlock language="bash">
+            npm install react-lite-youtube-embed
+          </CodeBlock>
 
           <h3>2. Import and Use</h3>
-          <pre className={styles.codeBlock}>
-            <code>{`import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+          <CodeBlock language="tsx">
+{`import LiteYouTubeEmbed from '@ibrahimcesar/react-lite-youtube-embed';
+import '@ibrahimcesar/react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 export default function App() {
   return (
@@ -156,62 +157,12 @@ export default function App() {
       title="Video Title"
     />
   );
-}`}</code>
-          </pre>
+}`}
+          </CodeBlock>
 
           <p className={styles.quickStartFooter}>
             That's it! You now have a performant, private YouTube embed. 🎉
           </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ComparisonSection() {
-  return (
-    <section className={styles.comparisonSection}>
-      <div className="container">
-        <Heading as="h2" className={styles.sectionTitle}>
-          Performance Comparison
-        </Heading>
-        <div className={styles.comparisonTable}>
-          <table>
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Standard YouTube iframe</th>
-                <th>React Lite YouTube Embed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Initial Load Size</td>
-                <td>~500KB+</td>
-                <td><strong>&lt; 5KB</strong></td>
-              </tr>
-              <tr>
-                <td>Network Requests</td>
-                <td>30+ requests</td>
-                <td><strong>1 request</strong></td>
-              </tr>
-              <tr>
-                <td>Cookies Before Click</td>
-                <td>15+ cookies</td>
-                <td><strong>0 cookies</strong></td>
-              </tr>
-              <tr>
-                <td>Time to Interactive</td>
-                <td>~2-3 seconds</td>
-                <td><strong>&lt; 100ms</strong></td>
-              </tr>
-              <tr>
-                <td>Lighthouse Score Impact</td>
-                <td>-20 to -40 points</td>
-                <td><strong>~0 points</strong></td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </section>
@@ -228,7 +179,6 @@ export default function Home(): ReactNode {
       <main>
         <WhySection />
         <QuickStartSection />
-        <ComparisonSection />
       </main>
     </Layout>
   );

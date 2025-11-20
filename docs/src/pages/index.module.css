@@ -202,6 +202,7 @@
   max-width: 900px;
   margin: 2rem auto;
   overflow-x: auto;
+  padding: 0.5rem;
 }
 
 .comparisonTable table {
@@ -210,7 +211,8 @@
   background: var(--ifm-card-background-color);
   border-radius: 0.5rem;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  table-layout: fixed;
 }
 
 .comparisonTable th {
@@ -221,9 +223,22 @@
   font-weight: 600;
 }
 
+.comparisonTable th:first-child {
+  width: 35%;
+}
+
+.comparisonTable th:nth-child(2) {
+  width: 32.5%;
+}
+
+.comparisonTable th:nth-child(3) {
+  width: 32.5%;
+}
+
 .comparisonTable td {
   padding: 1rem;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  word-wrap: break-word;
 }
 
 .comparisonTable tbody tr:last-child td {

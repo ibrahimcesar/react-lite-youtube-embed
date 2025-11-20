@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'React Lite YouTube Embed',
   tagline: 'Private, performant YouTube embeds for React. Under 5KB gzipped.',
-  favicon: 'img/favicon.ico',
+  favicon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📺</text></svg>',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -48,6 +48,10 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        gtag: {
+          trackingID: 'G-W8FQXVE6F8',
+          anonymizeIP: true,
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -67,7 +71,7 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'docsSidebar',
+          sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Docs',
         },
@@ -100,7 +104,7 @@ const config: Config = {
             },
             {
               label: 'API Reference',
-              to: '/docs/api',
+              to: '/docs/api-reference',
             },
             {
               label: 'Examples',
@@ -114,14 +118,6 @@ const config: Config = {
             {
               label: 'GitHub Issues',
               href: 'https://github.com/ibrahimcesar/react-lite-youtube-embed/issues',
-            },
-            {
-              label: 'GitHub Discussions',
-              href: 'https://github.com/ibrahimcesar/react-lite-youtube-embed/discussions',
-            },
-            {
-              label: 'Contributors',
-              href: 'https://github.com/ibrahimcesar/react-lite-youtube-embed#contributors',
             },
           ],
         },
@@ -143,7 +139,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Ibrahim Cesar. Built with Docusaurus. MIT License.`,
+      copyright: `Copyright © 2021-${new Date().getFullYear()} <a href="https://ibrahimcesar.com" target="_blank" rel="noopener noreferrer">Ibrahim Cesar</a>. Built with <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer">Docusaurus</a>. <a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.`,
     },
     prism: {
       theme: prismThemes.github,
