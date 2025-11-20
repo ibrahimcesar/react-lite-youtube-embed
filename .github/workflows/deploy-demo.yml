@@ -1,4 +1,4 @@
-name: Deploy Demo to GitHub Pages
+name: Deploy Docs to GitHub Pages
 
 on:
   # Trigger on all releases (including pre-releases)
@@ -7,11 +7,14 @@ on:
 
   # Allow manual deployment
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Package version to use in demo (leave empty for latest)'
-        required: false
-        type: string
+
+  # Trigger on pushes to main branch that affect docs
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy-demo.yml'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -26,7 +29,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build Demo
+    name: Build Docs
     runs-on: ubuntu-latest
 
     steps:
@@ -38,13 +41,14 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
 
-      - name: Get version to deploy
+      - name: Get version
         id: version
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Deploying demo with version: $VERSION"
+          echo "Deploying docs for version: $VERSION"
 
       - name: Install library dependencies
         run: npm ci
@@ -54,36 +58,20 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Update demo to use local library
-        working-directory: ./demo
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          echo "Using local react-lite-youtube-embed build (v$VERSION)"
-
-          # Update package.json to use local build
-          npm install ../. --save --package-lock-only
-
-          # Show what was configured
-          echo "Demo package.json updated to use local build"
-
-      - name: Install demo dependencies
-        working-directory: ./demo
+      - name: Install docs dependencies
+        working-directory: ./docs
         run: npm ci
 
-      - name: Build demo
-        working-directory: ./demo
+      - name: Build docs
+        working-directory: ./docs
         env:
           NODE_ENV: production
         run: npm run build
 
-      - name: Add .nojekyll file
-        working-directory: ./demo
-        run: touch out/.nojekyll
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./demo/out
+          path: ./docs/build
 
   deploy:
     name: Deploy to GitHub Pages
@@ -100,9 +88,9 @@ jobs:
 
       - name: Create deployment summary
         run: |
-          echo "## 🚀 Demo Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "## 📚 Documentation Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🔗 Live Demo" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Live Documentation" >> $GITHUB_STEP_SUMMARY
           echo "- **URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ github.event_name }}" == "release" ]; then
