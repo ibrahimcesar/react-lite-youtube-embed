@@ -80,8 +80,8 @@ jobs:
           ES_COLOR=$(get_color $ES_GZIP 10240)  # 10KB limit
 
           # CommonJS
-          CJS_RAW=$(stat -f%z dist/index.js 2>/dev/null || stat -c%s dist/index.js)
-          CJS_GZIP=$(get_gzip_size dist/index.js)
+          CJS_RAW=$(stat -f%z dist/index.cjs 2>/dev/null || stat -c%s dist/index.cjs)
+          CJS_GZIP=$(get_gzip_size dist/index.cjs)
           CJS_RAW_FMT=$(format_bytes $CJS_RAW)
           CJS_GZIP_FMT=$(format_bytes $CJS_GZIP)
           CJS_COLOR=$(get_color $CJS_GZIP 10240)  # 10KB limit

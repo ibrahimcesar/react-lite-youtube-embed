@@ -3,7 +3,7 @@
   "version": "3.3.1",
   "description": "A private by default, faster and cleaner YouTube embed component for React applications",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
@@ -48,7 +48,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.es.js"
     },
     "./dist/LiteYouTubeEmbed.css": "./dist/LiteYouTubeEmbed.css"
@@ -92,7 +92,7 @@
     },
     {
       "name": "CommonJS",
-      "path": "dist/index.js",
+      "path": "dist/index.cjs",
       "limit": "10 KB",
       "gzip": true
     },

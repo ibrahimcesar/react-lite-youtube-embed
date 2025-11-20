@@ -760,6 +760,9 @@ function LiteYouTubeEmbedComponent(
             loading="lazy"
           />
         )}
+        {props.playlist && !iframe && (
+          <div className="lty-playlist-icon" aria-hidden="true"></div>
+        )}
         <button
           type="button"
           className={playerClassImp}
