@@ -66,6 +66,9 @@
   cursor: pointer;
   filter: grayscale(100%);
   opacity: 0.8;
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
 }
 .yt-lite:hover > .lty-playbtn {
   filter: none;
@@ -91,4 +94,30 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Playlist icon overlay */
+.yt-lite > .lty-playlist-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.yt-lite > .lty-playlist-icon::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M4 6h2v12H4V6zm12 0h-2v12h2V6zM8 6h10v12H8V6z" opacity="0.5"/><path d="M10 8h8v8h-8V8z"/></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
