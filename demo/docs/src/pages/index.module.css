@@ -3,21 +3,301 @@
  * and scoped locally.
  */
 
+/* Hero Banner */
 .heroBanner {
-  padding: 4rem 0;
+  padding: 4rem 0 6rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBanner .hero__title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
+.heroBanner .hero__subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+/* Video Demo */
+.videoDemo {
+  margin: 3rem auto;
+  max-width: 900px;
+}
+
+.videoDemoContent {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.videoDemoTitle {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.videoDemoDescription {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.videoWrapper {
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.videoStats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statItem strong {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ffd700;
+}
+
+.statItem span {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Buttons */
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.buttons .button {
+  min-width: 180px;
+}
+
+/* Why Section */
+.whySection {
+  padding: 4rem 0;
+  background: var(--ifm-background-color);
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature h3 {
+  margin-bottom: 1rem;
+  color: var(--ifm-heading-color);
+}
+
+.feature p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--ifm-color-content);
+}
+
+.feature code {
+  background: var(--ifm-code-background);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+/* Quick Start Section */
+.quickStartSection {
+  padding: 4rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.codeExample {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.codeExample h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--ifm-heading-color);
+}
+
+.codeBlock {
+  background: var(--ifm-code-background);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.codeBlock code {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ifm-code-color);
+}
+
+.quickStartFooter {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* Comparison Section */
+.comparisonSection {
+  padding: 4rem 0;
+  background: var(--ifm-background-color);
+}
+
+.comparisonTable {
+  max-width: 900px;
+  margin: 2rem auto;
+  overflow-x: auto;
+}
+
+.comparisonTable table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--ifm-card-background-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comparisonTable th {
+  background: var(--ifm-color-primary);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.comparisonTable td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.comparisonTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comparisonTable tbody tr:hover {
+  background: var(--ifm-hover-overlay);
+}
+
+.comparisonTable strong {
+  color: var(--ifm-color-success);
+  font-weight: 700;
+}
+
+/* Responsive */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 0 4rem;
+  }
+
+  .heroBanner .hero__title {
+    font-size: 2rem;
+  }
+
+  .heroBanner .hero__subtitle {
+    font-size: 1.2rem;
+  }
+
+  .videoDemoTitle {
+    font-size: 1.5rem;
+  }
+
+  .videoStats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .buttons .button {
+    width: 100%;
+  }
+
+  .comparisonTable {
+    font-size: 0.9rem;
+  }
+
+  .comparisonTable th,
+  .comparisonTable td {
+    padding: 0.75rem;
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .heroBanner {
+  background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+}
+
+[data-theme='dark'] .videoDemoContent {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .feature {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-300);
 }
