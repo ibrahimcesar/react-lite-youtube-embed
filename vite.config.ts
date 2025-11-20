@@ -52,7 +52,7 @@ export default defineConfig({
         copyFileSync('LICENSE', 'dist/LICENSE');
 
         // Add banner to output files
-        const files = ['dist/index.es.js', 'dist/index.js'];
+        const files = ['dist/index.es.js', 'dist/index.cjs'];
         files.forEach((file) => {
           let fd;
           try {
@@ -96,7 +96,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
       fileName: (format) => {
         if (format === 'es') return 'index.es.js';
-        if (format === 'cjs') return 'index.js';
+        if (format === 'cjs') return 'index.cjs';
         return `index.${format}.js`;
       },
     },
