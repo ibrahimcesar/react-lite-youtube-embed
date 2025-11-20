@@ -7,6 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/react-lite-youtube-embed)](https://www.npmjs.com/package/react-lite-youtube-embed)
 [![npm downloads](https://img.shields.io/npm/dt/react-lite-youtube-embed)](https://www.npmjs.com/package/react-lite-youtube-embed)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg)](#contributors)
 
 [![ES Module Size](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/size-es.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/size-badges.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ibrahimcesar/react-lite-youtube-embed/main/.github/badges/coverage-tests.json)](https://github.com/ibrahimcesar/react-lite-youtube-embed/actions/workflows/test-badge.yml)
@@ -1038,14 +1039,29 @@ See [LICENSE](LICENSE) for full details.
 - **Paul Irish** ([@paulirish](https://github.com/paulirish)) - Original [Lite YouTube Embed](https://github.com/paulirish/lite-youtube-embed)
 - **Addy Osmani** ([@addyosmani](https://github.com/addyosmani)) - Adaptive Loading concepts
 
+---
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/natesct"><img src="https://avatars.githubusercontent.com/u/natesct?v=4" width="100px;" alt="Nate"/><br /><sub><b>Nate</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/issues?q=author%3Anatesct" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ---
 
