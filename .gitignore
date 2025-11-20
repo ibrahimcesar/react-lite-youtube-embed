@@ -28,5 +28,13 @@ amplify
 out
 .vscode
 
+# Docusaurus
+docs/.docusaurus
+docs/build
+docs/node_modules
+
 # Backup files
 *.backup
+
+.claude
+CLAUDE.md

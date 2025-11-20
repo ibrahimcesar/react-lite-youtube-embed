@@ -1,0 +1,100 @@
+{
+  "projectName": "react-lite-youtube-embed",
+  "projectOwner": "ibrahimcesar",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "natesct",
+      "name": "Nate",
+      "avatar_url": "https://avatars.githubusercontent.com/u/natesct",
+      "profile": "https://github.com/natesct",
+      "contributions": ["bug"]
+    },
+    {
+      "login": "tmcw",
+      "name": "Tom MacWright",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32314?v=4",
+      "profile": "https://macwright.com/",
+      "contributions": ["code"]
+    },
+    {
+      "login": "avaleriani",
+      "name": "Agu Valeriani",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11182223?v=4",
+      "profile": "https://agustinvaleriani.com/",
+      "contributions": ["code"]
+    },
+    {
+      "login": "ibrahimcesar",
+      "name": "Ibrahim Cesar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/509054?v=4",
+      "profile": "https://ibrahimcesar.cloud/",
+      "contributions": ["code"]
+    },
+    {
+      "login": "lachlanjc",
+      "name": "Lachlan Campbell",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5074763?v=4",
+      "profile": "https://lachlanjc.com/",
+      "contributions": ["code"]
+    },
+    {
+      "login": "perbergland",
+      "name": "Per Bergland",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2690254?v=4",
+      "profile": "https://github.com/perbergland",
+      "contributions": ["code"]
+    },
+    {
+      "login": "humet",
+      "name": "Rob Humar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3963951?v=4",
+      "profile": "https://github.com/humet",
+      "contributions": ["code"]
+    },
+    {
+      "login": "afzalsayed96",
+      "name": "Afzal Sayed",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14029371?v=4",
+      "profile": "https://github.com/afzalsayed96",
+      "contributions": ["code"]
+    },
+    {
+      "login": "LichLord91",
+      "name": "LichLord91",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8435580?v=4",
+      "profile": "https://github.com/LichLord91",
+      "contributions": ["code"]
+    },
+    {
+      "login": "FunctionDJ",
+      "name": "FunctionDJ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34871211?v=4",
+      "profile": "https://github.com/FunctionDJ",
+      "contributions": ["code"]
+    },
+    {
+      "login": "theodorusclarence",
+      "name": "Theodorus Clarence",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55318172?v=4",
+      "profile": "https://theodorusclarence.com/",
+      "contributions": ["code"]
+    },
+    {
+      "login": "elbotho",
+      "name": "Botho",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1258870?v=4",
+      "profile": "https://botho.cc/",
+      "contributions": ["code"]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "contributorsSortAlphabetically": true
+}
+
