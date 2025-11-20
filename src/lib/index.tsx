@@ -327,7 +327,9 @@ function LiteYouTubeEmbedComponent(
       ...(props.muted ? { mute: "1" } : {}),
       ...(shouldAddAutoplayParam ? { autoplay: "1" } : {}),
       ...(props.enableJsApi ? { enablejsapi: "1" } : {}),
-      ...(props.enableJsApi && typeof window !== 'undefined' ? { origin: window.location.origin } : {}),
+      ...(props.enableJsApi && typeof window !== "undefined"
+        ? { origin: window.location.origin }
+        : {}),
       ...(props.playlist ? { list: videoId } : {}),
     });
 
@@ -757,6 +759,9 @@ function LiteYouTubeEmbedComponent(
             className="lty-thumbnail"
             loading="lazy"
           />
+        )}
+        {props.playlist && !iframe && (
+          <div className="lty-playlist-icon" aria-hidden="true"></div>
         )}
         <button
           type="button"
