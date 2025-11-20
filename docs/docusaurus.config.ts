@@ -42,7 +42,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: 'docs',
           editUrl:
-            'https://github.com/ibrahimcesar/react-lite-youtube-embed/tree/main/demo/docs/',
+            'https://github.com/ibrahimcesar/react-lite-youtube-embed/tree/main/docs/',
         },
         blog: false, // Disable blog
         theme: {

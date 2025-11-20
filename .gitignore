@@ -27,3 +27,8 @@ amplify
 .next
 out
 .vscode
+
+# Docusaurus
+docs/.docusaurus
+docs/build
+docs/node_modules
