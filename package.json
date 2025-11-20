@@ -23,7 +23,8 @@
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
     "size": "size-limit",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "contributors:add-historical": "node scripts/add-historical-contributors.cjs"
   },
   "repository": {
     "type": "git",
