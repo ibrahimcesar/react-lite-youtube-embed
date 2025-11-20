@@ -187,42 +187,6 @@ See [LICENSE](LICENSE) for full details.
 
 ---
 
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/afzalsayed96"><img src="https://avatars.githubusercontent.com/u/14029371?v=4?s=100" width="100px;" alt="Afzal Sayed"/><br /><sub><b>Afzal Sayed</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=afzalsayed96" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://agustinvaleriani.com/"><img src="https://avatars.githubusercontent.com/u/11182223?v=4?s=100" width="100px;" alt="Agu Valeriani"/><br /><sub><b>Agu Valeriani</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=avaleriani" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://botho.cc/"><img src="https://avatars.githubusercontent.com/u/1258870?v=4?s=100" width="100px;" alt="Botho"/><br /><sub><b>Botho</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=elbotho" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/FunctionDJ"><img src="https://avatars.githubusercontent.com/u/34871211?v=4?s=100" width="100px;" alt="FunctionDJ"/><br /><sub><b>FunctionDJ</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=FunctionDJ" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://ibrahimcesar.cloud/"><img src="https://avatars.githubusercontent.com/u/509054?v=4?s=100" width="100px;" alt="Ibrahim Cesar"/><br /><sub><b>Ibrahim Cesar</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=ibrahimcesar" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://lachlanjc.com/"><img src="https://avatars.githubusercontent.com/u/5074763?v=4?s=100" width="100px;" alt="Lachlan Campbell"/><br /><sub><b>Lachlan Campbell</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=lachlanjc" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/LichLord91"><img src="https://avatars.githubusercontent.com/u/8435580?v=4?s=100" width="100px;" alt="LichLord91"/><br /><sub><b>LichLord91</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=LichLord91" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/perbergland"><img src="https://avatars.githubusercontent.com/u/2690254?v=4?s=100" width="100px;" alt="Per Bergland"/><br /><sub><b>Per Bergland</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=perbergland" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/humet"><img src="https://avatars.githubusercontent.com/u/3963951?v=4?s=100" width="100px;" alt="Rob Humar"/><br /><sub><b>Rob Humar</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=humet" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://theodorusclarence.com/"><img src="https://avatars.githubusercontent.com/u/55318172?v=4?s=100" width="100px;" alt="Theodorus Clarence"/><br /><sub><b>Theodorus Clarence</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=theodorusclarence" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://macwright.com/"><img src="https://avatars.githubusercontent.com/u/32314?v=4?s=100" width="100px;" alt="Tom MacWright"/><br /><sub><b>Tom MacWright</b></sub></a><br /><a href="https://github.com/ibrahimcesar/react-lite-youtube-embed/commits?author=tmcw" title="Code">💻</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
----
-
 ## Resources
 
 - [📚 Full Documentation](https://ibrahimcesar.github.io/react-lite-youtube-embed)
