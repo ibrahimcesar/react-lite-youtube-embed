@@ -2,6 +2,29 @@
 
 This project recognizes **all types of contributions**, not just code! We follow the [all-contributors](https://allcontributors.org/) specification.
 
+## Quick Start: Add All Historical Contributors
+
+If you're setting this up for the first time and want to add everyone who has contributed code:
+
+```bash
+# Basic usage (detects GitHub usernames from commit emails)
+npm run contributors:add-historical
+
+# With GitHub API token for better detection
+GITHUB_TOKEN=ghp_your_token_here npm run contributors:add-historical
+```
+
+This script will:
+- ✅ Parse git history to find all committers
+- ✅ Extract GitHub usernames from email addresses
+- ✅ Add everyone as code contributors
+- ✅ Update README automatically
+- ℹ️ List contributors that need manual addition
+
+**Get a GitHub token:** [Create Personal Access Token](https://github.com/settings/tokens/new) (no scopes needed, just public access)
+
+---
+
 ## How to Add Contributors
 
 ### Option 1: GitHub Actions (Recommended)
