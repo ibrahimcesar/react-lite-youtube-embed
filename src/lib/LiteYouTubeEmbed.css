@@ -6,6 +6,7 @@
   background-position: 50%;
   background-size: cover;
   cursor: pointer;
+  aspect-ratio: 16 / 9;
 }
 
 .yt-lite.lyt-activated::before {
@@ -22,10 +23,18 @@
   width: 100%;
   transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
+/* Fallback for browsers without aspect-ratio support */
 .yt-lite::after {
   content: "";
   display: block;
   padding-bottom: var(--aspect-ratio, 56.25%);
+}
+
+/* Modern browsers: aspect-ratio takes precedence, hide the padding hack */
+@supports (aspect-ratio: 16 / 9) {
+  .yt-lite::after {
+    display: none;
+  }
 }
 .yt-lite > iframe {
   width: 100%;
