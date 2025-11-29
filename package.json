@@ -21,10 +21,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
     "type-check": "tsc --noEmit",
     "ci": "npm run lint && npm run type-check && npm run test && npm run build",
-    "size": "size-limit",
-    "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate",
-    "contributors:add-historical": "node scripts/add-historical-contributors.cjs"
+    "size": "size-limit"
   },
   "repository": {
     "type": "git",
@@ -72,7 +69,6 @@
     "@typescript-eslint/parser": "^8.46.4",
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/coverage-v8": "^3.2.4",
-    "all-contributors-cli": "^6.26.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
