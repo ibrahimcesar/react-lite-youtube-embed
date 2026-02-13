@@ -328,6 +328,7 @@ The `noCookie` prop is deprecated. Use `cookie` prop instead.
   title="Video"
   wrapperClass="custom-wrapper"
 />
+```
 
 #### `hideButtonOnActivate`
 
@@ -341,7 +342,6 @@ The `noCookie` prop is deprecated. Use `cookie` prop instead.
   title="Video"
   hideButtonOnActivate={true}
 />
-
 ```
 
 ---
