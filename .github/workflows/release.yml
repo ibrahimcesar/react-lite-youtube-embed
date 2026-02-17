@@ -83,28 +83,11 @@ jobs:
           name: dist
           path: dist/
 
-      - name: Publish to NPM (scoped package)
+      - name: Publish to NPM
         run: |
-          # Publish scoped package (@ibrahimcesar/react-lite-youtube-embed)
           # Auth is handled via OIDC (Trusted Publishers) — no token needed
-          echo "Publishing scoped package: @ibrahimcesar/react-lite-youtube-embed"
+          echo "Publishing package: react-lite-youtube-embed"
           npm publish --provenance --access public
-
-      - name: Publish to NPM (unscoped package)
-        run: |
-          # Backup original package.json
-          cp package.json package.json.backup
-
-          # Modify package.json to use unscoped name
-          node -e "const pkg = require('./package.json'); pkg.name = 'react-lite-youtube-embed'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
-
-          # Publish unscoped package (react-lite-youtube-embed)
-          # Auth is handled via OIDC (Trusted Publishers) — no token needed
-          echo "Publishing unscoped package: react-lite-youtube-embed"
-          npm publish --provenance --access public
-
-          # Restore original package.json
-          mv package.json.backup package.json
 
   publish-github:
     name: Publish on GitHub Packages
