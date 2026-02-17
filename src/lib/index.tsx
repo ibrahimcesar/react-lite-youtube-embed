@@ -740,7 +740,7 @@ function LiteYouTubeEmbedComponent(
         onClick={addIframe}
         className={`${wrapperClassImp} ${iframe ? activatedClassImp : ""}`}
         data-title={videoTitle}
-        role={!iframe ? "img" : undefined}
+        role={!iframe && !props.lazyLoad ? "img" : undefined}
         aria-label={
           !iframe ? `${videoTitle} - YouTube video preview` : undefined
         }
