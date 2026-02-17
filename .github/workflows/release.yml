@@ -65,7 +65,7 @@ jobs:
     needs: test
     permissions:
       contents: read
-      id-token: write  # Required for NPM provenance
+      id-token: write  # Required for NPM Trusted Publishers (OIDC) and provenance
 
     steps:
       - name: Checkout repository
@@ -85,22 +85,13 @@ jobs:
 
       - name: Publish to NPM (scoped package)
         run: |
-          # Configure npm for public registry
-          npm config set registry https://registry.npmjs.org
-          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-
           # Publish scoped package (@ibrahimcesar/react-lite-youtube-embed)
+          # Auth is handled via OIDC (Trusted Publishers) — no token needed
           echo "Publishing scoped package: @ibrahimcesar/react-lite-youtube-embed"
-          npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          npm publish --provenance --access public
 
       - name: Publish to NPM (unscoped package)
         run: |
-          # Configure npm for public registry
-          npm config set registry https://registry.npmjs.org
-          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-
           # Backup original package.json
           cp package.json package.json.backup
 
@@ -108,13 +99,12 @@ jobs:
           node -e "const pkg = require('./package.json'); pkg.name = 'react-lite-youtube-embed'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
 
           # Publish unscoped package (react-lite-youtube-embed)
+          # Auth is handled via OIDC (Trusted Publishers) — no token needed
           echo "Publishing unscoped package: react-lite-youtube-embed"
-          npm publish --provenance
+          npm publish --provenance --access public
 
           # Restore original package.json
           mv package.json.backup package.json
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-github:
     name: Publish on GitHub Packages

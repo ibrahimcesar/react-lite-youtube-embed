@@ -242,26 +242,17 @@ jobs:
 
       - name: Publish to NPM (scoped package)
         run: |
-          # Configure npm for public registry
-          npm config set registry https://registry.npmjs.org
-          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-
           # Publish scoped package (@ibrahimcesar/react-lite-youtube-embed)
+          # Auth is handled via OIDC (Trusted Publishers) — no token needed
           echo "Publishing scoped package: @ibrahimcesar/react-lite-youtube-embed"
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --provenance
+            npm publish --tag beta --provenance --access public
           else
-            npm publish --provenance
+            npm publish --provenance --access public
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to NPM (unscoped package)
         run: |
-          # Configure npm for public registry
-          npm config set registry https://registry.npmjs.org
-          npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
-
           # Backup original package.json
           cp package.json package.json.backup
 
@@ -269,17 +260,16 @@ jobs:
           node -e "const pkg = require('./package.json'); pkg.name = 'react-lite-youtube-embed'; require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
 
           # Publish unscoped package (react-lite-youtube-embed)
+          # Auth is handled via OIDC (Trusted Publishers) — no token needed
           echo "Publishing unscoped package: react-lite-youtube-embed"
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --provenance
+            npm publish --tag beta --provenance --access public
           else
-            npm publish --provenance
+            npm publish --provenance --access public
           fi
 
           # Restore original package.json
           mv package.json.backup package.json
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v6
