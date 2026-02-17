@@ -330,6 +330,20 @@ The `noCookie` prop is deprecated. Use `cookie` prop instead.
 />
 ```
 
+#### `hideButtonOnActivate`
+
+- **Type:** `boolean`
+- **Default:** `false`
+- **Description:** Hide play button after video is activated (iframe loaded)
+
+```tsx
+<LiteYouTubeEmbed
+  id="VIDEO_ID"
+  title="Video"
+  hideButtonOnActivate={true}
+/>
+```
+
 ---
 
 ## SEOData Type

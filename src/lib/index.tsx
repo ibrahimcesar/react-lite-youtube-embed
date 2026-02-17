@@ -273,6 +273,11 @@ export interface LiteYouTubeProps {
    * }}
    */
   onPlaybackQualityChange?: (quality: string) => void;
+  /**
+   * Remove the play button element after the video is activated (iframe is added).
+   * @default false
+   */
+  hideButtonOnActivate?: boolean;
 }
 
 /**
@@ -763,16 +768,18 @@ function LiteYouTubeEmbedComponent(
         {props.playlist && !iframe && (
           <div className="lty-playlist-icon" aria-hidden="true"></div>
         )}
-        <button
-          type="button"
-          className={playerClassImp}
-          aria-label={`${announceWatch} ${videoTitle}`}
-          aria-hidden={iframe || undefined}
-          tabIndex={iframe ? -1 : 0}
-          onClick={addIframe}
-        >
-          <span className="lty-visually-hidden">{announceWatch}</span>
-        </button>
+        {!(props.hideButtonOnActivate && iframe) && (
+          <button
+            type="button"
+            className={playerClassImp}
+            aria-label={`${announceWatch} ${videoTitle}`}
+            aria-hidden={iframe || undefined}
+            tabIndex={iframe ? -1 : 0}
+            onClick={addIframe}
+          >
+            <span className="lty-visually-hidden">{announceWatch}</span>
+          </button>
+        )}
         {iframe && (
           <iframe
             ref={ref}

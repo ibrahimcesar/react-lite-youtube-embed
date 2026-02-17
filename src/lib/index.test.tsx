@@ -357,6 +357,25 @@ describe("LiteYouTubeEmbed", () => {
     expect(ref.current!.tagName).toBe("IFRAME");
   });
 
+  test("hides play button after activation when hideButtonOnActivate is true", () => {
+    render(<LiteYouTubeEmbed {...defaultProps} hideButtonOnActivate />);
+
+    // Button exists initially
+    const playButton = screen.getByRole("button");
+    expect(playButton).toBeInTheDocument();
+
+    // Click to activate
+    fireEvent.click(playButton);
+
+    // Button should be removed
+    const removedButton = screen.queryByRole("button");
+    expect(removedButton).not.toBeInTheDocument();
+
+    // Iframe should be present
+    const iframe = screen.getByTitle(defaultProps.title);
+    expect(iframe).toBeInTheDocument();
+  });
+
   describe("Lazy loading", () => {
     test("renders with background-image by default (no lazy loading)", () => {
       const { container } = render(<LiteYouTubeEmbed {...defaultProps} />);
