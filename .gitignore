@@ -39,5 +39,3 @@ docs/node_modules
 .claude
 CLAUDE.md
 .vscode/branch-timer.json
-
-dist/*

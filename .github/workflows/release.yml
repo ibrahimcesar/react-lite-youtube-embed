@@ -84,10 +84,9 @@ jobs:
           path: dist/
 
       - name: Publish to NPM
-        run: |
-          # Auth is handled via OIDC (Trusted Publishers) — no token needed
-          echo "Publishing package: react-lite-youtube-embed"
-          npm publish --provenance --access public
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-github:
     name: Publish on GitHub Packages

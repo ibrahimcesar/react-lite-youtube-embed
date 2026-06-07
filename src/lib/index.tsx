@@ -138,7 +138,7 @@ export interface LiteYouTubeProps {
   cookie?: boolean;
   enableJsApi?: boolean;
   alwaysLoadIframe?: boolean;
-  params?: string;
+  params?: string | Record<string, string | number>;
   playerClass?: string;
   playlist?: boolean;
   playlistCoverId?: string;
@@ -312,7 +312,9 @@ function LiteYouTubeEmbedComponent(
   ref: React.Ref<HTMLIFrameElement>
 ) {
   const [preconnected, setPreconnected] = React.useState(false);
-  const [iframe, setIframe] = React.useState(props.alwaysLoadIframe || false);
+  const [iframe, setIframe] = React.useState(
+    props.alwaysLoadIframe || props.autoplay || false
+  );
   const videoId = encodeURIComponent(props.id);
   const videoPlaylistCoverId =
     typeof props.playlistCoverId === "string"
@@ -322,9 +324,13 @@ function LiteYouTubeEmbedComponent(
   const posterImp = props.poster || "hqdefault";
   const announceWatch = props.announce || "Watch";
 
-  const shouldAddAutoplayParam = props.alwaysLoadIframe
-    ? props.autoplay && props.muted
-    : true; // When the iframe is not loaded immediately, the video should play as soon as its loaded (which happens when the button is clicked)
+  // When iframe loads immediately (alwaysLoadIframe or autoplay), only add autoplay=1
+  // if autoplay is explicitly requested AND muted (browser autoplay policy requires muted for unmuted autoplay).
+  // When user clicks the thumbnail, the click is a user gesture so autoplay=1 always works.
+  const shouldAddAutoplayParam =
+    props.alwaysLoadIframe || props.autoplay
+      ? props.autoplay && props.muted
+      : true;
 
   // Iframe Parameters - memoized to avoid recreating URLSearchParams on every render
   const iframeParams = React.useMemo(() => {
@@ -338,14 +344,19 @@ function LiteYouTubeEmbedComponent(
       ...(props.playlist ? { list: videoId } : {}),
     });
 
-    // parse props.params into individual search parameters and append them to params
     if (props.params) {
-      const additionalParams = new URLSearchParams(
-        props.params.startsWith("&") ? props.params.slice(1) : props.params
-      );
-      additionalParams.forEach((value, key) => {
-        params.append(key, value);
-      });
+      if (typeof props.params === "string") {
+        const additionalParams = new URLSearchParams(
+          props.params.startsWith("&") ? props.params.slice(1) : props.params
+        );
+        additionalParams.forEach((value, key) => {
+          params.append(key, value);
+        });
+      } else {
+        Object.entries(props.params).forEach(([key, value]) => {
+          params.append(key, String(value));
+        });
+      }
     }
 
     return params;
