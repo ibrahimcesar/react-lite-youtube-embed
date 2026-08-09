@@ -27,6 +27,7 @@ jobs:
       contents: write
       pull-requests: read
       packages: write
+      actions: write  # Required to dispatch release.yml for the NPM publish
       id-token: write  # Required for SLSA provenance
       attestations: write  # Required for build attestations
 
@@ -240,22 +241,39 @@ jobs:
               --notes-file CHANGELOG.md
           fi
 
-      - name: Publish to NPM
+      - name: Publish to NPM (via release.yml)
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Token auth, same as release.yml. OIDC (Trusted Publishers) failed with
-          # E404 on the v3.6.1 and v3.6.2 releases — no Trusted Publisher is
-          # configured on npmjs.com for this workflow. If one is added
-          # (Settings → Trusted Publisher, workflow: auto-release.yml), the
-          # NODE_AUTH_TOKEN env above can be removed.
-          npm install -g npm@latest
-          echo "Publishing package: react-lite-youtube-embed"
+          # All NPM publishing goes through release.yml — the workflow registered
+          # as the npm Trusted Publisher (OIDC). Main already has the version
+          # bump commit pushed above, so the dispatched run publishes it.
+          # (workflow_dispatch is one of the two events GITHUB_TOKEN may trigger.)
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --provenance --access public
+            NPM_TAG="beta"
           else
-            npm publish --provenance --access public
+            NPM_TAG="latest"
           fi
+
+          DISPATCHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run release.yml --ref main -f npm_tag="$NPM_TAG"
+
+          # Find the run we just dispatched and wait for it, so this release
+          # fails loudly if the publish fails.
+          RUN_ID=""
+          for _ in $(seq 1 12); do
+            sleep 5
+            RUN_ID=$(gh run list --workflow=release.yml \
+              --created ">=$DISPATCHED_AT" --limit 1 \
+              --json databaseId --jq '.[0].databaseId // empty')
+            [ -n "$RUN_ID" ] && break
+          done
+          if [ -z "$RUN_ID" ]; then
+            echo "::error::release.yml run did not start"
+            exit 1
+          fi
+          echo "Waiting on release.yml run $RUN_ID"
+          gh run watch "$RUN_ID" --exit-status
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v6

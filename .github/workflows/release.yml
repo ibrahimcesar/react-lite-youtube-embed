@@ -3,6 +3,15 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: 'npm dist-tag to publish with'
+        required: false
+        default: 'latest'
+        type: choice
+        options:
+          - latest
+          - beta
 
 jobs:
   tag:
@@ -84,7 +93,17 @@ jobs:
           path: dist/
 
       - name: Publish to NPM
-        run: npm publish --provenance --access public
+        run: |
+          # This workflow is the npm Trusted Publisher (OIDC) for the package.
+          # The OIDC exchange needs npm >= 11.5.1; Node 22 bundles npm 10.
+          npm install -g npm@latest
+          if [ "${{ inputs.npm_tag }}" == "beta" ]; then
+            npm publish --tag beta --provenance --access public
+          else
+            npm publish --provenance --access public
+          fi
         env:
+          # Fallback auth; OIDC takes precedence when the Trusted Publisher is
+          # configured on npmjs.com. Remove once an OIDC publish has succeeded.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
