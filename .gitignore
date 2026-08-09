@@ -38,4 +38,7 @@ docs/node_modules
 
 .claude
 CLAUDE.md
-.vscode/branch-timer.jsondist/
+.vscode/branch-timer.json
+
+# Build output
+dist/
