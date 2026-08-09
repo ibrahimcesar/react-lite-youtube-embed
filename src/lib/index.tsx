@@ -604,14 +604,29 @@ function LiteYouTubeEmbedComponent(
           }
           break;
 
-        case "onError":
-          if (data.info && "errorCode" in data.info) {
-            const errorCode = (data.info as { errorCode: number }).errorCode;
-            if (props.onError) {
-              props.onError(errorCode as PlayerError);
+        case "onError": {
+          // YouTube's postMessage protocol sends the error code as a bare
+          // number (or numeric string) in `info`, e.g. {"event":"onError","info":150}
+          const rawInfo: unknown = data.info;
+          let errorCode: number | undefined;
+          if (typeof rawInfo === "number" || typeof rawInfo === "string") {
+            const code = Number(rawInfo);
+            if (!Number.isNaN(code)) {
+              errorCode = code;
             }
+          } else if (
+            rawInfo !== null &&
+            typeof rawInfo === "object" &&
+            "errorCode" in rawInfo &&
+            typeof (rawInfo as { errorCode: unknown }).errorCode === "number"
+          ) {
+            errorCode = (rawInfo as { errorCode: number }).errorCode;
+          }
+          if (errorCode !== undefined && props.onError) {
+            props.onError(errorCode as PlayerError);
           }
           break;
+        }
 
         case "onPlaybackRateChange":
           if (data.info?.playbackRate !== undefined) {
