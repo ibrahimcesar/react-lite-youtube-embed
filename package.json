@@ -3,6 +3,9 @@
   "version": "3.6.1",
   "description": "A private by default, faster and cleaner YouTube embed component for React applications",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
