@@ -242,7 +242,10 @@ jobs:
 
       - name: Publish to NPM
         run: |
-          # Auth is handled via OIDC (Trusted Publishers) — no token needed
+          # Auth is handled via OIDC (Trusted Publishers) — no token needed.
+          # Trusted Publishing requires npm >= 11.5.1, but Node 22 bundles npm 10,
+          # which skips the OIDC exchange and fails the publish with E404.
+          npm install -g npm@latest
           echo "Publishing package: react-lite-youtube-embed"
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             npm publish --tag beta --provenance --access public
