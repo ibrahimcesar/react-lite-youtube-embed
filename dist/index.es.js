@@ -9,103 +9,103 @@
 *
 *  Author site: https://ibrahimcesar.cloud
 */
-import { jsxs as w, Fragment as D, jsx as i } from "react/jsx-runtime";
-import * as l from "react";
-import { useState as G, useEffect as z } from "react";
-const q = {
+import { jsxs as w, Fragment as D, jsx as c } from "react/jsx-runtime";
+import * as d from "react";
+import { useState as q, useEffect as K } from "react";
+const X = {
   default: 120,
   mqdefault: 320,
   hqdefault: 480,
   sddefault: 640,
   maxresdefault: 1280
-}, K = (e, t, u, s = "maxresdefault") => {
-  const [a, r] = G("");
-  return z(() => {
-    const o = `https://img.youtube.com/${t}/${e}/${s}.${u}`, y = `https://img.youtube.com/${t}/${e}/hqdefault.${u}`, c = q[s], d = new Image();
-    d.onload = () => {
-      d.width < c ? r(y) : r(o);
-    }, d.onerror = () => r(y), d.src = o;
-  }, [e, t, u, s]), a;
+}, Z = (e, t, s, r = "maxresdefault") => {
+  const [a, m] = q("");
+  return K(() => {
+    const l = `https://img.youtube.com/${t}/${e}/${r}.${s}`, b = `https://img.youtube.com/${t}/${e}/hqdefault.${s}`, o = X[r], u = new Image();
+    u.onload = () => {
+      u.width < o ? m(b) : m(l);
+    }, u.onerror = () => m(b), u.src = l;
+  }, [e, t, s, r]), a;
 };
-var X = /* @__PURE__ */ ((e) => (e[e.UNSTARTED = -1] = "UNSTARTED", e[e.ENDED = 0] = "ENDED", e[e.PLAYING = 1] = "PLAYING", e[e.PAUSED = 2] = "PAUSED", e[e.BUFFERING = 3] = "BUFFERING", e[e.CUED = 5] = "CUED", e))(X || {}), Z = /* @__PURE__ */ ((e) => (e[e.INVALID_PARAM = 2] = "INVALID_PARAM", e[e.HTML5_ERROR = 5] = "HTML5_ERROR", e[e.VIDEO_NOT_FOUND = 100] = "VIDEO_NOT_FOUND", e[e.NOT_EMBEDDABLE = 101] = "NOT_EMBEDDABLE", e[e.NOT_EMBEDDABLE_DISGUISED = 150] = "NOT_EMBEDDABLE_DISGUISED", e))(Z || {});
-function p(e, t, u, s, a) {
-  const r = {
+var p = /* @__PURE__ */ ((e) => (e[e.UNSTARTED = -1] = "UNSTARTED", e[e.ENDED = 0] = "ENDED", e[e.PLAYING = 1] = "PLAYING", e[e.PAUSED = 2] = "PAUSED", e[e.BUFFERING = 3] = "BUFFERING", e[e.CUED = 5] = "CUED", e))(p || {}), ee = /* @__PURE__ */ ((e) => (e[e.INVALID_PARAM = 2] = "INVALID_PARAM", e[e.HTML5_ERROR = 5] = "HTML5_ERROR", e[e.VIDEO_NOT_FOUND = 100] = "VIDEO_NOT_FOUND", e[e.NOT_EMBEDDABLE = 101] = "NOT_EMBEDDABLE", e[e.NOT_EMBEDDABLE_DISGUISED = 150] = "NOT_EMBEDDABLE_DISGUISED", e))(ee || {});
+function te(e, t, s, r, a) {
+  const m = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: a?.name || t,
-    thumbnailUrl: [a?.thumbnailUrl || u],
-    embedUrl: a?.embedUrl || `${s}/embed/${e}`,
+    thumbnailUrl: [a?.thumbnailUrl || s],
+    embedUrl: a?.embedUrl || `${r}/embed/${e}`,
     contentUrl: a?.contentUrl || `https://www.youtube.com/watch?v=${e}`,
     ...a?.description && { description: a.description },
     ...a?.uploadDate && { uploadDate: a.uploadDate },
     ...a?.duration && { duration: a.duration }
   };
-  return JSON.stringify(r);
+  return JSON.stringify(m);
 }
-function ee(e, t) {
-  const [u, s] = l.useState(!1), [a, r] = l.useState(
+function ae(e, t) {
+  const [s, r] = d.useState(!1), [a, m] = d.useState(
     e.alwaysLoadIframe || e.autoplay || !1
-  ), o = encodeURIComponent(e.id), y = typeof e.playlistCoverId == "string" ? encodeURIComponent(e.playlistCoverId) : null, c = e.title, d = e.poster || "hqdefault", $ = e.announce || "Watch", U = e.alwaysLoadIframe || e.autoplay ? e.autoplay && e.muted : !0, v = l.useMemo(() => {
+  ), l = encodeURIComponent(e.id), b = typeof e.playlistCoverId == "string" ? encodeURIComponent(e.playlistCoverId) : null, o = e.title, u = e.poster || "hqdefault", U = e.announce || "Watch", A = e.alwaysLoadIframe || e.autoplay ? e.autoplay && e.muted : !0, I = d.useMemo(() => {
     const E = new URLSearchParams({
       ...e.muted ? { mute: "1" } : {},
-      ...U ? { autoplay: "1" } : {},
+      ...A ? { autoplay: "1" } : {},
       ...e.enableJsApi ? { enablejsapi: "1" } : {},
       ...e.enableJsApi && typeof window < "u" ? { origin: window.location.origin } : {},
-      ...e.playlist ? { list: o } : {}
+      ...e.playlist ? { list: l } : {}
     });
     return e.params && (typeof e.params == "string" ? new URLSearchParams(
       e.params.startsWith("&") ? e.params.slice(1) : e.params
-    ).forEach((h, C) => {
-      E.append(C, h);
-    }) : Object.entries(e.params).forEach(([g, h]) => {
-      E.append(g, String(h));
+    ).forEach((y, C) => {
+      E.append(C, y);
+    }) : Object.entries(e.params).forEach(([g, y]) => {
+      E.append(g, String(y));
     })), E;
   }, [
     e.muted,
-    U,
+    A,
     e.enableJsApi,
     e.playlist,
-    o,
+    l,
     e.params
-  ]), b = l.useMemo(
+  ]), h = d.useMemo(
     () => e.cookie ? "https://www.youtube.com" : "https://www.youtube-nocookie.com",
     [e.cookie]
-  ), M = l.useMemo(
-    () => e.playlist ? `${b}/embed/videoseries?${v.toString()}` : `${b}/embed/${o}?${v.toString()}`,
-    [e.playlist, b, o, v]
-  ), _ = !e.thumbnail && !e.playlist && d === "maxresdefault", I = e.webp ? "webp" : "jpg", R = e.webp ? "vi_webp" : "vi", A = _ ? K(e.id, R, I, d) : null, k = l.useMemo(
-    () => e.thumbnail || A || `https://i.ytimg.com/${R}/${e.playlist ? y : o}/${d}.${I}`,
+  ), B = d.useMemo(
+    () => e.playlist ? `${h}/embed/videoseries?${I.toString()}` : `${h}/embed/${l}?${I.toString()}`,
+    [e.playlist, h, l, I]
+  ), P = !e.thumbnail && !e.playlist && u === "maxresdefault", N = e.webp ? "webp" : "jpg", R = e.webp ? "vi_webp" : "vi", O = P ? Z(e.id, R, N, u) : null, k = d.useMemo(
+    () => e.thumbnail || O || `https://i.ytimg.com/${R}/${e.playlist ? b : l}/${u}.${N}`,
     [
       e.thumbnail,
-      A,
+      O,
       R,
       e.playlist,
-      y,
-      o,
-      d,
-      I
+      b,
+      l,
+      u,
+      N
     ]
-  ), B = e.activatedClass || "lyt-activated", P = e.adNetwork || !1, W = e.aspectHeight || 9, j = e.aspectWidth || 16, x = e.iframeClass || "", F = e.playerClass || "lty-playbtn", Q = e.wrapperClass || "yt-lite", O = l.useCallback(
+  ), W = e.activatedClass || "lyt-activated", j = e.adNetwork || !1, x = e.aspectHeight || 9, F = e.aspectWidth || 16, Q = e.iframeClass || "", V = e.playerClass || "lty-playbtn", Y = e.wrapperClass || "yt-lite", S = d.useCallback(
     e.onIframeAdded || function() {
     },
     [e.onIframeAdded]
-  ), V = e.rel ? "prefetch" : "preload", Y = e.containerElement || "article", H = e.noscriptFallback !== !1, J = () => {
-    u || s(!0);
-  }, S = () => {
-    a || r(!0);
+  ), H = e.rel ? "prefetch" : "preload", J = e.containerElement || "article", G = e.noscriptFallback !== !1, z = () => {
+    s || r(!0);
+  }, M = () => {
+    a || m(!0);
   };
-  return l.useEffect(() => {
-    a && (O(), e.focusOnLoad && typeof t == "object" && t?.current && t.current.focus());
-  }, [a, O, e.focusOnLoad, t]), l.useEffect(() => {
+  return d.useEffect(() => {
+    a && (S(), e.focusOnLoad && typeof t == "object" && t?.current && t.current.focus());
+  }, [a, S, e.focusOnLoad, t]), d.useEffect(() => {
     if (!a || !e.enableJsApi || !(e.onReady || e.onStateChange || e.onError || e.onPlay || e.onPause || e.onEnd || e.onBuffering || e.onPlaybackRateChange || e.onPlaybackQualityChange))
       return;
-    let g = !1, h = !1;
-    const C = (m) => {
-      if (m.origin !== "https://www.youtube.com" && m.origin !== "https://www.youtube-nocookie.com")
+    let g = !1, y = !1;
+    const C = (f) => {
+      if (f.origin !== "https://www.youtube.com" && f.origin !== "https://www.youtube-nocookie.com")
         return;
       let n;
       try {
-        n = typeof m.data == "string" ? JSON.parse(m.data) : m.data;
+        n = typeof f.data == "string" ? JSON.parse(f.data) : f.data;
       } catch {
         return;
       }
@@ -113,17 +113,17 @@ function ee(e, t) {
         case "onReady":
           g || (g = !0, e.onReady && e.onReady({
             videoId: e.id,
-            title: c
+            title: o
           }));
           break;
         case "infoDelivery":
           if (n.info?.playerState !== void 0) {
-            const f = n.info.playerState;
+            const i = n.info.playerState;
             switch (e.onStateChange && e.onStateChange({
-              state: f,
+              state: i,
               currentTime: n.info.currentTime,
               duration: n.info.duration
-            }), f) {
+            }), i) {
               case 1:
                 e.onPlay?.();
                 break;
@@ -145,12 +145,12 @@ function ee(e, t) {
           break;
         case "onStateChange":
           if (n.info?.playerState !== void 0) {
-            const f = n.info.playerState;
+            const i = n.info.playerState;
             switch (e.onStateChange && e.onStateChange({
-              state: f,
+              state: i,
               currentTime: n.info.currentTime,
               duration: n.info.duration
-            }), f) {
+            }), i) {
               case 1:
                 e.onPlay?.();
                 break;
@@ -169,12 +169,16 @@ function ee(e, t) {
             }
           }
           break;
-        case "onError":
-          if (n.info && "errorCode" in n.info) {
-            const f = n.info.errorCode;
-            e.onError && e.onError(f);
-          }
+        case "onError": {
+          const i = n.info;
+          let v;
+          if (typeof i == "number" || typeof i == "string") {
+            const _ = Number(i);
+            Number.isNaN(_) || (v = _);
+          } else i !== null && typeof i == "object" && "errorCode" in i && typeof i.errorCode == "number" && (v = i.errorCode);
+          v !== void 0 && e.onError && e.onError(v);
           break;
+        }
         case "onPlaybackRateChange":
           n.info?.playbackRate !== void 0 && e.onPlaybackRateChange?.(n.info.playbackRate);
           break;
@@ -184,22 +188,22 @@ function ee(e, t) {
       }
     };
     window.addEventListener("message", C);
-    const L = [], N = () => {
+    const L = [], T = () => {
       typeof t == "object" && t?.current?.contentWindow && t.current.contentWindow.postMessage(
-        '{"event":"listening","id":"' + o + '"}',
+        '{"event":"listening","id":"' + l + '"}',
         "*"
       );
-    }, T = () => {
-      if (h)
+    }, $ = () => {
+      if (y)
         return;
-      h = !0, N(), [100, 300, 600, 1200, 2400].forEach((n) => {
-        L.push(setTimeout(N, n));
+      y = !0, T(), [100, 300, 600, 1200, 2400].forEach((n) => {
+        L.push(setTimeout(T, n));
       });
     };
-    return typeof t == "object" && t?.current ? (t.current.addEventListener("load", T), t.current.contentDocument?.readyState === "complete" && T()) : [200, 500, 1e3, 2e3, 3e3].forEach((n) => {
-      L.push(setTimeout(N, n));
+    return typeof t == "object" && t?.current ? (t.current.addEventListener("load", $), t.current.contentDocument?.readyState === "complete" && $()) : [200, 500, 1e3, 2e3, 3e3].forEach((n) => {
+      L.push(setTimeout(T, n));
     }), () => {
-      window.removeEventListener("message", C), L.forEach(clearTimeout), typeof t == "object" && t?.current && t.current.removeEventListener("load", T);
+      window.removeEventListener("message", C), L.forEach(clearTimeout), typeof t == "object" && t?.current && t.current.removeEventListener("load", $);
     };
   }, [
     a,
@@ -215,17 +219,17 @@ function ee(e, t) {
     e.onPlaybackQualityChange,
     e.stopOnEnd,
     e.id,
+    l,
     o,
-    c,
     t
   ]), /* @__PURE__ */ w(D, { children: [
-    !e.lazyLoad && /* @__PURE__ */ i("link", { rel: V, href: k, as: "image" }),
-    /* @__PURE__ */ i(D, { children: u && /* @__PURE__ */ w(D, { children: [
-      /* @__PURE__ */ i("link", { rel: "preconnect", href: b }),
-      /* @__PURE__ */ i("link", { rel: "preconnect", href: "https://www.google.com" }),
-      P && /* @__PURE__ */ w(D, { children: [
-        /* @__PURE__ */ i("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
-        /* @__PURE__ */ i(
+    !e.lazyLoad && /* @__PURE__ */ c("link", { rel: H, href: k, as: "image" }),
+    /* @__PURE__ */ c(D, { children: s && /* @__PURE__ */ w(D, { children: [
+      /* @__PURE__ */ c("link", { rel: "preconnect", href: h }),
+      /* @__PURE__ */ c("link", { rel: "preconnect", href: "https://www.google.com" }),
+      j && /* @__PURE__ */ w(D, { children: [
+        /* @__PURE__ */ c("link", { rel: "preconnect", href: "https://static.doubleclick.net" }),
+        /* @__PURE__ */ c(
           "link",
           {
             rel: "preconnect",
@@ -234,81 +238,81 @@ function ee(e, t) {
         )
       ] })
     ] }) }),
-    e.seo && !e.playlist && /* @__PURE__ */ i(
+    e.seo && !e.playlist && /* @__PURE__ */ c(
       "script",
       {
         type: "application/ld+json",
         dangerouslySetInnerHTML: {
-          __html: p(
+          __html: te(
             e.id,
-            c,
+            o,
             k,
-            b,
+            h,
             e.seo
           )
         }
       }
     ),
-    H && !e.playlist && /* @__PURE__ */ i("noscript", { children: /* @__PURE__ */ w(
+    G && !e.playlist && /* @__PURE__ */ c("noscript", { children: /* @__PURE__ */ w(
       "a",
       {
         href: `https://www.youtube.com/watch?v=${e.id}`,
-        "aria-label": `Watch ${c} on YouTube`,
+        "aria-label": `Watch ${o} on YouTube`,
         children: [
           'Watch "',
-          c,
+          o,
           '" on YouTube'
         ]
       }
     ) }),
     /* @__PURE__ */ w(
-      Y,
+      J,
       {
-        onPointerOver: J,
-        onClick: S,
-        className: `${Q} ${a ? B : ""}`,
-        "data-title": c,
+        onPointerOver: z,
+        onClick: M,
+        className: `${Y} ${a ? W : ""}`,
+        "data-title": o,
         role: !a && !e.lazyLoad ? "img" : void 0,
-        "aria-label": a ? void 0 : `${c} - YouTube video preview`,
+        "aria-label": a ? void 0 : `${o} - YouTube video preview`,
         style: {
           ...!e.lazyLoad && { backgroundImage: `url(${k})` },
-          "--aspect-ratio": `${W / j * 100}%`,
+          "--aspect-ratio": `${x / F * 100}%`,
           ...e.style || {}
         },
         children: [
-          e.lazyLoad && !a && /* @__PURE__ */ i(
+          e.lazyLoad && !a && /* @__PURE__ */ c(
             "img",
             {
               src: k,
-              alt: `${c} - YouTube thumbnail`,
+              alt: `${o} - YouTube thumbnail`,
               className: "lty-thumbnail",
               loading: "lazy"
             }
           ),
-          e.playlist && !a && /* @__PURE__ */ i("div", { className: "lty-playlist-icon", "aria-hidden": "true" }),
-          !(e.hideButtonOnActivate && a) && /* @__PURE__ */ i(
+          e.playlist && !a && /* @__PURE__ */ c("div", { className: "lty-playlist-icon", "aria-hidden": "true" }),
+          !(e.hideButtonOnActivate && a) && /* @__PURE__ */ c(
             "button",
             {
               type: "button",
-              className: F,
-              "aria-label": `${$} ${c}`,
+              className: V,
+              "aria-label": `${U} ${o}`,
               "aria-hidden": a || void 0,
               tabIndex: a ? -1 : 0,
-              onClick: S,
-              children: /* @__PURE__ */ i("span", { className: "lty-visually-hidden", children: $ })
+              onClick: M,
+              children: /* @__PURE__ */ c("span", { className: "lty-visually-hidden", children: U })
             }
           ),
-          a && /* @__PURE__ */ i(
+          a && /* @__PURE__ */ c(
             "iframe",
             {
               ref: t,
-              className: x,
-              title: c,
+              className: Q,
+              title: o,
               width: "560",
               height: "315",
               allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
               allowFullScreen: !0,
-              src: M,
+              src: B,
               referrerPolicy: e.referrerPolicy || "strict-origin-when-cross-origin"
             }
           )
@@ -317,12 +321,12 @@ function ee(e, t) {
     )
   ] });
 }
-const ne = l.forwardRef(
-  ee
+const ce = d.forwardRef(
+  ae
 );
 export {
-  Z as PlayerError,
-  X as PlayerState,
-  ne as default
+  ee as PlayerError,
+  p as PlayerState,
+  ce as default
 };
 //# sourceMappingURL=index.es.js.map

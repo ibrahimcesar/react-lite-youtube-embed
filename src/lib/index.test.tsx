@@ -686,7 +686,7 @@ describe("LiteYouTubeEmbed", () => {
     // Helper function to simulate postMessage events from YouTube
     const simulateYouTubeEvent = (
       eventName: string,
-      info?: Record<string, unknown>,
+      info?: Record<string, unknown> | number,
       origin = "https://www.youtube.com"
     ) => {
       const event = new MessageEvent("message", {
@@ -839,7 +839,28 @@ describe("LiteYouTubeEmbed", () => {
       const playButton = screen.getByRole("button");
       fireEvent.click(playButton);
 
-      // Simulate error event
+      // YouTube sends the error code as a bare number in `info`
+      // e.g. {"event":"onError","info":150} — see issue #287
+      await waitFor(() => {
+        simulateYouTubeEvent("onError", PlayerError.NOT_EMBEDDABLE_DISGUISED);
+      });
+
+      expect(onError).toHaveBeenCalledWith(
+        PlayerError.NOT_EMBEDDABLE_DISGUISED
+      );
+    });
+
+    test("calls onError when error code is nested in an object", async () => {
+      const onError = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onError={onError} />
+      );
+
+      // Click to load iframe
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      // Fallback shape: {"event":"onError","info":{"errorCode":100}}
       await waitFor(() => {
         simulateYouTubeEvent("onError", {
           errorCode: PlayerError.VIDEO_NOT_FOUND,
@@ -847,6 +868,24 @@ describe("LiteYouTubeEmbed", () => {
       });
 
       expect(onError).toHaveBeenCalledWith(PlayerError.VIDEO_NOT_FOUND);
+    });
+
+    test("does not throw when onError info is a number and no handler catches it", async () => {
+      // Regression test for issue #287: "Cannot use 'in' operator to
+      // search for 'errorCode' in 150"
+      const onReady = vi.fn();
+      render(
+        <LiteYouTubeEmbed {...defaultProps} enableJsApi onReady={onReady} />
+      );
+
+      const playButton = screen.getByRole("button");
+      fireEvent.click(playButton);
+
+      await waitFor(() => {
+        expect(() =>
+          simulateYouTubeEvent("onError", PlayerError.NOT_EMBEDDABLE_DISGUISED)
+        ).not.toThrow();
+      });
     });
 
     test("calls onPlaybackRateChange when playback speed changes", async () => {
