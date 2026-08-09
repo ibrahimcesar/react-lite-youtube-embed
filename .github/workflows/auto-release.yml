@@ -241,10 +241,14 @@ jobs:
           fi
 
       - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Auth is handled via OIDC (Trusted Publishers) — no token needed.
-          # Trusted Publishing requires npm >= 11.5.1, but Node 22 bundles npm 10,
-          # which skips the OIDC exchange and fails the publish with E404.
+          # Token auth, same as release.yml. OIDC (Trusted Publishers) failed with
+          # E404 on the v3.6.1 and v3.6.2 releases — no Trusted Publisher is
+          # configured on npmjs.com for this workflow. If one is added
+          # (Settings → Trusted Publisher, workflow: auto-release.yml), the
+          # NODE_AUTH_TOKEN env above can be removed.
           npm install -g npm@latest
           echo "Publishing package: react-lite-youtube-embed"
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
