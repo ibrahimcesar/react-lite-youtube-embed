@@ -845,7 +845,9 @@ describe("LiteYouTubeEmbed", () => {
         simulateYouTubeEvent("onError", PlayerError.NOT_EMBEDDABLE_DISGUISED);
       });
 
-      expect(onError).toHaveBeenCalledWith(PlayerError.NOT_EMBEDDABLE_DISGUISED);
+      expect(onError).toHaveBeenCalledWith(
+        PlayerError.NOT_EMBEDDABLE_DISGUISED
+      );
     });
 
     test("calls onError when error code is nested in an object", async () => {
