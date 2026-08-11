@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 
 export type imgResolution =
-  | "default"
-  | "mqdefault"
-  | "hqdefault"
-  | "sddefault"
-  | "maxresdefault";
+  "default" | "mqdefault" | "hqdefault" | "sddefault" | "maxresdefault";
 
 const expectedWidths: Record<imgResolution, number> = {
   default: 120,
