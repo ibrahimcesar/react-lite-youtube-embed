@@ -26,6 +26,26 @@ updates:
       prefix: "chore"
       include: "scope"
 
+  # Docs site dependencies (Docusaurus)
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    groups:
+      docs-dependencies:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "documentation"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
   # Demo app dependencies
   - package-ecosystem: "npm"
     directory: "/demo"
