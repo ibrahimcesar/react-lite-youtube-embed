@@ -314,7 +314,7 @@ export default function TutorialSeries() {
 <LiteYouTubeEmbed
   id="VIDEO_ID"
   title="Video Title"
-  customThumbnail="https://example.com/custom-thumbnail.jpg"
+  thumbnail="https://example.com/custom-thumbnail.jpg"
 />
 ```
 
