@@ -26,7 +26,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: read
-      packages: write
       actions: write  # Required to dispatch release.yml for the NPM publish
       id-token: write  # Required for SLSA provenance
       attestations: write  # Required for build attestations
@@ -108,83 +107,110 @@ jobs:
             PREVIOUS_TAG=$(git rev-list --max-parents=0 HEAD)
           fi
 
-          echo "## 🚀 What's Changed" > CHANGELOG.md
-          echo "" >> CHANGELOG.md
+          echo "## 🚀 What's Changed" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
 
-          # Get commits grouped by type
+          # Get commits grouped by type (write each section header only once)
           git log $PREVIOUS_TAG..HEAD --pretty=format:"%s|%an|%ae" --no-merges | while IFS='|' read -r subject author email; do
             case "$subject" in
               feat:*|feat\(*)
-                echo "### ✨ Features" >> CHANGELOG_FEATURES.tmp
-                echo "- $subject by @$author" >> CHANGELOG_FEATURES.tmp
+                [ -f NOTES_FEATURES.tmp ] || echo "### ✨ Features" > NOTES_FEATURES.tmp
+                echo "- $subject by @$author" >> NOTES_FEATURES.tmp
                 ;;
               fix:*)
-                echo "### 🐛 Bug Fixes" >> CHANGELOG_FIXES.tmp
-                echo "- $subject by @$author" >> CHANGELOG_FIXES.tmp
+                [ -f NOTES_FIXES.tmp ] || echo "### 🐛 Bug Fixes" > NOTES_FIXES.tmp
+                echo "- $subject by @$author" >> NOTES_FIXES.tmp
                 ;;
               docs:*)
-                echo "### 📚 Documentation" >> CHANGELOG_DOCS.tmp
-                echo "- $subject by @$author" >> CHANGELOG_DOCS.tmp
+                [ -f NOTES_DOCS.tmp ] || echo "### 📚 Documentation" > NOTES_DOCS.tmp
+                echo "- $subject by @$author" >> NOTES_DOCS.tmp
                 ;;
               perf:*)
-                echo "### ⚡ Performance" >> CHANGELOG_PERF.tmp
-                echo "- $subject by @$author" >> CHANGELOG_PERF.tmp
+                [ -f NOTES_PERF.tmp ] || echo "### ⚡ Performance" > NOTES_PERF.tmp
+                echo "- $subject by @$author" >> NOTES_PERF.tmp
                 ;;
               refactor:*)
-                echo "### ♻️ Refactoring" >> CHANGELOG_REFACTOR.tmp
-                echo "- $subject by @$author" >> CHANGELOG_REFACTOR.tmp
+                [ -f NOTES_REFACTOR.tmp ] || echo "### ♻️ Refactoring" > NOTES_REFACTOR.tmp
+                echo "- $subject by @$author" >> NOTES_REFACTOR.tmp
                 ;;
               test:*)
-                echo "### 🧪 Tests" >> CHANGELOG_TESTS.tmp
-                echo "- $subject by @$author" >> CHANGELOG_TESTS.tmp
+                [ -f NOTES_TESTS.tmp ] || echo "### 🧪 Tests" > NOTES_TESTS.tmp
+                echo "- $subject by @$author" >> NOTES_TESTS.tmp
                 ;;
               chore:*|build:*|ci:*)
-                echo "### 🔧 Chores & CI" >> CHANGELOG_CHORES.tmp
-                echo "- $subject by @$author" >> CHANGELOG_CHORES.tmp
+                [ -f NOTES_CHORES.tmp ] || echo "### 🔧 Chores & CI" > NOTES_CHORES.tmp
+                echo "- $subject by @$author" >> NOTES_CHORES.tmp
                 ;;
               a11y:*)
-                echo "### ♿ Accessibility" >> CHANGELOG_A11Y.tmp
-                echo "- $subject by @$author" >> CHANGELOG_A11Y.tmp
+                [ -f NOTES_A11Y.tmp ] || echo "### ♿ Accessibility" > NOTES_A11Y.tmp
+                echo "- $subject by @$author" >> NOTES_A11Y.tmp
                 ;;
               *)
-                echo "### 🔄 Other Changes" >> CHANGELOG_OTHER.tmp
-                echo "- $subject by @$author" >> CHANGELOG_OTHER.tmp
+                [ -f NOTES_OTHER.tmp ] || echo "### 🔄 Other Changes" > NOTES_OTHER.tmp
+                echo "- $subject by @$author" >> NOTES_OTHER.tmp
                 ;;
             esac
           done
 
           # Combine all sections
-          [ -f CHANGELOG_FEATURES.tmp ] && cat CHANGELOG_FEATURES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_FIXES.tmp ] && cat CHANGELOG_FIXES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_A11Y.tmp ] && cat CHANGELOG_A11Y.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_PERF.tmp ] && cat CHANGELOG_PERF.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_DOCS.tmp ] && cat CHANGELOG_DOCS.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_REFACTOR.tmp ] && cat CHANGELOG_REFACTOR.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_TESTS.tmp ] && cat CHANGELOG_TESTS.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_CHORES.tmp ] && cat CHANGELOG_CHORES.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
-          [ -f CHANGELOG_OTHER.tmp ] && cat CHANGELOG_OTHER.tmp >> CHANGELOG.md && echo "" >> CHANGELOG.md
+          [ -f NOTES_FEATURES.tmp ] && cat NOTES_FEATURES.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_FIXES.tmp ] && cat NOTES_FIXES.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_A11Y.tmp ] && cat NOTES_A11Y.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_PERF.tmp ] && cat NOTES_PERF.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_DOCS.tmp ] && cat NOTES_DOCS.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_REFACTOR.tmp ] && cat NOTES_REFACTOR.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_TESTS.tmp ] && cat NOTES_TESTS.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_CHORES.tmp ] && cat NOTES_CHORES.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
+          [ -f NOTES_OTHER.tmp ] && cat NOTES_OTHER.tmp >> RELEASE_NOTES.md && echo "" >> RELEASE_NOTES.md
 
           # Get contributors
-          echo "## 👥 Contributors" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
+          echo "## 👥 Contributors" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
           git log $PREVIOUS_TAG..HEAD --format='%an|%ae' --no-merges | sort -u | while IFS='|' read -r name email; do
-            echo "- $name" >> CHANGELOG.md
+            echo "- $name" >> RELEASE_NOTES.md
           done
 
           # Get full comparison
-          echo "" >> CHANGELOG.md
-          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...${{ steps.bump_version.outputs.version }}" >> CHANGELOG.md
+          echo "" >> RELEASE_NOTES.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...${{ steps.bump_version.outputs.version }}" >> RELEASE_NOTES.md
 
           # Clean up temp files
-          rm -f CHANGELOG_*.tmp
+          rm -f NOTES_*.tmp
 
-          # Output changelog for use in release
-          cat CHANGELOG.md
+          # Output release notes for use in release
+          cat RELEASE_NOTES.md
+
+      - name: Update CHANGELOG.md
+        run: |
+          # Insert this release's notes into the persistent CHANGELOG.md,
+          # right before the first existing "## [" release section so the
+          # header and intro stay at the top.
+          VERSION="${{ steps.clean_version.outputs.version }}"
+          DATE=$(date -u +%Y-%m-%d)
+          # Notes nested under the version heading: drop the redundant
+          # "What's Changed" title and demote remaining H2s to H3s.
+          sed -e '/^## 🚀/d' -e 's/^## /### /' RELEASE_NOTES.md > INSERT_NOTES.md
+          [ -f CHANGELOG.md ] || printf '# Changelog\n\n' > CHANGELOG.md
+          if grep -q '^## \[' CHANGELOG.md; then
+            awk -v hdr="## [$VERSION] - $DATE" '
+              !ins && /^## \[/ {
+                print hdr;
+                while ((getline line < "INSERT_NOTES.md") > 0) print line;
+                print ""; ins = 1
+              }
+              { print }
+            ' CHANGELOG.md > CHANGELOG.new.md
+          else
+            { cat CHANGELOG.md; echo "## [$VERSION] - $DATE"; \
+              cat INSERT_NOTES.md; echo ""; } > CHANGELOG.new.md
+          fi
+          mv CHANGELOG.new.md CHANGELOG.md
+          rm -f INSERT_NOTES.md
 
       - name: Commit version bump
         run: |
           if [ "${{ github.event.inputs.version_bump }}" != "none" ]; then
-            git add package.json package-lock.json
+            git add package.json package-lock.json CHANGELOG.md
             git commit -m "chore: bump version from ${{ steps.current_version.outputs.version }} to ${{ steps.clean_version.outputs.version }}"
           else
             echo "Skipping version bump commit (republishing current version)"
@@ -233,12 +259,12 @@ jobs:
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
             gh release create "$TAG_NAME" \
               --title "Release $TAG_NAME (Beta)" \
-              --notes-file CHANGELOG.md \
+              --notes-file RELEASE_NOTES.md \
               --prerelease
           else
             gh release create "$TAG_NAME" \
               --title "Release $TAG_NAME" \
-              --notes-file CHANGELOG.md
+              --notes-file RELEASE_NOTES.md
           fi
 
       - name: Publish to NPM (via release.yml)
@@ -275,28 +301,6 @@ jobs:
           echo "Waiting on release.yml run $RUN_ID"
           gh run watch "$RUN_ID" --exit-status
 
-      - name: Setup Node for GitHub Packages
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@ibrahimcesar'
-
-      - name: Publish to GitHub Packages
-        run: |
-          # Configure npm for GitHub Packages registry
-          npm config set registry https://npm.pkg.github.com
-          npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
-
-          # Publish with provenance (uses attestations generated above)
-          if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
-            npm publish --tag beta --provenance
-          else
-            npm publish --provenance
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create release summary
         run: |
           if [ "${{ github.event.inputs.is_beta }}" == "true" ]; then
@@ -328,7 +332,4 @@ jobs:
             echo "- [react-lite-youtube-embed](https://www.npmjs.com/package/react-lite-youtube-embed/v/${{ steps.clean_version.outputs.version }})" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**GitHub Packages:**" >> $GITHUB_STEP_SUMMARY
-          echo "- [@ibrahimcesar/react-lite-youtube-embed](https://github.com/${{ github.repository }}/pkgs/npm/react-lite-youtube-embed)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
+          cat RELEASE_NOTES.md >> $GITHUB_STEP_SUMMARY
