@@ -3,14 +3,14 @@
       "noImplicitAny": true,
       "outDir": "dist",
       "module": "esnext",
-      "target": "es5",
+      "target": "es2018",
       "allowJs": true,
       "sourceMap": true,
       "declaration": true,
       "lib": [
         "es2018", "dom", "es6"
       ],
-      "moduleResolution": "node",
+      "moduleResolution": "bundler",
       "jsx": "react-jsx",
       "forceConsistentCasingInFileNames": true,
       "noImplicitReturns": true,

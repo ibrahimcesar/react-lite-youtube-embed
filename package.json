@@ -71,6 +71,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
+    "@typescript/typescript6": "^6.0.2",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-v8": "^4.1.8",
     "identity-obj-proxy": "^3.0.0",
@@ -78,7 +79,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "size-limit": "^13.0.3",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "vite": "^8.2.2",
     "vite-plugin-dts": "^5.0.3",
     "vitest": "^4.1.8"
