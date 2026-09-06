@@ -1,8 +1,8 @@
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
-import LiteYouTubeEmbed, { PlayerState, PlayerError } from "./index";
+import LiteYouTubeEmbed, { PlayerError, PlayerState } from "./index";
 import { imgResolution } from "./useYoutubeThumbnail";
 
 describe("LiteYouTubeEmbed", () => {

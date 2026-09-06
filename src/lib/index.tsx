@@ -1,6 +1,5 @@
 import * as React from "react";
-import useYoutubeThumbnail from "./useYoutubeThumbnail";
-import { imgResolution } from "./useYoutubeThumbnail";
+import useYoutubeThumbnail, { imgResolution } from "./useYoutubeThumbnail";
 
 // Re-export types for public API
 export type { imgResolution };
@@ -422,6 +421,7 @@ function LiteYouTubeEmbedComponent(
   const playerClassImp = props.playerClass || "lty-playbtn";
   const wrapperClassImp = props.wrapperClass || "yt-lite";
   const onIframeAdded = React.useCallback(
+    // biome-ignore lint/suspicious/noEmptyBlockStatements: intentional noop fallback
     props.onIframeAdded || function () {},
     [props.onIframeAdded]
   );
