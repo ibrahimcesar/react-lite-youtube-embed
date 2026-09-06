@@ -182,20 +182,30 @@ jobs:
 
       - name: Update CHANGELOG.md
         run: |
-          # Prepend this release's notes to the persistent CHANGELOG.md
+          # Insert this release's notes into the persistent CHANGELOG.md,
+          # right before the first existing "## [" release section so the
+          # header and intro stay at the top.
           VERSION="${{ steps.clean_version.outputs.version }}"
           DATE=$(date -u +%Y-%m-%d)
-          {
-            echo "# Changelog"
-            echo ""
-            echo "## [$VERSION] - $DATE"
-            echo ""
-            cat RELEASE_NOTES.md
-            echo ""
-            # Existing entries, minus the "# Changelog" heading
-            [ -f CHANGELOG.md ] && tail -n +2 CHANGELOG.md
-          } > CHANGELOG.new.md
+          # Notes nested under the version heading: drop the redundant
+          # "What's Changed" title and demote remaining H2s to H3s.
+          sed -e '/^## 🚀/d' -e 's/^## /### /' RELEASE_NOTES.md > INSERT_NOTES.md
+          [ -f CHANGELOG.md ] || printf '# Changelog\n\n' > CHANGELOG.md
+          if grep -q '^## \[' CHANGELOG.md; then
+            awk -v hdr="## [$VERSION] - $DATE" '
+              !ins && /^## \[/ {
+                print hdr;
+                while ((getline line < "INSERT_NOTES.md") > 0) print line;
+                print ""; ins = 1
+              }
+              { print }
+            ' CHANGELOG.md > CHANGELOG.new.md
+          else
+            { cat CHANGELOG.md; echo "## [$VERSION] - $DATE"; \
+              cat INSERT_NOTES.md; echo ""; } > CHANGELOG.new.md
+          fi
           mv CHANGELOG.new.md CHANGELOG.md
+          rm -f INSERT_NOTES.md
 
       - name: Commit version bump
         run: |
