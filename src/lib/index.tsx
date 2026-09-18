@@ -813,7 +813,7 @@ function LiteYouTubeEmbedComponent(
             title={videoTitle}
             width="560"
             height="315"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             src={iframeSrc}
             referrerPolicy={
