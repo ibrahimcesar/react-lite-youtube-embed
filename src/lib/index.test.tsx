@@ -51,6 +51,22 @@ describe("LiteYouTubeEmbed", () => {
     );
   });
 
+  test("delegates clipboard-write and web-share to the iframe", () => {
+    const { container } = render(<LiteYouTubeEmbed {...defaultProps} />);
+
+    fireEvent.click(screen.getByRole("button"));
+
+    const iframe = container.querySelector("iframe");
+    expect(iframe).toHaveAttribute(
+      "allow",
+      expect.stringContaining("clipboard-write")
+    );
+    expect(iframe).toHaveAttribute(
+      "allow",
+      expect.stringContaining("web-share")
+    );
+  });
+
   test("preconnects when hovered", () => {
     const { container } = render(<LiteYouTubeEmbed {...defaultProps} />);
 
